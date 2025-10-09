@@ -16,6 +16,12 @@ DLRS automatically adjusts learning rates based on loss dynamics during training
 
 ## Installation
 
+### From PyPI
+
+```bash
+pip install pytorch-dlrs
+```
+
 ### From Source
 
 ```bash
@@ -87,11 +93,15 @@ The algorithm computes:
 
 ### MNIST Classification
 
+Clone the repository to access the examples:
+
 ```bash
+git clone https://github.com/Thabhelo/pytorch-dlrs.git
+cd pytorch-dlrs
 python examples/mnist_example.py --epochs 10 --device cpu
 ```
 
-See the [examples](examples/) directory for more detailed usage.
+View the example code on GitHub: [examples/mnist_example.py](https://github.com/Thabhelo/pytorch-dlrs/tree/main/examples)
 
 ## Results
 
