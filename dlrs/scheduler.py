@@ -153,6 +153,13 @@ class DLRSScheduler(LRScheduler):
                       f"adjustment={self.adjustment:.6e}, "
                       f"lr: {current_lr:.6e} -> {new_lr:.6e}")
 
+    def get_lr(self):
+        """
+        Compute learning rates for each parameter group.
+        Required by LRScheduler base class.
+        """
+        return [group['lr'] for group in self.optimizer.param_groups]
+
     def get_last_lr(self):
         """Return last computed learning rate."""
         return self._last_lr if hasattr(self, '_last_lr') else [group['lr'] for group in self.optimizer.param_groups]
