@@ -14,6 +14,12 @@ DLRS automatically adjusts learning rates based on loss dynamics during training
 
 **Note:** This is an independent implementation based on the research paper. It is not part of the official PyTorch library yet.
 
+## Links
+
+- **GitHub**: https://github.com/Thabhelo/pytorch-dlrs
+- **PyPI**: https://pypi.org/project/pytorch-dlrs/
+- **Paper**: https://arxiv.org/abs/2507.21749
+
 ## Installation
 
 ### From PyPI
