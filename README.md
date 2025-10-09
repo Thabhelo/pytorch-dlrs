@@ -1,16 +1,18 @@
 # DLRS: Dynamic Learning Rate Scheduler for PyTorch
 
-A PyTorch implementation of the Dynamic Learning Rate Scheduler (DLRS) algorithm from the paper ["Improving Neural Network Training using Dynamic Learning Rate Schedule for PINNs and Image Classification"](https://arxiv.org/abs/2507.21749) (arXiv:2507.21749v1).
+A PyTorch implementation of the Dynamic Learning Rate Scheduler (DLRS) algorithm from the paper ["Improving Neural Network Training using Dynamic Learning Rate Schedule for PINNs and Image Classification"](https://arxiv.org/abs/2507.21749) by Veerababu Dharanalakota, Ashwin Arvind Raikar, and Prasanta Kumar Ghosh (arXiv:2507.21749v1, July 2025).
 
 DLRS automatically adjusts learning rates based on loss dynamics during training, eliminating the need for manual learning rate tuning and schedules.
 
 ## Key Features
 
 - Adaptive learning rate adjustment based on loss slope analysis
-- Works with any PyTorch optimizer (SGD, Adam, AdamW, etc.)
-- Drop-in replacement for standard PyTorch schedulers
+- Compatible with any PyTorch optimizer (SGD, Adam, AdamW, etc.)
+- Can be used alongside standard PyTorch schedulers
 - Minimal configuration required
 - Suitable for both image classification and PINNs
+
+**Note:** This is an independent implementation based on the research paper. It is not part of the official PyTorch library.
 
 ## Installation
 
@@ -80,11 +82,12 @@ See the [examples](examples/) directory for more detailed usage.
 
 ## Results
 
-Based on the original paper, DLRS achieves:
+According to the original paper, DLRS demonstrates:
 
-- Faster convergence compared to fixed learning rates
-- Better final accuracy on image classification tasks
-- Improved training stability for PINNs
+- Accelerated training and improved stability for neural networks
+- Effective performance on Physics-Informed Neural Networks (PINNs)
+- Strong results on image classification tasks (MNIST, CIFAR-10)
+- Adaptive learning rate adjustment based on loss dynamics
 
 ## Testing
 
@@ -105,13 +108,19 @@ pytest tests/ --cov=dlrs --cov-report=html
 If you use DLRS in your research, please cite the original paper:
 
 ```bibtex
-@article{dlrs2024,
+@article{dharanalakota2025dlrs,
   title={Improving Neural Network Training using Dynamic Learning Rate Schedule for PINNs and Image Classification},
-  author={[Authors]},
+  author={Dharanalakota, Veerababu and Raikar, Ashwin Arvind and Ghosh, Prasanta Kumar},
   journal={arXiv preprint arXiv:2507.21749},
-  year={2024}
+  year={2025}
 }
 ```
+
+## Author
+
+Implementation by Thabhelo (thabhelo@deepubuntu.com)
+
+Based on the research paper by Veerababu Dharanalakota, Ashwin Arvind Raikar, and Prasanta Kumar Ghosh.
 
 ## License
 
