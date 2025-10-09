@@ -34,18 +34,31 @@ pip install -e .
 
 ```python
 import torch
+import torch.nn as nn
 from dlrs import DLRSScheduler
 
 model = YourModel()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 scheduler = DLRSScheduler(optimizer)
+criterion = nn.CrossEntropyLoss()
 
 for epoch in range(num_epochs):
     batch_losses = []
-    for batch in dataloader:
-        loss = train_step(batch)
+
+    for data, target in train_loader:
+        # Forward pass
+        optimizer.zero_grad()
+        output = model(data)
+        loss = criterion(output, target)
+
+        # Backward pass
+        loss.backward()
+        optimizer.step()
+
+        # Record loss for DLRS
         batch_losses.append(loss.item())
 
+    # Update learning rate based on epoch's batch losses
     scheduler.step(batch_losses)
 ```
 
