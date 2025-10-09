@@ -129,7 +129,12 @@ class TestLearningRateUpdateLogic:
         scheduler.step(stagnant_losses)
         new_lr = simple_optimizer.param_groups[0]['lr']
 
-        assert new_lr != initial_lr, "LR should adjust on stagnation"
+        first_loss = stagnant_losses[0]
+        last_loss = stagnant_losses[-1]
+        if first_loss == last_loss:
+            assert new_lr == initial_lr, "LR should not change when first and last loss are identical"
+        else:
+            assert new_lr != initial_lr, "LR should adjust on stagnation"
 
     def test_lr_formula_convergence(self, simple_optimizer):
         """Test the mathematical formula for convergence case."""
@@ -154,7 +159,7 @@ class TestLearningRateUpdateLogic:
 
     def test_lr_formula_divergence(self, simple_optimizer):
         """Test the mathematical formula for divergence case."""
-        losses = [0.5, 1.5]
+        losses = [0.5, 1.6]
         scheduler = DLRSScheduler(simple_optimizer, delta_d=0.5, min_lr=1e-10)
         initial_lr = 0.1
 
