@@ -7,7 +7,7 @@ Thank you for considering contributing to pytorch-dlrs. This document outlines t
 1. Fork the repository on GitHub
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/pytorch-dlrs.git
+   git clone https://github.com/Thabhelo/pytorch-dlrs.git
    cd pytorch-dlrs
    ```
 3. Create a new branch for your changes:
