@@ -12,7 +12,7 @@ DLRS automatically adjusts learning rates based on loss dynamics during training
 - Minimal configuration required
 - Suitable for both image classification and PINNs
 
-**Note:** This is an independent implementation based on the research paper. It is not part of the official PyTorch library.
+**Note:** This is an independent implementation based on the research paper. It is not part of the official PyTorch library yet.
 
 ## Installation
 
@@ -118,7 +118,9 @@ If you use DLRS in your research, please cite the original paper:
 
 ## Author
 
-Implementation by Thabhelo (thabheloduve@gmail.com)
+Implementation by Thabhelo (thabhelo@deepubuntu.com)
+
+Contact: thabheloduve@gmail.com
 
 Based on the research paper by Veerababu Dharanalakota, Ashwin Arvind Raikar, and Prasanta Kumar Ghosh.
 

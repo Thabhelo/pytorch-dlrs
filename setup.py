@@ -15,7 +15,7 @@ setup(
     name="pytorch-dlrs",
     version="0.1.0",
     author="Thabhelo",
-    author_email="thabheloduve@gmail.com",
+    author_email="thabhelo@deepubuntu.com",
     description="Dynamic Learning Rate Scheduler for PyTorch",
     long_description=long_description,
     long_description_content_type="text/markdown",
