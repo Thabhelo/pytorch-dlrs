@@ -50,6 +50,7 @@ htmlcov/
 coverage.xml
 *.cover
 .hypothesis/
+*.egg-info/
 
 # Data and model files
 data/
@@ -73,3 +74,4 @@ Thumbs.db
 
 # Project specific
 PROJECT_PROGRESS.md
+CLAUDE.md
