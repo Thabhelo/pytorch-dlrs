@@ -153,4 +153,4 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request.
+Contributions are welcome. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
