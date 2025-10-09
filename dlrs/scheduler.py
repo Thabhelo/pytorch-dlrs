@@ -65,6 +65,7 @@ class DLRSScheduler(LRScheduler):
         self.delta_o = delta_o
         self.delta_i = delta_i
         self.min_lr = min_lr
+        self.verbose = verbose
 
         self._validate_hyperparameters()
 
@@ -72,7 +73,7 @@ class DLRSScheduler(LRScheduler):
         self.loss_slope = 0.0
         self.adjustment = 0.0
 
-        super().__init__(optimizer, last_epoch, verbose)
+        super().__init__(optimizer, last_epoch)
 
     def _validate_hyperparameters(self):
         """Validate hyperparameter values."""
