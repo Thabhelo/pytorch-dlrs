@@ -43,7 +43,8 @@ import torch
 import torch.nn as nn
 from dlrs import DLRSScheduler
 
-model = YourModel()
+# Create your model, optimizer, and scheduler
+model = nn.Sequential(nn.Linear(10, 2))  # Replace with your model
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 scheduler = DLRSScheduler(optimizer)
 criterion = nn.CrossEntropyLoss()
