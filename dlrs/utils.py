@@ -3,7 +3,8 @@ Utility functions and helper classes for DLRS scheduler
 """
 
 import warnings
-from typing import List, Optional, Callable
+from typing import Callable, List, Optional
+
 import torch
 import torch.nn as nn
 
@@ -49,11 +50,11 @@ def validate_hyperparameters(delta_d: float, delta_o: float, delta_i: float) -> 
         raise InvalidHyperparameter(f"delta_i must be positive, got {delta_i}")
 
     if delta_d < 0.1 or delta_d > 1.0:
-        warnings.warn(f"delta_d={delta_d} is outside typical range [0.1, 1.0]")
+        warnings.warn(f"delta_d={delta_d} is outside typical range [0.1, 1.0]", stacklevel=2)
     if delta_o < 0.5 or delta_o > 2.0:
-        warnings.warn(f"delta_o={delta_o} is outside typical range [0.5, 2.0]")
+        warnings.warn(f"delta_o={delta_o} is outside typical range [0.5, 2.0]", stacklevel=2)
     if delta_i < 0.01 or delta_i > 0.5:
-        warnings.warn(f"delta_i={delta_i} is outside typical range [0.01, 0.5]")
+        warnings.warn(f"delta_i={delta_i} is outside typical range [0.01, 0.5]", stacklevel=2)
 
 
 def calculate_normalized_loss_slope(
@@ -82,7 +83,7 @@ def calculate_normalized_loss_slope(
         >>> calculate_normalized_loss_slope(1.0, 0.5, 0.0)  # Returns None
     """
     if abs(mean_loss) < 1e-10:
-        warnings.warn("Mean loss is near zero, cannot compute normalized slope")
+        warnings.warn("Mean loss is near zero, cannot compute normalized slope", stacklevel=2)
         return None
 
     return (last_loss - first_loss) / mean_loss
@@ -183,8 +184,10 @@ class LossRecorder:
         if len(self.losses) < 2:
             return None
         mean = self.get_mean()
+        if mean is None:
+            return None
         variance = sum((x - mean) ** 2 for x in self.losses) / len(self.losses)
-        return variance ** 0.5
+        return float(variance ** 0.5)
 
     def get_loss_slope(self) -> Optional[float]:
         """
@@ -194,12 +197,15 @@ class LossRecorder:
             float: Normalized slope (last - first) / mean, or None if insufficient data
         """
         if len(self.losses) < 2:
-            warnings.warn("Need at least 2 losses to compute slope")
+            warnings.warn("Need at least 2 losses to compute slope", stacklevel=2)
             return None
 
         first_loss = self.losses[0]
         last_loss = self.losses[-1]
         mean_loss = self.get_mean()
+
+        if mean_loss is None:
+            return None
 
         return calculate_normalized_loss_slope(first_loss, last_loss, mean_loss)
 

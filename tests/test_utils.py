@@ -2,16 +2,18 @@
 Unit tests for utility functions and LossRecorder
 """
 
-import pytest
 import warnings
+
+import pytest
 import torch
 import torch.nn as nn
+
 from dlrs.utils import (
-    validate_hyperparameters,
+    InvalidHyperparameter,
+    LossRecorder,
     calculate_normalized_loss_slope,
     collect_batch_losses,
-    LossRecorder,
-    InvalidHyperparameter
+    validate_hyperparameters,
 )
 
 
@@ -105,7 +107,7 @@ class TestCollectBatchLosses:
         dataloader = torch.utils.data.DataLoader(dataset, batch_size=10)
 
         model.train()
-        losses = collect_batch_losses(dataloader, model, loss_fn)
+        collect_batch_losses(dataloader, model, loss_fn)
 
         assert model.training is False
 

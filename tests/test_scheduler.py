@@ -2,10 +2,12 @@
 Unit tests for DLRSScheduler
 """
 
+import warnings
+
 import pytest
 import torch
 import torch.nn as nn
-import warnings
+
 from dlrs.scheduler import DLRSScheduler
 
 
@@ -368,3 +370,122 @@ class TestIntegration:
 
         new_lr = simple_optimizer.param_groups[0]['lr']
         assert new_lr == initial_lr
+
+    def test_max_lr_bound(self, simple_optimizer):
+        """Test that LR respects maximum bound."""
+        losses = [1.0, 0.1]
+        scheduler = DLRSScheduler(simple_optimizer, max_lr=0.15, delta_i=0.5)
+
+        for _ in range(10):
+            scheduler.step(losses)
+
+        final_lr = simple_optimizer.param_groups[0]['lr']
+        assert final_lr <= 0.15, "LR should not exceed max_lr"
+
+    def test_max_lr_validation(self, simple_optimizer):
+        """Test that max_lr validation works."""
+        with pytest.raises(ValueError, match="max_lr.*must be greater than min_lr"):
+            DLRSScheduler(simple_optimizer, min_lr=0.1, max_lr=0.05)
+
+        with pytest.raises(ValueError, match="max_lr must be positive"):
+            DLRSScheduler(simple_optimizer, max_lr=-0.1)
+
+    def test_state_dict_includes_max_lr(self, simple_optimizer):
+        """Test that state_dict saves max_lr."""
+        scheduler = DLRSScheduler(simple_optimizer, max_lr=1.0)
+        state = scheduler.state_dict()
+
+        assert 'max_lr' in state
+        assert state['max_lr'] == 1.0
+
+    def test_state_dict_includes_param_group_lrs(self, simple_optimizer):
+        """Test that state_dict saves per-param-group LRs."""
+        scheduler = DLRSScheduler(simple_optimizer)
+        losses = [1.0, 0.5]
+        scheduler.step(losses)
+
+        state = scheduler.state_dict()
+
+        assert 'param_group_lrs' in state
+        assert len(state['param_group_lrs']) == 1
+        assert state['param_group_lrs'][0] == simple_optimizer.param_groups[0]['lr']
+
+
+class TestDLRSOnPlateau:
+    """Test DLRSOnPlateau class."""
+
+    def test_initialization(self):
+        """Test DLRSOnPlateau initialization."""
+        from dlrs.scheduler import DLRSOnPlateau
+
+        model = nn.Linear(10, 1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+        scheduler = DLRSOnPlateau(optimizer, mode='min', patience=2)
+
+        assert scheduler.mode == 'min'
+        assert scheduler.patience == 2
+
+    def test_invalid_mode(self):
+        """Test that invalid mode raises ValueError."""
+        from dlrs.scheduler import DLRSOnPlateau
+
+        model = nn.Linear(10, 1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+
+        with pytest.raises(ValueError, match="mode must be"):
+            DLRSOnPlateau(optimizer, mode='invalid')
+
+    def test_step_with_scalar_metric(self):
+        """Test stepping with scalar metric."""
+        from dlrs.scheduler import DLRSOnPlateau
+
+        model = nn.Linear(10, 1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+        scheduler = DLRSOnPlateau(optimizer, patience=0)
+
+        initial_lr = optimizer.param_groups[0]['lr']
+
+        scheduler.step(1.0)
+        scheduler.step(0.8)
+        scheduler.step(0.6)
+
+        new_lr = optimizer.param_groups[0]['lr']
+        assert new_lr != initial_lr
+
+    def test_metric_history_collection(self):
+        """Test that metric history is collected."""
+        from dlrs.scheduler import DLRSOnPlateau
+
+        model = nn.Linear(10, 1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+        scheduler = DLRSOnPlateau(optimizer)
+
+        for i in range(5):
+            scheduler.step(float(i))
+
+        assert len(scheduler._metric_history) == 5
+
+    def test_state_dict_save_load(self):
+        """Test state_dict and load_state_dict."""
+        from dlrs.scheduler import DLRSOnPlateau
+
+        model = nn.Linear(10, 1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+        scheduler = DLRSOnPlateau(optimizer, patience=3)
+
+        for i in range(5):
+            scheduler.step(float(i))
+
+        state = scheduler.state_dict()
+        assert 'scheduler_state' in state
+        assert 'mode' in state
+        assert 'patience' in state
+        assert 'metric_history' in state
+
+        model2 = nn.Linear(10, 1)
+        optimizer2 = torch.optim.SGD(model2.parameters(), lr=0.01)
+        scheduler2 = DLRSOnPlateau(optimizer2)
+        scheduler2.load_state_dict(state)
+
+        assert scheduler2.patience == 3
+        assert len(scheduler2._metric_history) == 5
