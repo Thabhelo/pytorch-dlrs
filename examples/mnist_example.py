@@ -262,9 +262,10 @@ def main():
                         help='DLRS delta_o parameter (default: 1.0)')
     parser.add_argument('--delta-i', type=float, default=0.1,
                         help='DLRS delta_i parameter (default: 0.1)')
-    parser.add_argument('--device', type=str, default='cpu',
+    parser.add_argument('--device', type=str,
+                        default='cuda' if torch.cuda.is_available() else 'cpu',
                         choices=['cpu', 'cuda', 'mps'],
-                        help='device to use (default: cpu)')
+                        help='device to use (default: cuda if available, else cpu)')
     parser.add_argument('--no-baseline', action='store_true',
                         help='skip baseline training')
     parser.add_argument('--verbose', action='store_true',
