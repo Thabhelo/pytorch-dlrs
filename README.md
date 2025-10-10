@@ -152,11 +152,9 @@ If you use DLRS in your research, please cite the original paper:
 }
 ```
 
-## Author
+## Code Author
 
 Implementation by Thabhelo (thabhelo@deepubuntu.com)
-
-Contact: thabhelo@deepubuntu.com
 
 Based on the research paper by Veerababu Dharanalakota, Ashwin Arvind Raikar, and Prasanta Kumar Ghosh.
 
