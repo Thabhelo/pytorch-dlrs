@@ -138,11 +138,17 @@ pytest tests/ --cov=dlrs --cov-report=html
 If you use DLRS in your research, please cite the original paper:
 
 ```bibtex
-@article{dharanalakota2025dlrs,
-  title={Improving Neural Network Training using Dynamic Learning Rate Schedule for PINNs and Image Classification},
-  author={Dharanalakota, Veerababu and Raikar, Ashwin Arvind and Ghosh, Prasanta Kumar},
-  journal={arXiv preprint arXiv:2507.21749},
-  year={2025}
+@article{DHARANALAKOTA2025100697,
+  title   = {Improving neural network training using dynamic learning rate schedule for PINNs and image classification},
+  author  = {Veerababu Dharanalakota and Ashwin Arvind Raikar and Prasanta Kumar Ghosh},
+  journal = {Machine Learning with Applications},
+  volume  = {21},
+  pages   = {100697},
+  year    = {2025},
+  issn    = {2666-8270},
+  doi     = {https://doi.org/10.1016/j.mlwa.2025.100697},
+  url     = {https://www.sciencedirect.com/science/article/pii/S2666827025000805},
+  keywords = {Adaptive learning, Multilayer perceptron, CNN, MNIST, CIFAR-10}
 }
 ```
 
