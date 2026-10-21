@@ -256,31 +256,42 @@ embedding an archive's own final hash in its contents would change that hash.
 
 ## Remaining critical-deployment and upstream gates
 
-1. Execute the final revision on Linux and Windows and the intended CUDA devices.
-   Retain exact environments and installed-artifact evidence. Local MPS and CPU
-   results do not establish CUDA, NCCL, GPU mixed precision, or deployment speed.
-2. Validate the deployment's actual world sizes, network, storage, data stream,
-   sharding and recovery orchestration. The local two-rank Gloo policy does not
-   cover multi-node partitions, FSDP/ZeRO, elastic membership, failures during
-   backward or checkpoint writes, or atomic durable checkpoint publication.
-3. Require workload-specific quality acceptance against the existing production
-   scheduler at realistic training horizons, data and model sizes. The bounded
-   vision/PINN study has its own stated gates; even a pass would not establish
-   LLM-scale or universal non-regression. A failed quality gate blocks adopting
-   the tested configuration despite a passing implementation suite.
-4. Establish latency, memory, accelerator synchronization and recovery budgets
-   on deployment hardware. The batch API retains O(B) epoch observations and
-   validates parameter identities and tensor-LR aliasing. Local scheduler timings
-   and traced Python allocations do not measure total device/native memory or
-   guarantee an overhead percentage.
-5. Validate exact framework versions and checkpoint boundaries. Compiled-model
-   tests leave scheduler/optimizer eager. CUDA graphs, compiled/differentiable
-   scheduler stepping, SequentialLR/ChainedScheduler, HF Trainer, and arbitrary
-   mid-epoch stochastic Lightning recovery remain outside the verified scope.
-6. Review intentional compatibility changes and obtain independent maintainer
-   review before an upstream proposal. Include native PyTorch scheduler tests
-   and an opt-in API; do not change existing defaults. No PyTorch push or upstream
-   submission is authorized by this validation work.
+**Status update, 2026-10-21:** the Linux, Windows and installed-package portion
+of gate 1 is now **complete for the measured matrix**. After the dated local
+validation above, [PR #2](https://github.com/Thabhelo/pytorch-dlrs/pull/2) merged
+into `2fa7373`. Its [final CI run](https://github.com/Thabhelo/pytorch-dlrs/actions/runs/39562002520)
+tested head `99dfde35182a5ce2c0dc74c55f46c0b9932c0db4`: all nine platform
+cells passed, including all 11 distributed recovery cases in every cell.
+Each wheel/sdist installation passed 399 tests with 10 explicit skips, with
+the checkout's importable package removed; the separate Lightning job passed
+four tests. Publishing to PyPI was skipped. These results supersede the earlier
+unexecuted CI gap without rewriting the historical local reports.
+
+A subsequent [installed-wheel CUDA run](CUDA_VALIDATION.md) at `4700e58` passed
+all 18 required checks on a free Colab NVIDIA T4, with two native-BF16 cases
+skipped because the device does not support that capability. The measured
+environment was Python 3.13.15, Torch 2.11.0+cu130, CUDA 13.0 and driver
+580.82.07. Float32 training, float/tensor LR storage, FP16 skipped-update handling
+stochastic checkpoint continuation and sample-weighted accumulation with a
+partial final batch passed.
+See the [reproduction instructions](FREE_COLAB_VALIDATION.md) and
+[readiness ledger](UPSTREAM_READINESS.md) for counts,
+artifact identities, native PyTorch contract mapping and acceptance requirements.
+
+| Gate | Current status | Evidence and remaining acceptance |
+|---|---|---|
+| 1. Platforms, devices and package artifacts | **Partial**; measured CPU/package and T4 checks complete | Linux, Windows, macOS, wheel/sdist and one T4 installed-wheel configuration passed their declared checks. Native BF16 was unsupported, and other GPUs/precision/optimizer combinations and deployment hardware remain unverified. |
+| 2. Deployment distribution and recovery | **Blocked: target unspecified** | Two-rank, single-host Gloo tests cover the explicit example policy. Specify and validate the actual world sizes, network, storage, data stream, sharding and recovery orchestration, including backward/write failures and durable checkpoint publication. Multi-node, NCCL, FSDP/ZeRO and elastic operation remain unverified. |
+| 3. Workload quality | **Blocked for the failed configurations** | CIFAR-10 and the manufactured PINN failed their predefined comparison with cosine; CIFAR-10 also did not establish its margin against fixed LR. MNIST and the small Transformer passed provisional margins. Require a separately predeclared comparison against the intended production scheduler at realistic scale and horizon; preserve the negative results. |
+| 4. Deployment performance and endurance | **Blocked: budgets and target unspecified** | Local scalability measurements are exploratory. Set and measure latency, total host/device memory, synchronization, recovery and endurance limits on target hardware. O(B) epoch observations and parameter/group validation costs remain relevant; Python allocation measurements are not total memory or an overhead guarantee. |
+| 5. Framework and checkpoint integration | **Partial** | Explicit eager training, supported Lightning configurations and bounded T4 FP16 skip/recovery cases have evidence. Validate exact deployment versions and application checkpoint boundaries; the recorded accumulation policy passed. Compiled-model tests keep optimizer/scheduler eager. CUDA graphs, compiled/differentiable stepping, SequentialLR/ChainedScheduler, HF Trainer and arbitrary mid-epoch stochastic Lightning recovery are outside the supported scope. |
+| 6. Upstream compatibility and acceptance | **Partial preparation; review outstanding** | Documented opt-in API and migration boundaries are ready for review. A native PyTorch implementation/test integration, maintainer agreement on usefulness and API, and meaningful human review remain necessary. No PyTorch push, issue or submission is authorized by this work. |
+
+Here “complete” applies only to the stated evidence scope; “partial” means some
+requirements are verified; “blocked” identifies an unmet decision or failed
+acceptance criterion. No actual critical deployment target or production
+tolerances have been supplied. A free single-GPU notebook cannot close the
+network, storage, sharding, endurance or failed workload-quality gates.
 
 Packaging maintenance: the modern local setuptools backend emits a deprecation
 warning for the existing TOML license-table form. Builds and metadata checks
