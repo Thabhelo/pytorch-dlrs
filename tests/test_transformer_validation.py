@@ -4,6 +4,7 @@ import copy
 import hashlib
 import json
 import math
+import sys
 import time
 
 import pytest
@@ -244,3 +245,76 @@ def test_cached_success_rejects_corrupted_metrics_and_compute_budget(tmp_path):
     path.write_text(json.dumps(corrupted))
     with pytest.raises(ValueError, match="Cached evaluation"):
         study.stored_trial(*args)
+
+
+@pytest.mark.parametrize("outcome,expected_exit,quality_accepted", [
+    ("success", 0, True),
+    ("quality_failure", 0, False),
+    ("failed_tuning", 2, True),
+    ("failed_confirmation", 2, False),
+    ("incomplete_confirmation", 2, False),
+])
+def test_cli_exit_distinguishes_execution_failure_from_negative_quality(
+    tmp_path, monkeypatch, outcome, expected_exit, quality_accepted
+):
+    protocol = tiny_protocol()
+    protocol_path = tmp_path / "protocol.json"
+    protocol_path.write_text(json.dumps(protocol))
+    output = tmp_path / "output"
+    monkeypatch.setattr(sys, "argv", ["transformer-study", "--protocol", str(protocol_path),
+                                    "--output", str(output)])
+    monkeypatch.setattr(study, "prepare", lambda *_: (None, "frozen"))
+    attempts = []
+
+    def simulated_trial(policy, rate, seed, _protocol, _corpus, evaluate_test, _deadline):
+        attempts.append((policy, rate, seed))
+        first_tuning = seed == 0 and rate == protocol["initial_lr_grid"][0]
+        first_confirmation = seed == protocol["confirmation_seeds"][0]
+        if policy == "NoScheduler":
+            if ((outcome == "failed_tuning" and first_tuning)
+                    or (outcome == "failed_confirmation" and first_confirmation)):
+                raise RuntimeError("injected ordinary trial failure")
+            if outcome == "incomplete_confirmation" and first_confirmation:
+                raise study.StudyBudgetReached("injected resource interruption")
+        length = protocol["corpus"]["bytes"]
+        cfg = protocol["training"]
+        measured = {
+            "parameter_count": 100,
+            "optimizer_updates": cfg["total_optimizer_updates"],
+            "training_target_bytes": cfg["training_target_bytes_per_trial"],
+            "window_train_nll": [2.0] * cfg["scheduler_windows"],
+            "window_learning_rates": [rate] * cfg["scheduler_windows"],
+            "final_learning_rate": rate,
+            "elapsed_seconds": 1.0,
+            "initial_model_sha256": hashlib.sha256(str(seed).encode()).hexdigest(),
+            "training_index_stream_sha256": "a" * 64,
+            "training_split_sha256": "b" * 64,
+            "validation_split_sha256": "c" * 64,
+            "validation": {"nll": 2.0, "target_bytes": length * 9 // 10 - length * 8 // 10 - 1},
+        }
+        if evaluate_test:
+            nll = 2.1 if outcome == "quality_failure" and policy == "DLRS" else 2.0
+            measured.update(test={"nll": nll, "perplexity": math.exp(nll),
+                                  "target_bytes": length - length * 9 // 10 - 1},
+                            test_split_sha256="d" * 64)
+        return measured
+
+    monkeypatch.setattr(study, "run_trial", simulated_trial)
+    deterministic = torch.are_deterministic_algorithms_enabled()
+    try:
+        assert study.main() == expected_exit
+        summary = json.loads((output / "summary.json").read_text())
+        assert summary["execution_passed"] is (expected_exit == 0)
+        assert summary["accepted"] is quality_accepted
+        recorded = {path.name: path.read_bytes() for path in (output / "trials").glob("*.json")}
+        assert len(recorded) == (10 if outcome == "incomplete_confirmation" else 24)
+        statuses = [json.loads(raw)["status"] for raw in recorded.values()]
+        assert statuses.count("failed") == int(outcome.startswith("failed_"))
+        assert statuses.count("incomplete") == int(outcome == "incomplete_confirmation")
+        previous_attempts = attempts.copy()
+        # Cached failed/incomplete trials remain failures; resume must not retry them.
+        assert study.main() == expected_exit
+        assert attempts == previous_attempts
+        assert recorded == {path.name: path.read_bytes() for path in (output / "trials").glob("*.json")}
+    finally:
+        torch.use_deterministic_algorithms(deterministic)

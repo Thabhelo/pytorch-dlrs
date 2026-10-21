@@ -102,6 +102,23 @@ The synthetic unit tests check causal masking in training and evaluation paths, 
 
 The [manifest](transformer-validation-2026-10-20/manifest.json) was created before scientific training at `2026-10-20T21:10:54.447810+00:00`. The protocol SHA-256 is `bb8eb48c26ed42d4b263fab58173987f0d27b6f79ab310d2563417546fe0cb4e`; the runner SHA-256 is `b6997e000189df06b563623e2d20e9d5a304039ab2bcbba067c4c5015183e35c`; the tested scheduler SHA-256 is `ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7`. NumPy is 1.26.4, the platform is macOS 26.6.2 arm64, actual Torch thread count is two, and deterministic algorithms are enabled. Independent review and the synthetic checks completed before the 24-trial run was authorized and started. The process exited successfully after saving all 24 records and the final summary; the frozen protocol and runner were not changed during execution.
 
+After the study, PR review identified a command-line exit-status defect: an
+ordinary trial exception was retained as `failed`, but the command could still
+exit zero. The corrected command records `execution_passed` and returns status
+2 if any planned trial fails, remains incomplete, or is missing. A complete
+finite comparison still returns zero when it produces a negative quality result;
+consumers must inspect `accepted` separately. Failed tuning candidates remain
+excluded from rate selection, but still make the overall execution unsuccessful.
+Five focused synthetic CLI cases cover successful execution, negative quality,
+tuning/confirmation failures, resource interruption, and reuse of cached failures.
+
+This post-study correction changes only execution reporting. It does not change
+training, budgets, selection, the scheduler, or any of the 24 saved trials. Their
+historical manifest and runner hash above remain intact. The exact
+[runner used for the study is retained at commit `11def238`](https://github.com/Thabhelo/pytorch-dlrs/blob/11def2388473e488cf8111d919aa1073524a2aa9/benchmarks/validate_transformer_workload.py).
+Use that pinned revision to reproduce the recorded source fingerprint; the
+corrected runner requires a new output directory because its source hash differs.
+
 Remaining external gaps include CUDA, multi-node/sharded training, long contexts, large vocabularies/models, instruction tuning, pretrained-model fine-tuning, realistic production text streams, and long-run endurance. A small byte Transformer on public-domain text does not resolve those gaps.
 
 The host also slept during the study and resumed the existing process. The

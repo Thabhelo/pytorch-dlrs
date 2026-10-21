@@ -543,9 +543,13 @@ def main():
         summary = {"accepted": False, "incomplete": True, "reason": str(error), "selected_lrs": selected}
     summary.update(manifest_sha256=manifest_hash, recorded_trials=len(records),
                    total_recorded_trial_seconds=sum(record["elapsed_seconds"] for record in records))
+    expected_trials = len(POLICIES) * (len(protocol["initial_lr_grid"]) + len(protocol["confirmation_seeds"]))
+    summary["execution_passed"] = (not summary.get("incomplete", False)
+                                   and len(records) == expected_trials
+                                   and all(record["status"] == "passed" for record in records))
     atomic_json(args.output / "summary.json", summary)
     print(json.dumps(summary, indent=2))
-    return 2 if summary.get("incomplete") else 0
+    return 0 if summary["execution_passed"] else 2
 
 
 if __name__ == "__main__":
