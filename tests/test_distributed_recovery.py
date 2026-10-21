@@ -6,6 +6,7 @@ DLRS itself does not coordinate ranks or recover failed processes.
 
 import copy
 import datetime
+import faulthandler
 import json
 import math
 import multiprocessing
@@ -257,12 +258,43 @@ def _failure_worker(rank, config):
     raise AssertionError("a missing rank unexpectedly completed the collective")
 
 
+def _record_progress(directory, rank, phase):
+    path = directory / f"rank-{rank}-progress.json"
+    progress = json.loads(path.read_text()) if path.exists() else {
+        "pid": os.getpid(), "rank": rank, "events": [],
+    }
+    progress["events"].append({"phase": phase, "monotonic_seconds": time.monotonic()})
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(progress, indent=2))
+    temporary.replace(path)
+
+
+def _worker_diagnostics(directory, processes):
+    reports = [f"Worker pid={process.pid} exitcode={process.exitcode} alive={process.is_alive()}"
+               for process in processes]
+    for path in sorted(directory.glob("rank-*")):
+        if path.name.endswith(("-progress.json", "-stacks.txt", "-error.txt")):
+            # Keep parent failure output bounded; complete files remain artifacts.
+            reports.append(f"{path.name}:\n{path.read_text(errors='replace')[-20000:]}")
+    if not any(directory.glob("rank-*-progress.json")):
+        reports.append("No worker entry marker: inspect spawn/bootstrap/module import startup.")
+    return "\n".join(reports)
+
+
 def _worker_entry(rank, directory, case, config):
-    torch.set_num_threads(1)
-    torch.set_num_interop_threads(1)
     directory = Path(directory)
+    stacks = (directory / f"rank-{rank}-stacks.txt").open("w")
+    faulthandler.enable(file=stacks, all_threads=True)
+    # Diagnostics only: neither this timer nor the phase markers alter deadlines.
+    faulthandler.dump_traceback_later(20.0, repeat=True, file=stacks)
     try:
+        _record_progress(directory, rank, "worker_entry")
+        _record_progress(directory, rank, "setting_intraop_threads")
+        torch.set_num_threads(1)
+        _record_progress(directory, rank, "setting_interop_threads")
+        torch.set_num_interop_threads(1)
         timeout = 4 if case == "failure" else 15
+        _record_progress(directory, rank, "initializing_process_group")
         dist.init_process_group(
             "gloo", init_method=(directory / "rendezvous").as_uri(), rank=rank,
             world_size=WORLD_SIZE, timeout=datetime.timedelta(seconds=timeout),
@@ -270,7 +302,9 @@ def _worker_entry(rank, directory, case, config):
         workers = {"training": _training_worker, "reference": _reference_worker,
                    "invalid": _invalid_worker, "iterations": _iteration_worker,
                    "failure": _failure_worker}
+        _record_progress(directory, rank, "running_" + case)
         result = workers[case](rank, config)
+        _record_progress(directory, rank, "saving_result")
         torch.save(result, directory / f"rank-{rank}.pt")
         (directory / f"rank-{rank}.json").write_text(json.dumps(
             {"pid": os.getpid(), "rank": rank, "case": case, "completed": True}
@@ -279,8 +313,15 @@ def _worker_entry(rank, directory, case, config):
         (directory / f"rank-{rank}-error.txt").write_text(traceback.format_exc())
         raise
     finally:
-        if dist.is_initialized():
-            dist.destroy_process_group()
+        try:
+            _record_progress(directory, rank, "destroying_process_group")
+            if dist.is_initialized():
+                dist.destroy_process_group()
+            _record_progress(directory, rank, "worker_finished")
+        finally:
+            faulthandler.cancel_dump_traceback_later()
+            faulthandler.disable()
+            stacks.close()
 
 
 def _run_pair(directory, case, config, expected_exitcodes=(0, 0)):
@@ -297,8 +338,9 @@ def _run_pair(directory, case, config, expected_exitcodes=(0, 0)):
         for process in started:
             process.join(max(0.0, deadline - time.monotonic()))
         if any(process.is_alive() for process in started):
-            pytest.fail("distributed child processes exceeded the 45-second launcher deadline")
-        errors = "\n".join(path.read_text() for path in directory.glob("*-error.txt"))
+            pytest.fail("distributed child processes exceeded the 45-second launcher deadline\n"
+                        + _worker_diagnostics(directory, started))
+        errors = _worker_diagnostics(directory, started)
         assert tuple(process.exitcode for process in started) == expected_exitcodes, errors
         outputs = []
         for rank, expected in enumerate(expected_exitcodes):
@@ -338,7 +380,7 @@ def test_epoch_restart_in_fresh_processes_matches_uninterrupted(tmp_path, optimi
     for rank in range(WORLD_SIZE):
         _assert_nested_equal(resumed[rank], uninterrupted[rank])
     pids = [json.loads(path.read_text())["pid"] for directory in (full_dir, prefix_dir, resumed_dir)
-            for path in directory.glob("rank-*.json")]
+            for path in directory.glob("rank-[0-9].json")]
     assert len(set(pids)) == 6, "the restart experiment must use six fresh worker processes"
 
 

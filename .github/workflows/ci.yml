@@ -60,13 +60,27 @@ jobs:
           python -m pip check
           python -c 'import platform, torch; print(platform.platform(), platform.python_version(), torch.__version__)'
       - name: Run tests
-        run: python -m pytest tests --cov=dlrs --cov-report=xml --cov-report=term-missing --junitxml=pytest-results.xml
+        shell: bash
+        run: >-
+          python -m pytest tests --maxfail=1
+          --basetemp="$RUNNER_TEMP/dlrs-pytest"
+          --cov=dlrs --cov-report=xml --cov-report=term-missing
+          --junitxml=pytest-results.xml
       - name: Retain test outcomes and capability evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tests-${{ matrix.os }}-py${{ matrix.python }}-torch${{ matrix.torch }}
           path: pytest-results.xml
+      - name: Retain distributed worker diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: distributed-diagnostics-${{ matrix.os }}-py${{ matrix.python }}-torch${{ matrix.torch }}
+          path: |
+            ${{ runner.temp }}/dlrs-pytest/**/rank-*-progress.json
+            ${{ runner.temp }}/dlrs-pytest/**/rank-*.txt
+          if-no-files-found: ignore
       - name: Save coverage
         if: matrix.os == 'ubuntu-latest' && matrix.python == '3.11'
         uses: actions/upload-artifact@v4
