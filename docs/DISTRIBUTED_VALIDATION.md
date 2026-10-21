@@ -194,9 +194,26 @@ ruff check examples/distributed_policy.py tests/test_distributed_recovery.py
 ```
 
 The accompanying [`distributed-validation-local.json`](distributed-validation-local.json)
-records the actual local environment and test results. This report's coverage is
-limited to CPU/Gloo on macOS arm64, two ranks, full-precision eager execution,
-the two optimizers above, and the stated model/data/checkpoint policy. Larger
-world sizes, multiple machines, Linux/Windows distributed behavior, CUDA/NCCL,
-MPS distributed execution, FSDP/ZeRO, mixed precision, and different framework
-recovery paths remain unverified by this suite.
+records the original local environment and test results: CPU/Gloo on macOS arm64,
+two ranks, full-precision eager execution, the two optimizers above, and the
+stated model/data/checkpoint policy. That local run did not cover Linux or Windows.
+Subsequently, [CI run 39559912673 at revision `9436a1d`](https://github.com/Thabhelo/pytorch-dlrs/actions/runs/39559912673)
+passed all 11 CPU/Gloo recovery cases in each of its seven Linux matrix cells
+and its Windows Python 3.11 / PyTorch 2.6.0 cell. This evidence applies to those
+runner images and Python/PyTorch combinations, not every Linux or Windows stack.
+Larger world sizes, multiple machines, CUDA/NCCL, MPS distributed execution,
+FSDP/ZeRO, mixed precision, and different framework recovery paths remain
+unverified by this suite.
+
+### Hosted macOS CI configuration
+
+The [2026-10-21 diagnostic CI run](https://github.com/Thabhelo/pytorch-dlrs/actions/runs/39559912673/job/119088397618)
+exceeded the 45-second launcher deadline while both workers were inside PyTorch's
+Gloo process-group constructor, before any DLRS object or training step.
+Retained progress markers and 20/40-second stack dumps distinguish this startup
+failure from scheduler behavior; they do not identify the exact underlying
+network cause. The macOS test job selects `GLOO_SOCKET_IFNAME=lo0` explicitly for
+its single-host process groups, including the two-rank recovery tests. This
+configuration retains every assertion and deadline and makes no claim about
+multi-host networking. Its hosted outcome must be checked on the CI run for the
+specific revision being evaluated.

@@ -61,11 +61,16 @@ jobs:
           python -c 'import platform, torch; print(platform.platform(), platform.python_version(), torch.__version__)'
       - name: Run tests
         shell: bash
-        run: >-
-          python -m pytest tests --maxfail=1
-          --basetemp="$RUNNER_TEMP/dlrs-pytest"
-          --cov=dlrs --cov-report=xml --cov-report=term-missing
-          --junitxml=pytest-results.xml
+        run: |
+          # These CI process groups stay on one host. Select macOS loopback
+          # explicitly instead of relying on Gloo's default device selection.
+          if [ "$RUNNER_OS" = macOS ]; then
+            export GLOO_SOCKET_IFNAME=lo0
+          fi
+          python -m pytest tests --maxfail=1 \
+            --basetemp="$RUNNER_TEMP/dlrs-pytest" \
+            --cov=dlrs --cov-report=xml --cov-report=term-missing \
+            --junitxml=pytest-results.xml
       - name: Retain test outcomes and capability evidence
         if: always()
         uses: actions/upload-artifact@v4
