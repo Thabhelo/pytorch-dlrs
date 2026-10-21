@@ -1,0 +1,191 @@
+{
+  "cuda_gate_passed": true,
+  "environment_probe_timeout_seconds": 60,
+  "exit_code": 0,
+  "fingerprints_unchanged_after_tests": true,
+  "finished_at_utc": "2026-10-21T19:57:28.526789+00:00",
+  "original_cuda_visible_devices": null,
+  "package_mode": "installed_wheel",
+  "pytest": {
+    "command": [
+      "/usr/bin/python3",
+      "-I",
+      "-m",
+      "pytest",
+      "/tmp/dlrs-cuda-pytest-l6qt9wye/test_cuda_validation.py",
+      "-q",
+      "-o",
+      "addopts=",
+      "--maxfail=1",
+      "-rA",
+      "--basetemp=/tmp/dlrs-cuda-pytest-l6qt9wye/test-temp",
+      "--junitxml=/content/dlrs-cuda-4ef5e10398/evidence/pytest.xml"
+    ],
+    "cwd": "/tmp/dlrs-cuda-pytest-l6qt9wye",
+    "elapsed_seconds": 10.291070181999999,
+    "finished_at_utc": "2026-10-21T19:57:28.524651+00:00",
+    "returncode": 0,
+    "started_at_utc": "2026-10-21T19:57:18.233437+00:00",
+    "status": "completed",
+    "timeout_seconds": 300
+  },
+  "pytest_timeout_seconds": 300,
+  "schema_version": 1,
+  "scope": "single process, one visible CUDA GPU",
+  "started_at_utc": "2026-10-21T19:57:14.648947+00:00",
+  "status": "passed",
+  "test_results": {
+    "bf16_status": "unsupported",
+    "cases": [
+      {
+        "details": "",
+        "name": "test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "5.510"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.161"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.160"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.133"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.143"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.113"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.102"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.134"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.179"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.034"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.017"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.017"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.110"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.147"
+      },
+      {
+        "details": "CUDA device lacks native bfloat16; mandatory CUDA cases remain required",
+        "name": "test_cuda_bfloat16_eager_reference[SGD]",
+        "outcome": "skipped",
+        "properties": {},
+        "seconds": "0.002"
+      },
+      {
+        "details": "CUDA device lacks native bfloat16; mandatory CUDA cases remain required",
+        "name": "test_cuda_bfloat16_eager_reference[AdamW]",
+        "outcome": "skipped",
+        "properties": {},
+        "seconds": "0.002"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.059"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.061"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.074"
+      },
+      {
+        "details": "",
+        "name": "test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+        "outcome": "passed",
+        "properties": {},
+        "seconds": "0.074"
+      }
+    ],
+    "counts": {
+      "error": 0,
+      "failed": 0,
+      "passed": 18,
+      "skipped": 2
+    },
+    "cuda_gate_passed": true,
+    "mandatory_cases_passed": true,
+    "reasons": []
+  }
+}

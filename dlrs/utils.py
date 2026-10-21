@@ -32,6 +32,10 @@ def _validate_scalar(value, name: str, nonnegative: bool = False) -> float:
             raise ValueError(f"{name} must have an accessible real scalar value") from exc
     if isinstance(value, bool) or not isinstance(value, numbers.Real):
         raise ValueError(f"{name} must be a finite real scalar")
+    # Preserve the input's sign before binary64 conversion: a negative Fraction
+    # or wider real can underflow to -0.0 and otherwise pass the check below.
+    if nonnegative and value < 0:
+        raise ValueError(f"{name} must be nonnegative")
     try:
         result = float(value)
     except (OverflowError, TypeError, ValueError) as exc:

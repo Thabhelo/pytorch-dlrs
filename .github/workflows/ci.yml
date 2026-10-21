@@ -129,10 +129,39 @@ jobs:
           tests/test_training_modes.py::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates
           -v
 
+  correctness:
+    name: Mathematical contract and mutation audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -e '.[test]' z3-solver==5.3.1.0
+      - run: python -m pip check
+      - name: Require the reviewed solver version
+        run: python -c "import importlib.metadata, z3; assert importlib.metadata.version('z3-solver') == '5.3.1.0'; print(z3.get_full_version())"
+      - name: Verify nonvacuous model obligations and audit guards
+        run: |
+          python benchmarks/verify_contract.py --output "$RUNNER_TEMP/contract-proofs"
+          python -m pytest tests/test_contract_proofs.py tests/test_mutation_audit.py -q
+      - name: Require detection of every declared deliberate defect
+        run: python benchmarks/audit_mutations.py --output "$RUNNER_TEMP/mutation-audit"
+      - name: Retain queries, mutations and raw test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: correctness-audit
+          path: |
+            ${{ runner.temp }}/contract-proofs/
+            ${{ runner.temp }}/mutation-audit/
+
   build:
     name: Build and install distributions
     runs-on: ubuntu-latest
-    needs: [test, quality, lightning]
+    needs: [test, quality, lightning, correctness]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

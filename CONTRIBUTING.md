@@ -44,8 +44,19 @@ Compare against the existing workload scheduler, not only an untuned or disabled
 
 Any change to the equation, epsilon policy, bounds, loss reduction, wrapper semantics, state format, or framework ownership can change training trajectories. Document it in the unreleased changelog and migration notes. Do not describe a behavioral correction as guaranteed to leave every user's training unchanged.
 
+## Correctness audits
+
+Review the [contract](docs/CORRECTNESS_CONTRACT.md) and [verification evidence](docs/CORRECTNESS_VERIFICATION.md) when changing numerical or state behavior. The dedicated CI job installs `z3-solver==5.3.1.0`, requires all 25 mathematical obligations, exercises proof/audit failure guards and requires all 14 declared mutations to be detected. Z3 is development tooling, not a package runtime dependency. An absent solver in ordinary platform tests is an explicit skip; it cannot satisfy the separate proof job.
+
+```bash
+python benchmarks/verify_contract.py --output /tmp/dlrs-new-proof-evidence
+python benchmarks/audit_mutations.py --output /tmp/dlrs-new-mutation-evidence
+```
+
+Both output paths must be new. Preserve failed attempts and review every surviving mutation; do not relabel infrastructure failures as detected defects. Extending the selected mutation set is useful, but its pass rate is not a probability that DLRS is correct.
+
 ## A possible PyTorch contribution
 
-Passing this repository's tests is only one prerequisite. Before preparing a new core scheduler proposal, discuss whether the feature belongs in PyTorch, provide independent evidence of utility and adoption, specify the API and maintenance burden, and agree on the required regression/integration coverage. PyTorch's [contribution guidance](https://github.com/pytorch/pytorch/wiki/The-Ultimate-Guide-to-PyTorch-Contributions) and [technical contribution instructions](https://github.com/pytorch/pytorch/blob/main/CONTRIBUTING.md) govern an upstream contribution. The current upstream guide requires an issue labeled `actionable` before a PR is considered for review, plus the contributor license agreement. Recheck that guidance when preparing a proposal. A local audit cannot certify acceptance or replace upstream review and CI.
+Passing this repository's tests is only one prerequisite. Before preparing a new core scheduler proposal, discuss whether the feature belongs in PyTorch, provide independent evidence of utility and adoption, specify the API and maintenance burden, and agree on the required regression/integration coverage. PyTorch's [contribution guidance](https://github.com/pytorch/pytorch/wiki/The-Ultimate-Guide-to-PyTorch-Contributions) and [technical contribution instructions](https://github.com/pytorch/pytorch/blob/main/CONTRIBUTING.md) govern an upstream contribution. The pinned upstream review in the [readiness ledger](docs/UPSTREAM_READINESS.md#upstream-decision-and-human-review) records triage routes through an `actionable` issue, repository write access or named maintainer preapproval, together with human-responsibility and AI-disclosure requirements. Recheck contribution and CLA requirements when preparing a proposal. A local audit cannot certify acceptance or replace upstream review and CI.
 
 Keep a proposal additive: do not replace an existing default scheduler or alter users' optimizer behavior without explicit opt-in. Retain comparison tests showing existing optimizer and scheduler paths remain unchanged. Establish exact checkpoint, composition, device, and distributed contracts before claiming compatibility.

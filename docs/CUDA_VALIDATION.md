@@ -9,7 +9,40 @@ The run used an ordinary free Google Colab notebook. The resource panel showed
 runtime, Drive mount, remote shell or distributed workers were used. Availability
 of another free GPU is not guaranteed; see the [Colab workflow](FREE_COLAB_VALIDATION.md).
 
-## Executed configuration
+## Correctness-revision rerun
+
+The corrected core at [`2ff033d66d49b0adc994d30b00dfd23dfb6664d0`](https://github.com/Thabhelo/pytorch-dlrs/commit/2ff033d66d49b0adc994d30b00dfd23dfb6664d0)
+was independently installed and tested again on a free T4 at **19:57:14–19:57:28 UTC
+on 2026-10-21**. All **18 required cases passed**, with **two native-BF16 skips**,
+zero failures/errors, eight GradScaler API deprecation warnings and exit zero.
+Pytest reported **8.93 seconds**; the runner measured 10.29 seconds including
+process overhead. This is execution/recovery evidence, not a throughput result.
+Python 3.13.15, Torch 2.11.0+cu130, CUDA 13.0 and driver 580.82.07 were unchanged.
+The resource panel again showed no subscription and zero compute units.
+
+The installed package ran outside the checkout. All three imported runtime
+files matched the retained wheel and current source; the runner and test hashes
+were unchanged. All **27 outer-bundle entries and 12 inner evidence entries**
+were independently hash-verified after export. Both retained wheel copies matched.
+
+| Correctness-revision artifact | SHA-256 |
+|---|---|
+| [Raw evidence bundle](correctness-validation-2026-10-21/cuda-evidence.tar.gz) | `c2a3c0c1b8cb67f2c2ab5e06ff3cc36b939460cf7a7843b3c59e367ff513aaaa` |
+| Installed wheel, retained inside the bundle | `b6df730df7733c0cf74a9c82e1c3673808c285c3f7c27931a98add33955799f6` |
+| `dlrs/scheduler.py` | `8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484` |
+| `dlrs/utils.py` | `1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b` |
+
+The [new summary](correctness-validation-2026-10-21/cuda-summary.json),
+[source fingerprint](correctness-validation-2026-10-21/cuda-source.json),
+[wheel metadata](correctness-validation-2026-10-21/cuda-wheel.json) and
+[bundle manifest](correctness-validation-2026-10-21/cuda-bundle-sha256.json)
+are available separately. The notebook now pins this corrected source revision.
+Later audit-tool portability fixes and documentation/evidence additions do not
+change these executed runtime, runner or CUDA-test bytes. The same limits below
+apply; native BF16 and deployment-specific qualification remain open.
+
+## Earlier executed configuration
+
 
 | Item | Recorded value |
 |---|---|

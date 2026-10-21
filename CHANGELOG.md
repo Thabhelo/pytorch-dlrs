@@ -13,6 +13,14 @@ performance superiority, or PyTorch acceptance. Intentional behavior changes are
 listed in [migration notes](docs/FAQ.md#migrating-from-021).
 
 ### Fixed
+- Select decimal decades from the exact binary64 rate, including normal values
+  immediately below a decimal boundary; this can change ordinary LR trajectories.
+- Preserve tiny loss endpoints during normalization using a rational fallback;
+  reject a nonzero scheduler slope that cannot be represented as a float.
+- Reject negative exact real inputs before they can round to signed zero.
+- Isolate the exceptional Decimal arithmetic from application context settings.
+- Round CPU float16/bfloat16 tensor bounds inward on PyTorch 2.0, whose CPU Half
+  implementation lacks `nextafter`.
 - Validate finite nonnegative observations and learning rates, finite positive
   hyperparameters, and checkpoint shape/content before applying partial updates.
 - Preserve frozen zero-rate groups, scalar tensor LR identity, and tensor-valued
@@ -28,6 +36,9 @@ listed in [migration notes](docs/FAQ.md#migrating-from-021).
   dependencies; include type markers and source documentation in distributions.
 
 ### Changed
+- Add a versioned correctness contract, independent numerical/state tests,
+  solver-checked mathematical model and a required deliberate-defect audit.
+  These do not constitute a proof of the complete implementation or model quality.
 - Clarify the metric wrapper's historical rolling-window meaning of `patience`;
   it is not a `ReduceLROnPlateau` replacement.
 - Consolidate CI with explicit Python/PyTorch boundaries, isolated tooling,
