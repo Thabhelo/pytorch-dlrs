@@ -1,0 +1,52 @@
+{
+  "inputs_unchanged_and_outputs_independent": true,
+  "minimum_to_positive_zero_and_maximum_to_infinity_checked": true,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "probe_sha256": "4e3062572869a406aea0a12277e1d5902f8c3e20c5f7d63af9dff39e3d022ae4",
+  "python": "3.8.20",
+  "recorded_utc": "2026-10-21T19:56:15.280510+00:00",
+  "reference": "Decode adjacent positive IEEE bit patterns by signless exponent/significand powers of two, then cast exact binary64 values to target dtype.",
+  "results": [
+    {
+      "direction": "down",
+      "dtype": "torch.float16",
+      "ieee_reference_bitwise_match": true,
+      "positive_finite_inputs": 31743,
+      "torch_nextafter_bitwise_match": null
+    },
+    {
+      "direction": "up",
+      "dtype": "torch.float16",
+      "ieee_reference_bitwise_match": true,
+      "positive_finite_inputs": 31743,
+      "torch_nextafter_bitwise_match": null
+    },
+    {
+      "direction": "down",
+      "dtype": "torch.bfloat16",
+      "ieee_reference_bitwise_match": true,
+      "positive_finite_inputs": 32639,
+      "torch_nextafter_bitwise_match": null
+    },
+    {
+      "direction": "up",
+      "dtype": "torch.bfloat16",
+      "ieee_reference_bitwise_match": true,
+      "positive_finite_inputs": 32639,
+      "torch_nextafter_bitwise_match": null
+    }
+  ],
+  "scope": "Exhaustive helper check for finite positive CPU float16/bfloat16 values; not whole-implementation proof.",
+  "source_after_sha256": {
+    "dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
+    "dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+  },
+  "source_before_sha256": {
+    "dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
+    "dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+  },
+  "torch": "2.0.0",
+  "torch_interop_threads": 1,
+  "torch_threads": 1,
+  "total_direction_checks": 128764
+}

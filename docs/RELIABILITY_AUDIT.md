@@ -4,6 +4,12 @@ Date: 2026-10-20. Repository: `Thabhelo/pytorch-dlrs`.
 Reviewed baseline: `c0ea1d159e4caa4950358282506e9358ae9a67ea` (0.2.1).
 Revision: local branch `codex/dlrs-reliability-audit`, planned 0.3 development version.
 
+Subsequent work: the [2026-10-21 correctness-contract audit](CORRECTNESS_VERIFICATION.md)
+records additional numerical fixes, mathematical model checks, mutation testing
+and fresh compatibility evidence. Historical measurements in this report keep
+their original scope and source revision; they do not automatically qualify
+the changed code.
+
 ## Decision
 
 **The baseline was not suitable for a critical-use or PyTorch-upstream readiness claim.**

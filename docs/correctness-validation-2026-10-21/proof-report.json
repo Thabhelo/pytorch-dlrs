@@ -1,0 +1,1422 @@
+{
+  "elapsed_seconds": 0.315232749999268,
+  "exit_code": 0,
+  "expected_obligations": [
+    "slope_bounds",
+    "slope_endpoint_sign",
+    "positive_loss_scaling",
+    "max_mode_reverses_slope",
+    "delta_diverging",
+    "delta_middle",
+    "delta_equality_at_one",
+    "delta_improving",
+    "delta_always_positive",
+    "unclamped_positive_slope_decreases",
+    "unclamped_negative_slope_increases",
+    "zero_rate_frozen",
+    "two_sided_clamp_bounds",
+    "lower_only_clamp_bound",
+    "clamp_idempotent",
+    "in_bounds_nonincrease",
+    "in_bounds_nondecrease",
+    "lower_only_in_bounds_nonincrease",
+    "lower_only_in_bounds_nondecrease",
+    "in_bounds_zero_slope_identity",
+    "relative_unclamped_adjustment_bound",
+    "group_locality",
+    "window_length_base",
+    "window_length_inductive_step",
+    "window_length_saturates"
+  ],
+  "finished_at_utc": "2026-10-21T19:52:20.439955+00:00",
+  "limitations": [
+    "Real variables denote mathematical reals, not IEEE floating-point numbers; no NaN or infinity exists in this model.",
+    "The loss summary assumes nonnegative endpoints and total >= first + last, total > 0, n >= 2. Real n relaxes integer sequence length; there is no proof of Python list validation or summation.",
+    "Granularity is a positive real parameter. Only the relative-adjustment obligation also assumes g <= rate < 10*g. Correct computation of floor(log10(rate)) is not proved.",
+    "No floating-point rounding, underflow/overflow, Decimal/Fraction fallback, tensor conversion, storage alias, mutation atomicity, serialization, PyTorch lifecycle, or hardware behavior is modeled.",
+    "Group locality is a property of independent mathematical state cells; it does not prove memory independence or atomic updates in Python.",
+    "Window obligations prove a base case and inductive step for an abstract length recurrence, not retention of metric values or the wrapper implementation.",
+    "Solver UNSAT is trusted; no independently checked proof certificate or end-to-end refinement proof is produced.",
+    "No convergence, workload quality, stability, nondegradation, performance, or production-safety theorem is claimed."
+  ],
+  "obligations": [
+    {
+      "assumptions": [
+        "(>= first 0.0)",
+        "(>= last 0.0)",
+        "(> total 0.0)",
+        "(>= total (+ first last))",
+        "(>= n 2.0)",
+        "(= (* slope total) (* n (- last first)))"
+      ],
+      "conclusion": "(and (>= slope (- n)) (<= slope n))",
+      "description": "For every admissible nonnegative loss summary, -n <= slope <= n.",
+      "logic": "QF_NRA",
+      "name": "slope_bounds",
+      "negation": {
+        "elapsed_seconds": 0.0019279999833088368,
+        "query_file": "slope_bounds-negation.smt2",
+        "query_sha256": "221b1ce92bfbc10691364b2e9b1ff91a284471c2e9721b1faa68f87a9b06afc9",
+        "result": "unsat",
+        "statistics": {
+          "levelwise calls": 13,
+          "max memory": 19.39,
+          "memory": 19.29,
+          "nlsat conflicts": 14,
+          "nlsat decisions": 5,
+          "nlsat propagations": 39,
+          "nlsat stages": 9,
+          "num allocs": 1095997,
+          "rlimit count": 2913,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 8,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.004776166984811425,
+        "model": "(define-fun total () Real\n  1.0)\n(define-fun first () Real\n  0.0)\n(define-fun last () Real\n  0.0)\n(define-fun n () Real\n  3.0)\n(define-fun slope () Real\n  0.0)\n(define-fun /0 ((x!0 Real) (x!1 Real)) Real\n  0.0)",
+        "query_file": "slope_bounds-assumptions.smt2",
+        "query_sha256": "5e20c8f40aede000928dc4743569599b30c3d612c0c90a1c79fee0d9836badb4",
+        "result": "sat",
+        "statistics": {
+          "max memory": 19.35,
+          "memory": 19.35,
+          "nlsat propagations": 7,
+          "nlsat restarts": 1,
+          "nlsat stages": 6,
+          "num allocs": 178947,
+          "rlimit count": 942,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 8,
+          "time": 0.004
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(>= first 0.0)",
+        "(>= last 0.0)",
+        "(> total 0.0)",
+        "(>= total (+ first last))",
+        "(>= n 2.0)",
+        "(= (* slope total) (* n (- last first)))"
+      ],
+      "conclusion": "(and (= (> slope 0.0) (> last first))\n     (= (= slope 0.0) (= last first))\n     (= (< slope 0.0) (< last first)))",
+      "description": "Slope sign agrees exactly with last - first.",
+      "logic": "QF_NRA",
+      "name": "slope_endpoint_sign",
+      "negation": {
+        "elapsed_seconds": 0.002581250009825453,
+        "query_file": "slope_endpoint_sign-negation.smt2",
+        "query_sha256": "7008f8788405cc28501aca93de54ac6e63f1619520834f019a44106f5c82a149",
+        "result": "unsat",
+        "statistics": {
+          "cnf encoding aux vars": 3,
+          "levelwise calls": 62,
+          "max memory": 19.39,
+          "memory": 19.3,
+          "nlsat conflicts": 61,
+          "nlsat decisions": 17,
+          "nlsat propagations": 186,
+          "nlsat stages": 46,
+          "num allocs": 4968409,
+          "rlimit count": 8322,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 8,
+          "time": 0.002
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0017482080147601664,
+        "model": "(define-fun total () Real\n  1.0)\n(define-fun first () Real\n  0.0)\n(define-fun last () Real\n  0.0)\n(define-fun n () Real\n  3.0)\n(define-fun slope () Real\n  0.0)\n(define-fun /0 ((x!0 Real) (x!1 Real)) Real\n  0.0)",
+        "query_file": "slope_endpoint_sign-assumptions.smt2",
+        "query_sha256": "5e20c8f40aede000928dc4743569599b30c3d612c0c90a1c79fee0d9836badb4",
+        "result": "sat",
+        "statistics": {
+          "max memory": 19.39,
+          "memory": 19.29,
+          "nlsat propagations": 7,
+          "nlsat restarts": 1,
+          "nlsat stages": 6,
+          "num allocs": 2640935,
+          "rlimit count": 3855,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 8,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(>= first 0.0)",
+        "(>= last 0.0)",
+        "(> total 0.0)",
+        "(>= total (+ first last))",
+        "(>= n 2.0)",
+        "(= (* slope total) (* n (- last first)))",
+        "(> positive_factor 0.0)",
+        "(= (* scaled_slope positive_factor total)\n   (* n (- (* positive_factor last) (* positive_factor first))))"
+      ],
+      "conclusion": "(= scaled_slope slope)",
+      "description": "Scaling every loss and their sum by a positive factor preserves slope.",
+      "logic": "QF_NRA",
+      "name": "positive_loss_scaling",
+      "negation": {
+        "elapsed_seconds": 0.003064916003495455,
+        "query_file": "positive_loss_scaling-negation.smt2",
+        "query_sha256": "110c300596d87dbd5126074f27917938e2773cac4ca6430cd492894f4ee7f447",
+        "result": "unsat",
+        "statistics": {
+          "levelwise calls": 74,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "nlsat conflicts": 52,
+          "nlsat decisions": 27,
+          "nlsat propagations": 223,
+          "nlsat stages": 39,
+          "num allocs": 11904096,
+          "rlimit count": 17304,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 8,
+          "time": 0.003
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0020040420058649033,
+        "model": "(define-fun total () Real\n  1.0)\n(define-fun first () Real\n  0.0)\n(define-fun n () Real\n  3.0)\n(define-fun last () Real\n  0.0)\n(define-fun positive_factor () Real\n  1.0)\n(define-fun slope () Real\n  0.0)\n(define-fun scaled_slope () Real\n  0.0)\n(define-fun /0 ((x!0 Real) (x!1 Real)) Real\n  0.0)",
+        "query_file": "positive_loss_scaling-assumptions.smt2",
+        "query_sha256": "6800327d34be1eec95c57ce5a6043472a0745e655fbbee8ee0ac8691548a4d15",
+        "result": "sat",
+        "statistics": {
+          "max memory": 19.41,
+          "memory": 19.31,
+          "nlsat propagations": 8,
+          "nlsat restarts": 1,
+          "nlsat stages": 8,
+          "num allocs": 8071999,
+          "rlimit count": 10255,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 8,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(>= first 0.0)",
+        "(>= last 0.0)",
+        "(> total 0.0)",
+        "(>= total (+ first last))",
+        "(>= n 2.0)",
+        "(= (* slope total) (* n (- last first)))",
+        "(= (* reverse_slope total) (* n (- first last)))"
+      ],
+      "conclusion": "(= reverse_slope (- slope))",
+      "description": "The larger-is-better direction negates the mathematical slope.",
+      "logic": "QF_NRA",
+      "name": "max_mode_reverses_slope",
+      "negation": {
+        "elapsed_seconds": 0.001730457996018231,
+        "query_file": "max_mode_reverses_slope-negation.smt2",
+        "query_sha256": "1829bc98e91dbd6c99ec8065816165eac0c6611fc1e0209499eeefdf901dfda3",
+        "result": "unsat",
+        "statistics": {
+          "levelwise calls": 2,
+          "max memory": 19.41,
+          "memory": 19.32,
+          "nlsat conflicts": 3,
+          "nlsat propagations": 10,
+          "nlsat stages": 6,
+          "num allocs": 21840782,
+          "rlimit count": 20602,
+          "solve-eqs-elim-vars": 2,
+          "solve-eqs-steps": 16,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0016909590049181134,
+        "model": "(define-fun total () Real\n  1.0)\n(define-fun first () Real\n  0.0)\n(define-fun n () Real\n  3.0)\n(define-fun last () Real\n  0.0)\n(define-fun slope () Real\n  0.0)\n(define-fun reverse_slope () Real\n  0.0)\n(define-fun /0 ((x!0 Real) (x!1 Real)) Real\n  0.0)",
+        "query_file": "max_mode_reverses_slope-assumptions.smt2",
+        "query_sha256": "17aded217b650348ae543f6dcf24bc23ac0b20b1ff213aef3f40c21a9f4a1678",
+        "result": "sat",
+        "statistics": {
+          "max memory": 19.41,
+          "memory": 19.31,
+          "nlsat propagations": 9,
+          "nlsat restarts": 1,
+          "nlsat stages": 7,
+          "num allocs": 16419057,
+          "rlimit count": 18891,
+          "solve-eqs-elim-vars": 2,
+          "solve-eqs-steps": 16,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> slope 1.0)"
+      ],
+      "conclusion": "(let ((a!1 (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))))\n  (and (= a!1 delta_d) (> a!1 0.0)))",
+      "description": "The exact piecewise rule selects the stated positive factor in this nonempty regime.",
+      "logic": "QF_NRA",
+      "name": "delta_diverging",
+      "negation": {
+        "elapsed_seconds": 5.508400499820709e-05,
+        "query_file": "delta_diverging-negation.smt2",
+        "query_sha256": "d1222fdc8e9f54b55deaa52df6ce810d660f9a85cb6432ffee587abd4064f6b1",
+        "result": "unsat",
+        "statistics": {
+          "max memory": 19.41,
+          "memory": 17.19,
+          "num allocs": 31338581,
+          "rlimit count": 21008
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.001315416011493653,
+        "model": "(define-fun delta_i () Real\n  1.0)\n(define-fun slope () Real\n  2.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)",
+        "query_file": "delta_diverging-assumptions.smt2",
+        "query_sha256": "6411f81dfd2758383d2cd34f0230be65bd47870a41b480584700277139e51b64",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 8,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "num allocs": 27687257,
+          "rlimit count": 20884,
+          "solve-eqs-elim-vars": 4,
+          "solve-eqs-steps": 4,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(>= slope 0.0)",
+        "(<= slope 1.0)"
+      ],
+      "conclusion": "(let ((a!1 (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))))\n  (and (= a!1 delta_o) (> a!1 0.0)))",
+      "description": "The exact piecewise rule selects the stated positive factor in this nonempty regime.",
+      "logic": "QF_NRA",
+      "name": "delta_middle",
+      "negation": {
+        "elapsed_seconds": 4.954199539497495e-05,
+        "query_file": "delta_middle-negation.smt2",
+        "query_sha256": "c4d4fc9677c484b6d75583e946a9e64c5a003d6eee2f910e95c4a59a1db62ea0",
+        "result": "unsat",
+        "statistics": {
+          "max memory": 19.41,
+          "memory": 17.19,
+          "num allocs": 38971802,
+          "rlimit count": 21482
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0013921669742558151,
+        "model": "(define-fun slope () Real\n  0.0)\n(define-fun delta_i () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun delta_d () Real\n  1.0)",
+        "query_file": "delta_middle-assumptions.smt2",
+        "query_sha256": "8d04bc4b0d4cad2cd8769e08a1a9ca3afcc4aa85b4dad6ffab585c811b5ffa81",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 6,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "nlsat propagations": 3,
+          "nlsat restarts": 1,
+          "nlsat stages": 2,
+          "num allocs": 34913735,
+          "rlimit count": 21353,
+          "solve-eqs-elim-vars": 3,
+          "solve-eqs-steps": 3,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(= slope 1.0)"
+      ],
+      "conclusion": "(let ((a!1 (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))))\n  (and (= a!1 delta_o) (> a!1 0.0)))",
+      "description": "The exact piecewise rule selects the stated positive factor in this nonempty regime.",
+      "logic": "QF_NRA",
+      "name": "delta_equality_at_one",
+      "negation": {
+        "elapsed_seconds": 4.866698873229325e-05,
+        "query_file": "delta_equality_at_one-negation.smt2",
+        "query_sha256": "be8c56477b333b39b902edc0db8933e5962e5193592144c677002c3bde39aee4",
+        "result": "unsat",
+        "statistics": {
+          "max memory": 19.41,
+          "memory": 17.19,
+          "num allocs": 47371892,
+          "rlimit count": 21894
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.001265792001504451,
+        "model": "(define-fun delta_o () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun slope () Real\n  1.0)",
+        "query_file": "delta_equality_at_one-assumptions.smt2",
+        "query_sha256": "f32bd39b5d90889b62773bb2d1faeaa0d9f7be8e62c2022eab3e74535d9da6cf",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 6,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "num allocs": 42925445,
+          "rlimit count": 21770,
+          "solve-eqs-elim-vars": 3,
+          "solve-eqs-steps": 3,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(< slope 0.0)"
+      ],
+      "conclusion": "(let ((a!1 (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))))\n  (and (= a!1 delta_i) (> a!1 0.0)))",
+      "description": "The exact piecewise rule selects the stated positive factor in this nonempty regime.",
+      "logic": "QF_NRA",
+      "name": "delta_improving",
+      "negation": {
+        "elapsed_seconds": 0.0016306669858749956,
+        "query_file": "delta_improving-negation.smt2",
+        "query_sha256": "983f9bfaa367a325afb725f2bd48bf29e2ec820ea366f11340c1713373989adb",
+        "result": "unsat",
+        "statistics": {
+          "levelwise calls": 2,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "nlsat conflicts": 5,
+          "nlsat propagations": 11,
+          "nlsat stages": 5,
+          "num allocs": 60539938,
+          "rlimit count": 23125,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0013161250099074095,
+        "model": "(define-fun delta_i () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun slope () Real\n  (- 1.0))\n(define-fun delta_d () Real\n  1.0)",
+        "query_file": "delta_improving-assumptions.smt2",
+        "query_sha256": "cbebfd58642236a64a00ad44c7702fbcc3090ff6e7a3711e503e8afa22ab0a2c",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 8,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "num allocs": 51688184,
+          "rlimit count": 22176,
+          "solve-eqs-elim-vars": 4,
+          "solve-eqs-steps": 4,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)"
+      ],
+      "conclusion": "(> (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i)) 0.0)",
+      "description": "Positive configured factors yield a positive selected factor for any real slope.",
+      "logic": "QF_NRA",
+      "name": "delta_always_positive",
+      "negation": {
+        "elapsed_seconds": 0.0014770840061828494,
+        "query_file": "delta_always_positive-negation.smt2",
+        "query_sha256": "9472e460dbada02fbcf209f2b2158d43d7be64f4bf436833faa3b6760549490a",
+        "result": "unsat",
+        "statistics": {
+          "levelwise calls": 5,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "nlsat conflicts": 10,
+          "nlsat decisions": 2,
+          "nlsat propagations": 20,
+          "nlsat stages": 13,
+          "num allocs": 79389734,
+          "rlimit count": 24203,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0013717909750994295,
+        "model": "(define-fun delta_o () Real\n  1.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)",
+        "query_file": "delta_always_positive-assumptions.smt2",
+        "query_sha256": "1c9b87e500511cf61f91415da061b12d59e8150adff685ef00763daa403a0523",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 6,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "num allocs": 69664528,
+          "rlimit count": 23338,
+          "solve-eqs-elim-vars": 3,
+          "solve-eqs-steps": 3,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(> slope 0.0)"
+      ],
+      "conclusion": "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n  (< (- rate a!1) rate))",
+      "description": "Before clamping, a positive slope strictly reduces a positive rate.",
+      "logic": "QF_NRA",
+      "name": "unclamped_positive_slope_decreases",
+      "negation": {
+        "elapsed_seconds": 0.0018294170149601996,
+        "query_file": "unclamped_positive_slope_decreases-negation.smt2",
+        "query_sha256": "f4e6412db1f73607381331e59d40a8218045d72d4338f49a83b29b10b14cdd0e",
+        "result": "unsat",
+        "statistics": {
+          "cnf encoding aux vars": 3,
+          "elim-unconstrained": 4,
+          "levelwise calls": 9,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "nlsat conflicts": 14,
+          "nlsat decisions": 5,
+          "nlsat propagations": 44,
+          "nlsat stages": 18,
+          "num allocs": 101156291,
+          "rlimit count": 26635,
+          "solve-eqs-elim-vars": 2,
+          "solve-eqs-steps": 2,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0013476669846568257,
+        "model": "(define-fun delta_d () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun granularity () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)\n(define-fun slope () Real\n  1.0)\n(define-fun lower () Real\n  1.0)\n(define-fun rate () Real\n  1.0)",
+        "query_file": "unclamped_positive_slope_decreases-assumptions.smt2",
+        "query_sha256": "c0a6a96da67d71f92e21343fa741d32bf34f373b9b12b8f654e6ad3802163a3f",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 14,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "num allocs": 89739810,
+          "rlimit count": 24684,
+          "solve-eqs-elim-vars": 7,
+          "solve-eqs-steps": 7,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(< slope 0.0)"
+      ],
+      "conclusion": "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n  (> (- rate a!1) rate))",
+      "description": "Before clamping, a negative slope strictly increases a positive rate.",
+      "logic": "QF_NRA",
+      "name": "unclamped_negative_slope_increases",
+      "negation": {
+        "elapsed_seconds": 0.0016375830164179206,
+        "query_file": "unclamped_negative_slope_increases-negation.smt2",
+        "query_sha256": "fa9978423f333ecfaf665733b52f35f0153656ab62e4bfb0c5ec5cb985f085b5",
+        "result": "unsat",
+        "statistics": {
+          "cnf encoding aux vars": 3,
+          "elim-unconstrained": 4,
+          "levelwise calls": 9,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "nlsat conflicts": 18,
+          "nlsat decisions": 4,
+          "nlsat propagations": 50,
+          "nlsat stages": 21,
+          "num allocs": 125540163,
+          "rlimit count": 29069,
+          "solve-eqs-elim-vars": 2,
+          "solve-eqs-steps": 2,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0012462500017136335,
+        "model": "(define-fun delta_o () Real\n  1.0)\n(define-fun lower () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)\n(define-fun granularity () Real\n  1.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun rate () Real\n  1.0)\n(define-fun slope () Real\n  (- 1.0))",
+        "query_file": "unclamped_negative_slope_increases-assumptions.smt2",
+        "query_sha256": "cd1012130f3ce73b6f47500ba0be621ba2dbf1d471b38d029180ce63051060bc",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 14,
+          "max memory": 19.41,
+          "memory": 19.31,
+          "num allocs": 112789746,
+          "rlimit count": 27118,
+          "solve-eqs-elim-vars": 7,
+          "solve-eqs-steps": 7,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(= rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(> upper lower)"
+      ],
+      "conclusion": "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (< (- rate a!1) lower) lower (- rate a!1))))\n  (= (ite (= rate 0.0) 0.0 (ite (> a!2 upper) upper a!2)) 0.0)))",
+      "description": "A zero rate remains zero even when the positive lower bound excludes it.",
+      "logic": "QF_NRA",
+      "name": "zero_rate_frozen",
+      "negation": {
+        "elapsed_seconds": 5.383300594985485e-05,
+        "query_file": "zero_rate_frozen-negation.smt2",
+        "query_sha256": "83facb814eff0e7da80a84c811edcd919988a161053360fa3fb096e3b80ec08d",
+        "result": "unsat",
+        "statistics": {
+          "max memory": 19.41,
+          "memory": 17.2,
+          "num allocs": 146210295,
+          "rlimit count": 29803
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0012866250181104988,
+        "model": "(define-fun upper () Real\n  2.0)\n(define-fun granularity () Real\n  1.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun lower () Real\n  1.0)\n(define-fun rate () Real\n  0.0)",
+        "query_file": "zero_rate_frozen-assumptions.smt2",
+        "query_sha256": "bcf0db8c5d2d42c659bd09aba1661283c06ba5d5b42889eb38533bfaa6ad49ec",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 12,
+          "max memory": 19.41,
+          "memory": 19.33,
+          "num allocs": 138462376,
+          "rlimit count": 29611,
+          "solve-eqs-elim-vars": 6,
+          "solve-eqs-steps": 6,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(> upper lower)"
+      ],
+      "conclusion": "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (< (- rate a!1) lower) lower (- rate a!1))))\n(let ((a!3 (ite (= rate 0.0) 0.0 (ite (> a!2 upper) upper a!2))))\n  (and (>= a!3 lower) (<= a!3 upper)))))",
+      "description": "An active positive-rate update lies between both valid bounds.",
+      "logic": "QF_NRA",
+      "name": "two_sided_clamp_bounds",
+      "negation": {
+        "elapsed_seconds": 0.0027873330109287053,
+        "query_file": "two_sided_clamp_bounds-negation.smt2",
+        "query_sha256": "1a0b2c9493300662cac7a4d839a4f6a9194d1b32debf2ea23363dfb91728cd20",
+        "result": "unsat",
+        "statistics": {
+          "levelwise calls": 91,
+          "max memory": 19.44,
+          "memory": 19.34,
+          "nlsat conflicts": 106,
+          "nlsat decisions": 46,
+          "nlsat propagations": 274,
+          "nlsat stages": 91,
+          "num allocs": 168457015,
+          "rlimit count": 38005,
+          "time": 0.002
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0012770410103257746,
+        "model": "(define-fun delta_i () Real\n  1.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun rate () Real\n  1.0)\n(define-fun upper () Real\n  2.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun lower () Real\n  1.0)\n(define-fun granularity () Real\n  1.0)",
+        "query_file": "two_sided_clamp_bounds-assumptions.smt2",
+        "query_sha256": "400ac93a5724670b7ea98e89582d77e0839c62210c8e7110b3630675d6b801e8",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 14,
+          "max memory": 19.41,
+          "memory": 19.34,
+          "num allocs": 153619782,
+          "rlimit count": 30296,
+          "solve-eqs-elim-vars": 7,
+          "solve-eqs-steps": 7,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)"
+      ],
+      "conclusion": "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (= rate 0.0)\n                0.0\n                (ite (< (- rate a!1) lower) lower (- rate a!1)))))\n  (>= a!2 lower)))",
+      "description": "An active positive-rate update respects the lower bound without an upper bound.",
+      "logic": "QF_NRA",
+      "name": "lower_only_clamp_bound",
+      "negation": {
+        "elapsed_seconds": 0.001801458012778312,
+        "query_file": "lower_only_clamp_bound-negation.smt2",
+        "query_sha256": "ea8319575bf3349d9e1ffb6b59e3f7cd7a3a3f7e6ccb5df27cf1ba8f4fd8ae28",
+        "result": "unsat",
+        "statistics": {
+          "levelwise calls": 9,
+          "max memory": 19.45,
+          "memory": 19.35,
+          "nlsat conflicts": 16,
+          "nlsat propagations": 41,
+          "nlsat stages": 20,
+          "num allocs": 199894599,
+          "rlimit count": 40287,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.001283834018977359,
+        "model": "(define-fun delta_i () Real\n  1.0)\n(define-fun lower () Real\n  1.0)\n(define-fun rate () Real\n  1.0)\n(define-fun granularity () Real\n  1.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)",
+        "query_file": "lower_only_clamp_bound-assumptions.smt2",
+        "query_sha256": "eab983c25161d8aef5d822f3365266f332b2735b7ae09cae9e5883c8d1db66bd",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 12,
+          "max memory": 19.44,
+          "memory": 19.34,
+          "num allocs": 183551800,
+          "rlimit count": 38419,
+          "solve-eqs-elim-vars": 6,
+          "solve-eqs-steps": 6,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> lower 0.0)",
+        "(> upper lower)"
+      ],
+      "conclusion": "(let ((a!1 (ite (> (ite (< arbitrary lower) lower arbitrary) upper)\n                upper\n                (ite (< arbitrary lower) lower arbitrary))))\n(let ((a!2 (ite (> (ite (< a!1 lower) lower a!1) upper)\n                upper\n                (ite (< a!1 lower) lower a!1))))\n  (= a!2 a!1)))",
+      "description": "Clamping an already clamped real value has no effect.",
+      "logic": "QF_NRA",
+      "name": "clamp_idempotent",
+      "negation": {
+        "elapsed_seconds": 0.0014875420019961894,
+        "query_file": "clamp_idempotent-negation.smt2",
+        "query_sha256": "3e82a9421a200ebe253d442c4e158aa8dbefa0616e79a1d35dc3c5044b202df2",
+        "result": "unsat",
+        "statistics": {
+          "levelwise calls": 10,
+          "max memory": 19.45,
+          "memory": 19.35,
+          "nlsat conflicts": 11,
+          "nlsat decisions": 5,
+          "nlsat propagations": 25,
+          "nlsat stages": 11,
+          "num allocs": 233914568,
+          "rlimit count": 41828,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0011898329830728471,
+        "model": "(define-fun lower () Real\n  1.0)\n(define-fun upper () Real\n  2.0)",
+        "query_file": "clamp_idempotent-assumptions.smt2",
+        "query_sha256": "8e1ed8aedbacabe41d56d945ba23b712259866ecfc8f7de6a793fb1599fc14eb",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 4,
+          "max memory": 19.45,
+          "memory": 19.34,
+          "num allocs": 216267049,
+          "rlimit count": 40440,
+          "solve-eqs-elim-vars": 2,
+          "solve-eqs-steps": 2,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(> upper lower)",
+        "(>= rate lower)",
+        "(<= rate upper)",
+        "(>= slope 0.0)"
+      ],
+      "conclusion": "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (< (- rate a!1) lower) lower (- rate a!1))))\n  (<= (ite (= rate 0.0) 0.0 (ite (> a!2 upper) upper a!2)) rate)))",
+      "description": "A nonnegative slope cannot increase a rate initially within both bounds.",
+      "logic": "QF_NRA",
+      "name": "in_bounds_nonincrease",
+      "negation": {
+        "elapsed_seconds": 0.0022761659929528832,
+        "query_file": "in_bounds_nonincrease-negation.smt2",
+        "query_sha256": "d72bbdffe5b6b75cbc55d7cb4476c009b5e30c099f89b38eecb873879fdc5060",
+        "result": "unsat",
+        "statistics": {
+          "cnf encoding aux vars": 1,
+          "elim-unconstrained": 2,
+          "levelwise calls": 38,
+          "max memory": 19.45,
+          "memory": 19.35,
+          "nlsat conflicts": 37,
+          "nlsat decisions": 13,
+          "nlsat propagations": 125,
+          "nlsat stages": 39,
+          "num allocs": 270570514,
+          "rlimit count": 46903,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 1,
+          "time": 0.002
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0014344590017572045,
+        "model": "(define-fun lower () Real\n  (/ 1.0 2.0))\n(define-fun rate () Real\n  1.0)\n(define-fun upper () Real\n  2.0)\n(define-fun granularity () Real\n  1.0)\n(define-fun slope () Real\n  0.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)",
+        "query_file": "in_bounds_nonincrease-assumptions.smt2",
+        "query_sha256": "65049c0391a7ccd07c28876092c1fb2a43a3c7e0fd9505afd6f7f03931c87258",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 9,
+          "max memory": 19.45,
+          "memory": 19.34,
+          "nlsat propagations": 6,
+          "nlsat restarts": 1,
+          "nlsat stages": 4,
+          "num allocs": 251541090,
+          "rlimit count": 42627,
+          "solve-eqs-elim-vars": 5,
+          "solve-eqs-steps": 5,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(> upper lower)",
+        "(>= rate lower)",
+        "(<= rate upper)",
+        "(<= slope 0.0)"
+      ],
+      "conclusion": "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (< (- rate a!1) lower) lower (- rate a!1))))\n  (>= (ite (= rate 0.0) 0.0 (ite (> a!2 upper) upper a!2)) rate)))",
+      "description": "A nonpositive slope cannot decrease a rate initially within both bounds.",
+      "logic": "QF_NRA",
+      "name": "in_bounds_nondecrease",
+      "negation": {
+        "elapsed_seconds": 0.002067374996840954,
+        "query_file": "in_bounds_nondecrease-negation.smt2",
+        "query_sha256": "f285ed14b497aadf18cdcea149df78c7e85ddc10fd52b1853b47c8e155254d52",
+        "result": "unsat",
+        "statistics": {
+          "levelwise calls": 29,
+          "max memory": 19.45,
+          "memory": 19.35,
+          "nlsat conflicts": 39,
+          "nlsat decisions": 8,
+          "nlsat propagations": 116,
+          "nlsat stages": 45,
+          "num allocs": 310113139,
+          "rlimit count": 51630,
+          "time": 0.002
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0014058749948162585,
+        "model": "(define-fun lower () Real\n  (/ 1.0 2.0))\n(define-fun rate () Real\n  1.0)\n(define-fun upper () Real\n  2.0)\n(define-fun slope () Real\n  0.0)\n(define-fun granularity () Real\n  1.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)",
+        "query_file": "in_bounds_nondecrease-assumptions.smt2",
+        "query_sha256": "f9eb0dc268ec18ee9699e304dadc989828e3a23922827e6b5a0154d770db0500",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 9,
+          "max memory": 19.45,
+          "memory": 19.34,
+          "nlsat propagations": 6,
+          "nlsat restarts": 1,
+          "nlsat stages": 4,
+          "num allocs": 289613620,
+          "rlimit count": 47702,
+          "solve-eqs-elim-vars": 5,
+          "solve-eqs-steps": 5,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(>= rate lower)",
+        "(>= slope 0.0)"
+      ],
+      "conclusion": "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (= rate 0.0)\n                0.0\n                (ite (< (- rate a!1) lower) lower (- rate a!1)))))\n  (<= a!2 rate)))",
+      "description": "With only a lower bound and rate >= lower, a nonnegative slope cannot increase rate.",
+      "logic": "QF_NRA",
+      "name": "lower_only_in_bounds_nonincrease",
+      "negation": {
+        "elapsed_seconds": 0.0017067910230252892,
+        "query_file": "lower_only_in_bounds_nonincrease-negation.smt2",
+        "query_sha256": "f8fc1fb5bc45e796912443f55d7e952dbb09ae8b9d2575a89015c771826e10c7",
+        "result": "unsat",
+        "statistics": {
+          "cnf encoding aux vars": 1,
+          "elim-unconstrained": 2,
+          "levelwise calls": 11,
+          "max memory": 19.45,
+          "memory": 19.35,
+          "nlsat conflicts": 18,
+          "nlsat decisions": 1,
+          "nlsat propagations": 53,
+          "nlsat stages": 21,
+          "num allocs": 352491623,
+          "rlimit count": 54538,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 1,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.001463458000216633,
+        "model": "(define-fun lower () Real\n  (/ 1.0 2.0))\n(define-fun rate () Real\n  1.0)\n(define-fun granularity () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)\n(define-fun slope () Real\n  0.0)\n(define-fun delta_d () Real\n  1.0)",
+        "query_file": "lower_only_in_bounds_nonincrease-assumptions.smt2",
+        "query_sha256": "5d4a7a9b4b36fbc052c3bdc8351c6c65ff5776a590902ee42b5d00ab001e5b43",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 9,
+          "max memory": 19.45,
+          "memory": 19.34,
+          "nlsat propagations": 4,
+          "nlsat restarts": 1,
+          "nlsat stages": 3,
+          "num allocs": 330553603,
+          "rlimit count": 52245,
+          "solve-eqs-elim-vars": 5,
+          "solve-eqs-steps": 5,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(>= rate lower)",
+        "(<= slope 0.0)"
+      ],
+      "conclusion": "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (= rate 0.0)\n                0.0\n                (ite (< (- rate a!1) lower) lower (- rate a!1)))))\n  (>= a!2 rate)))",
+      "description": "With only a lower bound and rate >= lower, a nonpositive slope cannot decrease rate.",
+      "logic": "QF_NRA",
+      "name": "lower_only_in_bounds_nondecrease",
+      "negation": {
+        "elapsed_seconds": 0.0018324579868931323,
+        "query_file": "lower_only_in_bounds_nondecrease-negation.smt2",
+        "query_sha256": "1792bee63b6a0fe727f0c86033e9725cc6ad16ebdaba84bca03bda826a0418c9",
+        "result": "unsat",
+        "statistics": {
+          "levelwise calls": 14,
+          "max memory": 19.45,
+          "memory": 19.35,
+          "nlsat conflicts": 17,
+          "nlsat propagations": 58,
+          "nlsat stages": 23,
+          "num allocs": 397601942,
+          "rlimit count": 57364,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.001467291993321851,
+        "model": "(define-fun lower () Real\n  (/ 1.0 2.0))\n(define-fun rate () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun slope () Real\n  0.0)\n(define-fun delta_i () Real\n  1.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun granularity () Real\n  1.0)",
+        "query_file": "lower_only_in_bounds_nondecrease-assumptions.smt2",
+        "query_sha256": "3e8d7139637b3a0cfbd2dde50c38dc99af475022d654d430c0059a6e8a4fdddb",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 9,
+          "max memory": 19.45,
+          "memory": 19.34,
+          "nlsat propagations": 4,
+          "nlsat restarts": 1,
+          "nlsat stages": 3,
+          "num allocs": 374272541,
+          "rlimit count": 55153,
+          "solve-eqs-elim-vars": 5,
+          "solve-eqs-steps": 5,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(> upper lower)",
+        "(>= rate lower)",
+        "(<= rate upper)",
+        "(= slope 0.0)"
+      ],
+      "conclusion": "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (< (- rate a!1) lower) lower (- rate a!1))))\n  (= (ite (= rate 0.0) 0.0 (ite (> a!2 upper) upper a!2)) rate)))",
+      "description": "Zero slope preserves a rate initially within both bounds.",
+      "logic": "QF_NRA",
+      "name": "in_bounds_zero_slope_identity",
+      "negation": {
+        "elapsed_seconds": 0.0016238329990301281,
+        "query_file": "in_bounds_zero_slope_identity-negation.smt2",
+        "query_sha256": "4faa8cee5852e5042d264794ce991a1bd6fe1e14b33b0cf0ad2f6ffbd3385984",
+        "result": "unsat",
+        "statistics": {
+          "elim-unconstrained": 8,
+          "levelwise calls": 3,
+          "max memory": 19.45,
+          "memory": 19.35,
+          "nlsat conflicts": 6,
+          "nlsat propagations": 13,
+          "nlsat stages": 6,
+          "num allocs": 445465337,
+          "rlimit count": 60131,
+          "solve-eqs-elim-vars": 4,
+          "solve-eqs-steps": 4,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0014380000066012144,
+        "model": "(define-fun lower () Real\n  (/ 1.0 2.0))\n(define-fun rate () Real\n  1.0)\n(define-fun upper () Real\n  2.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun granularity () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun slope () Real\n  0.0)",
+        "query_file": "in_bounds_zero_slope_identity-assumptions.smt2",
+        "query_sha256": "e30acabe9836c79f14980d7152c1d8f34025bede78384ea866dd194ac906bbc8",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 8,
+          "max memory": 19.45,
+          "memory": 19.34,
+          "nlsat propagations": 6,
+          "nlsat restarts": 1,
+          "nlsat stages": 4,
+          "num allocs": 420725932,
+          "rlimit count": 58268,
+          "solve-eqs-elim-vars": 4,
+          "solve-eqs-steps": 4,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(>= n 2.0)",
+        "(>= slope (- n))",
+        "(<= slope n)",
+        "(<= granularity rate)",
+        "(< rate (* 10.0 granularity))"
+      ],
+      "conclusion": "(let ((a!1 (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))))\n(let ((a!2 (>= (- (- rate (* granularity a!1 slope)) rate) (* (- rate) a!1 n)))\n      (a!3 (<= (- (- rate (* granularity a!1 slope)) rate) (* rate a!1 n))))\n  (and a!2 a!3)))",
+      "description": "If the scale satisfies decade bounds, absolute raw adjustment <= rate * selected_delta * n.",
+      "logic": "QF_NRA",
+      "name": "relative_unclamped_adjustment_bound",
+      "negation": {
+        "elapsed_seconds": 0.0024907090119086206,
+        "query_file": "relative_unclamped_adjustment_bound-negation.smt2",
+        "query_sha256": "1d159f0f87e43e8505662e6f3584f88dffd753f9dd731e5d9178c5d84cb5bd5f",
+        "result": "unsat",
+        "statistics": {
+          "cnf encoding aux vars": 2,
+          "elim-unconstrained": 2,
+          "levelwise calls": 35,
+          "max memory": 19.45,
+          "memory": 19.34,
+          "nlsat conflicts": 55,
+          "nlsat decisions": 8,
+          "nlsat propagations": 182,
+          "nlsat stages": 51,
+          "num allocs": 496079351,
+          "rlimit count": 66039,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 1,
+          "time": 0.002
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0014139169943518937,
+        "model": "(define-fun slope () Real\n  0.0)\n(define-fun rate () Real\n  2.0)\n(define-fun granularity () Real\n  1.0)\n(define-fun n () Real\n  3.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun lower () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)",
+        "query_file": "relative_unclamped_adjustment_bound-assumptions.smt2",
+        "query_sha256": "0329859d6ae744a1f4b2732305e2d2f0aa1c9fe2d0166ab29009463a887b5426",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 8,
+          "max memory": 19.45,
+          "memory": 19.34,
+          "nlsat propagations": 8,
+          "nlsat restarts": 1,
+          "nlsat stages": 5,
+          "num allocs": 469934102,
+          "rlimit count": 61117,
+          "solve-eqs-elim-vars": 4,
+          "solve-eqs-steps": 4,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(> delta_d 0.0)",
+        "(> delta_o 0.0)",
+        "(> delta_i 0.0)",
+        "(> rate 0.0)",
+        "(> granularity 0.0)",
+        "(> lower 0.0)",
+        "(> upper lower)",
+        "(>= other_rate 0.0)",
+        "(>= other_rate_changed 0.0)",
+        "(> other_granularity 0.0)",
+        "(> other_granularity_changed 0.0)",
+        "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (< (- rate a!1) lower) lower (- rate a!1))))\n  (= next_a (ite (= rate 0.0) 0.0 (ite (> a!2 upper) upper a!2)))))",
+        "(let ((a!1 (* other_granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (< (- other_rate a!1) lower) lower (- other_rate a!1))))\n  (= next_b (ite (= other_rate 0.0) 0.0 (ite (> a!2 upper) upper a!2)))))",
+        "(let ((a!1 (* granularity\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (< (- rate a!1) lower) lower (- rate a!1))))\n  (= next_a_again (ite (= rate 0.0) 0.0 (ite (> a!2 upper) upper a!2)))))",
+        "(let ((a!1 (* other_granularity_changed\n              (ite (> slope 1.0) delta_d (ite (>= slope 0.0) delta_o delta_i))\n              slope)))\n(let ((a!2 (ite (< (- other_rate_changed a!1) lower)\n                lower\n                (- other_rate_changed a!1))))\n  (= next_b_again\n     (ite (= other_rate_changed 0.0) 0.0 (ite (> a!2 upper) upper a!2)))))"
+      ],
+      "conclusion": "(= next_a next_a_again)",
+      "description": "Changing another independent group's rate/scale leaves the first group's result unchanged.",
+      "logic": "QF_NRA",
+      "name": "group_locality",
+      "negation": {
+        "elapsed_seconds": 0.0012325420102570206,
+        "query_file": "group_locality-negation.smt2",
+        "query_sha256": "f62fb3509b52478fd3bbfe5c03620ceeb8b1b6e6cafca84068b0723877b18b3d",
+        "result": "unsat",
+        "statistics": {
+          "max memory": 19.45,
+          "memory": 19.35,
+          "num allocs": 548738197,
+          "rlimit count": 68945,
+          "solve-eqs-elim-vars": 4,
+          "solve-eqs-steps": 68,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0014576670073438436,
+        "model": "(define-fun other_granularity_changed () Real\n  1.0)\n(define-fun delta_i () Real\n  1.0)\n(define-fun delta_o () Real\n  1.0)\n(define-fun upper () Real\n  2.0)\n(define-fun other_granularity () Real\n  1.0)\n(define-fun rate () Real\n  1.0)\n(define-fun other_rate_changed () Real\n  0.0)\n(define-fun lower () Real\n  1.0)\n(define-fun other_rate () Real\n  0.0)\n(define-fun granularity () Real\n  1.0)\n(define-fun delta_d () Real\n  1.0)\n(define-fun next_b_again () Real\n  0.0)\n(define-fun next_b () Real\n  0.0)\n(define-fun slope () Real\n  0.0)\n(define-fun next_a_again () Real\n  1.0)\n(define-fun next_a () Real\n  1.0)",
+        "query_file": "group_locality-assumptions.smt2",
+        "query_sha256": "009e5474706c33c13b504ae7607e22c0d7e94ea28dd3de665a87b6000c482170",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 20,
+          "max memory": 19.45,
+          "memory": 19.35,
+          "num allocs": 522049908,
+          "rlimit count": 67706,
+          "solve-eqs-elim-vars": 11,
+          "solve-eqs-steps": 11,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(>= patience 0)",
+        "(= length 0)"
+      ],
+      "conclusion": "(and (>= length 0) (<= length (+ patience 2)))",
+      "description": "The empty history satisfies the abstract patience+2 capacity invariant.",
+      "logic": "QF_LIA",
+      "name": "window_length_base",
+      "negation": {
+        "elapsed_seconds": 0.0040579590131528676,
+        "query_file": "window_length_base-negation.smt2",
+        "query_sha256": "ce44d9f055d48b9c2efe83367393385e4e21e99b570480f1f6ab6199b05314c5",
+        "result": "unsat",
+        "statistics": {
+          "conflicts": 1,
+          "max memory": 19.45,
+          "memory": 18.02,
+          "mk bool var": 2,
+          "num allocs": 587651625,
+          "num checks": 1,
+          "random seed": 100,
+          "rlimit count": 69292,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 1,
+          "time": 0.004
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0016437499725725502,
+        "model": "(define-fun patience () Int\n  0)\n(define-fun length () Int\n  0)",
+        "query_file": "window_length_base-assumptions.smt2",
+        "query_sha256": "82a0ef59482fddb0257b8ad90ca4d8071692dadbc07ae83f191fd6b7b691c9a0",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 1,
+          "max memory": 19.45,
+          "memory": 18.03,
+          "num allocs": 568589574,
+          "rlimit count": 69047,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 1,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(>= patience 0)",
+        "(>= length 0)",
+        "(<= length (+ patience 2))",
+        "(= next_length\n   (ite (> (+ length 1) (+ patience 2)) (+ patience 2) (+ length 1)))"
+      ],
+      "conclusion": "(and (>= next_length 0) (<= next_length (+ patience 2)) (>= next_length length))",
+      "description": "Appending then truncating preserves bounded nonnegative history length.",
+      "logic": "QF_LIA",
+      "name": "window_length_inductive_step",
+      "negation": {
+        "elapsed_seconds": 0.0014612920058425516,
+        "query_file": "window_length_inductive_step-negation.smt2",
+        "query_sha256": "8c37118072d3244dc69598aed1654dc2b91a964a6d293d54bf4d81afd019f85d",
+        "result": "unsat",
+        "statistics": {
+          "arith-bound-propagations-lp": 2,
+          "arith-conflicts": 4,
+          "arith-lower": 15,
+          "arith-make-feasible": 8,
+          "arith-max-columns": 10,
+          "arith-max-rows": 3,
+          "arith-upper": 13,
+          "binary propagations": 14,
+          "conflicts": 4,
+          "decisions": 3,
+          "max memory": 19.45,
+          "memory": 18.01,
+          "mk bool var": 10,
+          "mk clause": 1,
+          "mk clause binary": 8,
+          "num allocs": 623242317,
+          "num checks": 1,
+          "propagations": 17,
+          "rlimit count": 70750,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 10,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.0013394159905146807,
+        "model": "(define-fun length () Int\n  0)\n(define-fun patience () Int\n  0)\n(define-fun next_length () Int\n  1)",
+        "query_file": "window_length_inductive_step-assumptions.smt2",
+        "query_sha256": "330ac9b18700b7a0ccd116716ec388ea2aa095ca59118e09f58c342b58ac47a4",
+        "result": "sat",
+        "statistics": {
+          "arith-make-feasible": 1,
+          "arith-max-columns": 7,
+          "arith-max-rows": 1,
+          "arith-upper": 3,
+          "final checks": 1,
+          "max memory": 19.45,
+          "memory": 17.98,
+          "mk bool var": 3,
+          "num allocs": 606953471,
+          "num checks": 1,
+          "random seed": 100,
+          "rlimit count": 69714,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 10,
+          "time": 0.001
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    },
+    {
+      "assumptions": [
+        "(>= patience 0)",
+        "(= length (+ patience 2))",
+        "(= next_length\n   (ite (> (+ length 1) (+ patience 2)) (+ patience 2) (+ length 1)))"
+      ],
+      "conclusion": "(= next_length (+ patience 2))",
+      "description": "Once full, the abstract window stays at capacity on the next append.",
+      "logic": "QF_LIA",
+      "name": "window_length_saturates",
+      "negation": {
+        "elapsed_seconds": 0.00034770899219438434,
+        "query_file": "window_length_saturates-negation.smt2",
+        "query_sha256": "78ab028b759dd40255ddde9e418313ad61c2fd6f5590caef5d85276c10b1aff4",
+        "result": "unsat",
+        "statistics": {
+          "max memory": 19.45,
+          "memory": 18.04,
+          "num allocs": 649130515,
+          "rlimit count": 71211,
+          "solve-eqs-elim-vars": 2,
+          "solve-eqs-steps": 12
+        },
+        "timeout_ms": 5000
+      },
+      "nonvacuity": {
+        "elapsed_seconds": 0.00047045800602063537,
+        "model": "(define-fun length () Int\n  2)\n(define-fun next_length () Int\n  2)\n(define-fun patience () Int\n  0)",
+        "query_file": "window_length_saturates-assumptions.smt2",
+        "query_sha256": "a5fde35f8de6d08919c0bfd2ea28153339ec052ce367a0dd0d87607f753afbed",
+        "result": "sat",
+        "statistics": {
+          "elim-unconstrained": 1,
+          "max memory": 19.45,
+          "memory": 18.04,
+          "num allocs": 635298570,
+          "rlimit count": 70991,
+          "solve-eqs-elim-vars": 1,
+          "solve-eqs-steps": 1
+        },
+        "timeout_ms": 5000
+      },
+      "status": "proved"
+    }
+  ],
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "proofs_passed": true,
+  "python": "3.11.12 (main, Apr  8 2025, 14:15:29) [Clang 16.0.0 (clang-1600.0.26.6)]",
+  "quantification": "UNSAT of assumptions and negated conclusion establishes the implication for all free SMT constants.",
+  "schema_version": 1,
+  "scope": "exact-real DLRS abstraction plus integer window-length recurrence",
+  "solver": {
+    "full_version": "5.3.1.0 ac9156f97cb44e56472e1c841f7a2beb1e976b24",
+    "name": "Z3",
+    "package_version": "5.3.1.0",
+    "version": "5.3.1"
+  },
+  "source_sha256": {
+    "benchmarks/verify_contract.py": "1c65a3674daffdd298dc477d03b4ffe5c4c1d0264d6bdaca70dae20dcb34a53a",
+    "dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
+    "dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+  },
+  "started_at_utc": "2026-10-21T19:52:20.124744+00:00",
+  "status": "passed",
+  "timeout_ms_per_query": 5000
+}

@@ -1,0 +1,992 @@
+{
+  "baseline": {
+    "assertion_failures": [],
+    "command": [
+      "/private/tmp/dlrs-validation-20261020/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "-c",
+      "pytest.ini",
+      "--rootdir",
+      "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/baseline/scratch",
+      "-p",
+      "audit_report",
+      "-p",
+      "no:cacheprovider",
+      "--tb=short",
+      "tests/test_correctness_numerics.py::test_distinct_parameter_group_decades_match_fraction_oracle",
+      "tests/test_correctness_state.py::test_rate_snapshots_do_not_alias_live_or_cached_state",
+      "tests/test_scheduler.py::TestIntegration::test_max_lr_bound",
+      "tests/test_scheduler_safety.py::test_checkpoint_and_get_last_lr_are_independent_snapshots",
+      "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state",
+      "tests/test_scheduler_safety.py::test_legacy_checkpoint_without_new_fields_resumes",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically",
+      "tests/test_scheduler_safety.py::test_slope_one_uses_stagnation_factor",
+      "tests/test_scheduler_safety.py::test_wrapper_improvement_increases_lr_in_both_modes",
+      "tests/test_scheduler_safety.py::test_wrapper_patience_is_bounded_rolling_window_and_resumes",
+      "tests/test_scheduler_safety.py::test_zero_lr_groups_remain_frozen",
+      "tests/test_training_contract.py::test_randomized_updates_match_independent_decimal_reference"
+    ],
+    "elapsed_seconds": 3.034800459019607,
+    "environment": {
+      "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "pytest": "9.1.1",
+      "python": "3.11.12",
+      "torch": "2.14.1",
+      "torch_interop_threads": 1,
+      "torch_threads": 1
+    },
+    "reason": "all selected tests passed",
+    "returncode": 0,
+    "selected_nodes": [
+      "tests/test_correctness_numerics.py::test_distinct_parameter_group_decades_match_fraction_oracle",
+      "tests/test_correctness_state.py::test_rate_snapshots_do_not_alias_live_or_cached_state[get_last_lr]",
+      "tests/test_correctness_state.py::test_rate_snapshots_do_not_alias_live_or_cached_state[get_lr]",
+      "tests/test_correctness_state.py::test_rate_snapshots_do_not_alias_live_or_cached_state[state_dict]",
+      "tests/test_scheduler.py::TestIntegration::test_max_lr_bound",
+      "tests/test_scheduler_safety.py::test_checkpoint_and_get_last_lr_are_independent_snapshots",
+      "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[-1.0]",
+      "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[-inf]",
+      "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[1]",
+      "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[1j]",
+      "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[True]",
+      "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[bad7]",
+      "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[bad8]",
+      "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[inf]",
+      "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[nan]",
+      "tests/test_scheduler_safety.py::test_legacy_checkpoint_without_new_fields_resumes",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[_last_lr-value9]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[_step_count--1]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[adjustment-nan]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[base_lrs-value10]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[batch_losses-value11]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[delta_d-nan]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[last_epoch-True]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[loss_slope-inf]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[max_lr-1e-10]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[min_lr--1]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[param_group_lrs-value7]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[param_group_lrs-value8]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[state_version-99]",
+      "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[verbose-1]",
+      "tests/test_scheduler_safety.py::test_slope_one_uses_stagnation_factor",
+      "tests/test_scheduler_safety.py::test_wrapper_improvement_increases_lr_in_both_modes[max-metrics1]",
+      "tests/test_scheduler_safety.py::test_wrapper_improvement_increases_lr_in_both_modes[min-metrics0]",
+      "tests/test_scheduler_safety.py::test_wrapper_patience_is_bounded_rolling_window_and_resumes",
+      "tests/test_scheduler_safety.py::test_zero_lr_groups_remain_frozen",
+      "tests/test_training_contract.py::test_randomized_updates_match_independent_decimal_reference"
+    ],
+    "source_identity": {
+      "dlrs/__init__.py": {
+        "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/baseline/scratch/dlrs/__init__.py",
+        "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+      },
+      "dlrs/scheduler.py": {
+        "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/baseline/scratch/dlrs/scheduler.py",
+        "sha256": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484"
+      },
+      "dlrs/utils.py": {
+        "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/baseline/scratch/dlrs/utils.py",
+        "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+      }
+    },
+    "status": "survived",
+    "test_identity": {
+      "tests/test_correctness_numerics.py": {
+        "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/baseline/scratch/tests/test_correctness_numerics.py",
+        "sha256": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308"
+      },
+      "tests/test_correctness_state.py": {
+        "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/baseline/scratch/tests/test_correctness_state.py",
+        "sha256": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa"
+      },
+      "tests/test_scheduler.py": {
+        "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/baseline/scratch/tests/test_scheduler.py",
+        "sha256": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1"
+      },
+      "tests/test_scheduler_safety.py": {
+        "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/baseline/scratch/tests/test_scheduler_safety.py",
+        "sha256": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+      },
+      "tests/test_training_contract.py": {
+        "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/baseline/scratch/tests/test_training_contract.py",
+        "sha256": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de"
+      }
+    },
+    "timed_out": false
+  },
+  "baseline_passed": true,
+  "counts": {
+    "inconclusive": 0,
+    "killed": 14,
+    "survived": 0
+  },
+  "elapsed_seconds": 36.96952541600331,
+  "live_inputs_unchanged": true,
+  "mutations_planned": 14,
+  "results": [
+    {
+      "assertion_failures": [
+        "tests/test_scheduler_safety.py::test_slope_one_uses_stagnation_factor"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/slope_one_wrong_factor/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_scheduler_safety.py::test_slope_one_uses_stagnation_factor"
+      ],
+      "elapsed_seconds": 2.438383667002199,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "slope_one_wrong_factor",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_scheduler_safety.py::test_slope_one_uses_stagnation_factor"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/slope_one_wrong_factor/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/slope_one_wrong_factor/scratch/dlrs/scheduler.py",
+          "sha256": "ffdf57b35603622cfd5463b36ad1dc0a96ee3bb7cb46fc3206ba367655f4442b"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/slope_one_wrong_factor/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_scheduler_safety.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/slope_one_wrong_factor/scratch/tests/test_scheduler_safety.py",
+          "sha256": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_training_contract.py::test_randomized_updates_match_independent_decimal_reference"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/reverse_loss_direction/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_training_contract.py::test_randomized_updates_match_independent_decimal_reference"
+      ],
+      "elapsed_seconds": 2.503462959022727,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "reverse_loss_direction",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_training_contract.py::test_randomized_updates_match_independent_decimal_reference"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/reverse_loss_direction/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/reverse_loss_direction/scratch/dlrs/scheduler.py",
+          "sha256": "cc673bb9957b01f04d3874808909d3f7e0711cb4c3dccae6fef34de29c71a15d"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/reverse_loss_direction/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_training_contract.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/reverse_loss_direction/scratch/tests/test_training_contract.py",
+          "sha256": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_correctness_numerics.py::test_distinct_parameter_group_decades_match_fraction_oracle"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/reuse_first_group_rate/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_correctness_numerics.py::test_distinct_parameter_group_decades_match_fraction_oracle"
+      ],
+      "elapsed_seconds": 2.360269666998647,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "reuse_first_group_rate",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_correctness_numerics.py::test_distinct_parameter_group_decades_match_fraction_oracle"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/reuse_first_group_rate/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/reuse_first_group_rate/scratch/dlrs/scheduler.py",
+          "sha256": "5c87ade4c86f785a51b83c26efe03e69f73c4ac6ad96bb86a99dc101e98f121f"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/reuse_first_group_rate/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_correctness_numerics.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/reuse_first_group_rate/scratch/tests/test_correctness_numerics.py",
+          "sha256": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_correctness_numerics.py::test_distinct_parameter_group_decades_match_fraction_oracle"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/rounded_decade/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_correctness_numerics.py::test_distinct_parameter_group_decades_match_fraction_oracle"
+      ],
+      "elapsed_seconds": 2.364812332991278,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "rounded_decade",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_correctness_numerics.py::test_distinct_parameter_group_decades_match_fraction_oracle"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/rounded_decade/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/rounded_decade/scratch/dlrs/scheduler.py",
+          "sha256": "aeb2a83b92d3a9688d0b33ba6472b86d470a75dc258635555474f9691eb383b6"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/rounded_decade/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_correctness_numerics.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/rounded_decade/scratch/tests/test_correctness_numerics.py",
+          "sha256": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_scheduler_safety.py::test_zero_lr_groups_remain_frozen"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/unfreeze_zero_rate/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_scheduler_safety.py::test_zero_lr_groups_remain_frozen"
+      ],
+      "elapsed_seconds": 2.4266838330077007,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "unfreeze_zero_rate",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_scheduler_safety.py::test_zero_lr_groups_remain_frozen"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/unfreeze_zero_rate/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/unfreeze_zero_rate/scratch/dlrs/scheduler.py",
+          "sha256": "762a181e024a141dc546d6b2be267ed967aef0ffcd552893dc9874b56f7c3d6f"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/unfreeze_zero_rate/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_scheduler_safety.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/unfreeze_zero_rate/scratch/tests/test_scheduler_safety.py",
+          "sha256": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_scheduler_safety.py::test_slope_one_uses_stagnation_factor"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/remove_minimum_bound/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_scheduler_safety.py::test_slope_one_uses_stagnation_factor"
+      ],
+      "elapsed_seconds": 2.428900833998341,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "remove_minimum_bound",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_scheduler_safety.py::test_slope_one_uses_stagnation_factor"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/remove_minimum_bound/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/remove_minimum_bound/scratch/dlrs/scheduler.py",
+          "sha256": "c965ee99072b409028fa99b53b34d87712ee74cc4c09ea6f536cdc781c519cec"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/remove_minimum_bound/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_scheduler_safety.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/remove_minimum_bound/scratch/tests/test_scheduler_safety.py",
+          "sha256": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_scheduler.py::TestIntegration::test_max_lr_bound"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/remove_maximum_bound/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_scheduler.py::TestIntegration::test_max_lr_bound"
+      ],
+      "elapsed_seconds": 2.3527151660236996,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "remove_maximum_bound",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_scheduler.py::TestIntegration::test_max_lr_bound"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/remove_maximum_bound/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/remove_maximum_bound/scratch/dlrs/scheduler.py",
+          "sha256": "f00bcd27491e44e4403455dbcbccf2360034ee506e2397c99c02b209388a17ae"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/remove_maximum_bound/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/remove_maximum_bound/scratch/tests/test_scheduler.py",
+          "sha256": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[-1.0]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[-inf]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[1]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[1j]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[True]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[bad7]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[bad8]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[inf]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[nan]"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/invalid_input_changes_epoch/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state"
+      ],
+      "elapsed_seconds": 2.5849099160113838,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "invalid_input_changes_epoch",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[-1.0]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[-inf]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[1]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[1j]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[True]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[bad7]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[bad8]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[inf]",
+        "tests/test_scheduler_safety.py::test_invalid_loss_does_not_change_any_state[nan]"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/invalid_input_changes_epoch/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/invalid_input_changes_epoch/scratch/dlrs/scheduler.py",
+          "sha256": "00499daa0ea7509cf54f7c3bded630ca260b1c19be2c0ae414e583371f72523b"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/invalid_input_changes_epoch/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_scheduler_safety.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/invalid_input_changes_epoch/scratch/tests/test_scheduler_safety.py",
+          "sha256": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[last_epoch-True]"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/checkpoint_applied_before_validation/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically"
+      ],
+      "elapsed_seconds": 2.350183125003241,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "checkpoint_applied_before_validation",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[_last_lr-value9]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[_step_count--1]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[adjustment-nan]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[base_lrs-value10]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[batch_losses-value11]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[delta_d-nan]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[last_epoch-True]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[loss_slope-inf]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[max_lr-1e-10]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[min_lr--1]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[param_group_lrs-value7]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[param_group_lrs-value8]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[state_version-99]",
+        "tests/test_scheduler_safety.py::test_malformed_checkpoint_is_rejected_atomically[verbose-1]"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/checkpoint_applied_before_validation/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/checkpoint_applied_before_validation/scratch/dlrs/scheduler.py",
+          "sha256": "3801948add87d3d8437ffea1416100448a330aa9988343acaaf5ff253643e244"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/checkpoint_applied_before_validation/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_scheduler_safety.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/checkpoint_applied_before_validation/scratch/tests/test_scheduler_safety.py",
+          "sha256": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_scheduler_safety.py::test_legacy_checkpoint_without_new_fields_resumes"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/checkpoint_does_not_restore_rates/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_scheduler_safety.py::test_legacy_checkpoint_without_new_fields_resumes"
+      ],
+      "elapsed_seconds": 2.4136014580144547,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "checkpoint_does_not_restore_rates",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_scheduler_safety.py::test_legacy_checkpoint_without_new_fields_resumes"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/checkpoint_does_not_restore_rates/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/checkpoint_does_not_restore_rates/scratch/dlrs/scheduler.py",
+          "sha256": "7f1047c0973acbbbe9263159b9900803496e68813188c12fe474a89ddd22de59"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/checkpoint_does_not_restore_rates/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_scheduler_safety.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/checkpoint_does_not_restore_rates/scratch/tests/test_scheduler_safety.py",
+          "sha256": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_scheduler_safety.py::test_checkpoint_and_get_last_lr_are_independent_snapshots"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/shallow_checkpoint/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_scheduler_safety.py::test_checkpoint_and_get_last_lr_are_independent_snapshots"
+      ],
+      "elapsed_seconds": 2.4374876670190133,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "shallow_checkpoint",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_scheduler_safety.py::test_checkpoint_and_get_last_lr_are_independent_snapshots"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/shallow_checkpoint/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/shallow_checkpoint/scratch/dlrs/scheduler.py",
+          "sha256": "03ee93b51de8ecbabf82c686d68acdfab5313a4a483eb5aad1f91eb50081b148"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/shallow_checkpoint/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_scheduler_safety.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/shallow_checkpoint/scratch/tests/test_scheduler_safety.py",
+          "sha256": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_correctness_state.py::test_rate_snapshots_do_not_alias_live_or_cached_state[get_last_lr]"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/aliased_tensor_rate_snapshot/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_correctness_state.py::test_rate_snapshots_do_not_alias_live_or_cached_state"
+      ],
+      "elapsed_seconds": 2.3120366249931976,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "aliased_tensor_rate_snapshot",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_correctness_state.py::test_rate_snapshots_do_not_alias_live_or_cached_state[get_last_lr]",
+        "tests/test_correctness_state.py::test_rate_snapshots_do_not_alias_live_or_cached_state[get_lr]",
+        "tests/test_correctness_state.py::test_rate_snapshots_do_not_alias_live_or_cached_state[state_dict]"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/aliased_tensor_rate_snapshot/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/aliased_tensor_rate_snapshot/scratch/dlrs/scheduler.py",
+          "sha256": "b5d4990c3ffb89f7e08d6f043df74194a1e9833932cbb29d17411a3a8f67be8c"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/aliased_tensor_rate_snapshot/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_correctness_state.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/aliased_tensor_rate_snapshot/scratch/tests/test_correctness_state.py",
+          "sha256": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_scheduler_safety.py::test_wrapper_patience_is_bounded_rolling_window_and_resumes"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/unbounded_metric_history/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_scheduler_safety.py::test_wrapper_patience_is_bounded_rolling_window_and_resumes"
+      ],
+      "elapsed_seconds": 2.3823044580058195,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "unbounded_metric_history",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_scheduler_safety.py::test_wrapper_patience_is_bounded_rolling_window_and_resumes"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/unbounded_metric_history/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/unbounded_metric_history/scratch/dlrs/scheduler.py",
+          "sha256": "e8b0a2e66643bd622df5724ce18aad4e4e8b6076fbe29a779e76f21ae3900d9b"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/unbounded_metric_history/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_scheduler_safety.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/unbounded_metric_history/scratch/tests/test_scheduler_safety.py",
+          "sha256": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+        }
+      },
+      "timed_out": false
+    },
+    {
+      "assertion_failures": [
+        "tests/test_scheduler_safety.py::test_wrapper_improvement_increases_lr_in_both_modes[max-metrics1]"
+      ],
+      "command": [
+        "/private/tmp/dlrs-validation-20261020/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-c",
+        "pytest.ini",
+        "--rootdir",
+        "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/ignore_max_mode/scratch",
+        "-p",
+        "audit_report",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "tests/test_scheduler_safety.py::test_wrapper_improvement_increases_lr_in_both_modes"
+      ],
+      "elapsed_seconds": 2.46022200002335,
+      "environment": {
+        "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "pytest": "9.1.1",
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "torch_interop_threads": 1,
+        "torch_threads": 1
+      },
+      "name": "ignore_max_mode",
+      "reason": "regression assertion failed with no infrastructure errors",
+      "returncode": 1,
+      "selected_nodes": [
+        "tests/test_scheduler_safety.py::test_wrapper_improvement_increases_lr_in_both_modes[max-metrics1]",
+        "tests/test_scheduler_safety.py::test_wrapper_improvement_increases_lr_in_both_modes[min-metrics0]"
+      ],
+      "source_identity": {
+        "dlrs/__init__.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/ignore_max_mode/scratch/dlrs/__init__.py",
+          "sha256": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396"
+        },
+        "dlrs/scheduler.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/ignore_max_mode/scratch/dlrs/scheduler.py",
+          "sha256": "acc4fad87b271228dc924abd0b45cc080ed6b5cd44c68babb314e1d9b189fba9"
+        },
+        "dlrs/utils.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/ignore_max_mode/scratch/dlrs/utils.py",
+          "sha256": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+        }
+      },
+      "status": "killed",
+      "test_identity": {
+        "tests/test_scheduler_safety.py": {
+          "path": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/mutation-audit-2026-10-21-final/cases/ignore_max_mode/scratch/tests/test_scheduler_safety.py",
+          "sha256": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+        }
+      },
+      "timed_out": false
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Detecting these selected defects does not establish universal correctness, optimizer quality, or deployment safety.",
+  "status": "complete"
+}

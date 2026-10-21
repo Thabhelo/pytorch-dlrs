@@ -103,6 +103,8 @@ These changes are unreleased until a new version is published:
 - Adding, removing or reordering live parameter groups or their parameters is rejected. Create a new scheduler and migrate state explicitly when topology changes.
 - Tensor learning-rate storage is preserved, while initial/base metadata is copied independently. Unsupported representations fail explicitly. Previously overwritten initial metadata cannot be reconstructed from an old checkpoint.
 - Corrected floating-point boundary handling can change adjustment choices at thresholds, decades and extreme magnitudes. See the [complete breaking-change notes](RELIABILITY_AUDIT.md#breaking-changes-requiring-review).
+- The correctness-contract revision chooses the decade of the exact stored float. For example, `lr=1e-6`, losses `[1.0, 0.0]` and `min_lr=1e-12` now produce `1.02e-6` instead of `1.2e-6` with default factors. This affects ordinary decimal-looking rates, not only extreme inputs. Existing checkpoint formats still load, but continuation across this correction need not preserve the old trajectory.
+- A mathematically nonzero scheduler slope too small to represent as a Python float now raises before updating rates or state. Negative exact fractions that round to `-0.0` are rejected before conversion. Rescale observations under an explicit application policy rather than silently dropping a rejected observation.
 - The framework examples have a narrower, enforced scope. Transformers construction now fails rather than silently appearing to schedule correctly.
 - Runtime installation no longer pulls in torchvision, NumPy, or test tools. Install `.[examples]` or `.[dev]` when needed, using compatible PyTorch/torchvision versions.
 

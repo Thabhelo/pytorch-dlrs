@@ -2,10 +2,13 @@
 
 import copy
 import json
+from pathlib import PureWindowsPath
+from types import SimpleNamespace
 
 import pytest
 
 from benchmarks.audit_mutations import (
+    REPORT_PLUGIN,
     classify_run,
     exact_mutation,
     nodes_for_selectors,
@@ -112,6 +115,22 @@ def test_campaign_refuses_existing_evidence_before_reading_sources(tmp_path):
     with pytest.raises(FileExistsError):
         run_campaign(tmp_path, source_root=tmp_path / "missing-source")
     assert marker.read_text(encoding="utf-8") == "preserve"
+
+
+def test_actual_report_hook_normalizes_windows_test_source_keys():
+    namespace = {}
+    exec(compile(REPORT_PLUGIN, "audit_report.py", "exec"), namespace)
+    root = PureWindowsPath(r"C:\audit\scratch")
+    path = root / "tests" / "test_example.py"
+    recorded = {"path": str(path), "sha256": "fixture-digest"}
+    # Only file reading is replaced: execute the actual collection hook with
+    # Windows path semantics, even when this regression runs on another OS.
+    namespace["identity"] = lambda actual: recorded if actual == path else None
+    session = SimpleNamespace(config=SimpleNamespace(rootpath=root),
+                              items=[SimpleNamespace(nodeid=NODE, path=path)])
+    namespace["pytest_collection_finish"](session)
+    assert namespace["DATA"]["collected"] == [NODE]
+    assert namespace["DATA"]["test_sources"] == {"tests/test_example.py": recorded}
 
 
 def test_real_pytest_reports_distinguish_assertion_runtime_and_setup_errors(tmp_path):

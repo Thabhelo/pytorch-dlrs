@@ -12,7 +12,9 @@ scale = 10 ** floor(log10(lr))
 new_lr = lr - scale * delta * slope
 ```
 
-The factor is `delta_i` for negative slopes, `delta_o` for `0 <= slope <= 1`, and `delta_d` for slopes greater than 1. The equality at 1 follows the inclusive piecewise definition in section 3.2; Algorithm 1 leaves that boundary unspecified. Each positive-rate group is clamped to `min_lr` and, if supplied, `max_lr`. Zero-rate groups remain frozen at zero. Bounds are applied when a loss-driven update is computed, not at construction or on skipped/no-loss steps. An initial or externally assigned rate outside the bounds remains outside until such an update.
+The factor is `delta_i` for negative slopes, `delta_o` for `0 <= slope <= 1`, and `delta_d` for slopes greater than 1. The equality at 1 follows the inclusive piecewise definition in section 3.2; Algorithm 1's strict middle condition instead falls through to its final branch at equality. Each positive-rate group is clamped to `min_lr` and, if supplied, `max_lr`. Zero-rate groups remain frozen at zero. Bounds are applied when a loss-driven update is computed, not at construction or on skipped/no-loss steps. An initial or externally assigned rate outside the bounds remains outside until such an update.
+
+The [correctness contract](CORRECTNESS_CONTRACT.md) specifies exact input domains, floating-point behavior, state transitions and restoration. The mathematical reference is separate from the executable floating-point algorithm; the implementation does not promise correctly rounded evaluation of the entire real-valued equation.
 
 All groups use the same slope, with an independently computed scale. Their original LR ratios are not generally preserved: crossing a power-of-ten boundary or reaching a bound changes the relative updates. The diagnostic `adjustment` is the last group's proposed adjustment, not a vector of realized, post-clamp changes. Inspect `get_last_lr()` or optimizer groups for actual rates.
 

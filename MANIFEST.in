@@ -14,5 +14,6 @@ include notebooks/free_colab_cuda_validation.ipynb
 recursive-include docs *.md
 recursive-include docs *.json
 include docs/cuda-validation-2026-10-21/*.tar.gz
+include docs/correctness-validation-2026-10-21/*.tar.gz
 recursive-include .github/workflows *.yml
 recursive-include .github/scripts *.py

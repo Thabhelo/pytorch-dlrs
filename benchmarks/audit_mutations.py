@@ -124,7 +124,7 @@ def pytest_sessionstart(session):
 def pytest_collection_finish(session):
     DATA["collected"] = [item.nodeid for item in session.items]
     for item in session.items:
-        DATA["test_sources"][str(item.path.relative_to(session.config.rootpath))] = identity(item.path)
+        DATA["test_sources"][item.path.relative_to(session.config.rootpath).as_posix()] = identity(item.path)
 
 def pytest_collectreport(report):
     if report.failed:

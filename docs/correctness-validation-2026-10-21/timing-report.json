@@ -1,0 +1,2185 @@
+{
+  "baseline_commit": "d1d850b006cf0d1048a7cec8050c2c79dec91e12",
+  "completed_at_utc": "2026-10-21T19:54:55.937085+00:00",
+  "current_head": "d1d850b006cf0d1048a7cec8050c2c79dec91e12",
+  "current_source_is_working_tree_snapshot": true,
+  "environment": {
+    "cpu": "Apple M3",
+    "executable": "/private/tmp/dlrs-validation-20261020/bin/python",
+    "execution_context": "Shared desktop; team coordinated no intentional concurrent local validation jobs during this run. OS and background activity were not isolated.",
+    "gc_enabled": true,
+    "logical_cpus": 8,
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.12",
+    "torch": "2.14.1",
+    "torch_interop_threads": 1,
+    "torch_threads": 1
+  },
+  "imported_source_paths": {
+    "baseline": {
+      "dlrs/__init__.py": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/correctness-overhead-20261021/baseline/dlrs/__init__.py",
+      "dlrs/scheduler.py": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/correctness-overhead-20261021/baseline/dlrs/scheduler.py",
+      "dlrs/utils.py": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/correctness-overhead-20261021/baseline/dlrs/utils.py"
+    },
+    "current": {
+      "dlrs/__init__.py": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/correctness-overhead-20261021/current/dlrs/__init__.py",
+      "dlrs/scheduler.py": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/correctness-overhead-20261021/current/dlrs/scheduler.py",
+      "dlrs/utils.py": "/Users/thabhelo/dlrs-reliability-recovery-20261020/.audit/correctness-overhead-20261021/current/dlrs/utils.py"
+    }
+  },
+  "live_sources_unchanged": true,
+  "protocol": {
+    "initial_rate": 0.0125,
+    "loss_recipe": "All interior values are 2; endpoints 3,1 for ordinary or 1,3 for slope_one.",
+    "observation_counts": [
+      10,
+      1000,
+      100000
+    ],
+    "order": "Seeded randomized case order and per-pair AB/BA order; A=baseline, B=current.",
+    "pairs_per_case": 15,
+    "parameter_group_counts": [
+      1,
+      100
+    ],
+    "paths": [
+      "ordinary",
+      "slope_one"
+    ],
+    "seed": 20261021,
+    "statistics": "Raw nanoseconds, revision medians, median paired ratio and difference; no threshold.",
+    "timed_region": "One scheduler.step(losses) call using a fresh preconstructed scheduler.",
+    "warmups_per_revision_per_case": 3
+  },
+  "results": [
+    {
+      "baseline_median_ns": 196630792,
+      "current_median_ns": 198013125,
+      "median_paired_difference_ns": 1460459,
+      "median_paired_ratio": 1.0074132325047205,
+      "observation_count": 100000,
+      "parameter_groups": 100,
+      "path": "slope_one",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 196346334,
+            "current": 199409875
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 197040084,
+            "current": 197929584
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 195508208,
+            "current": 197885209
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 195915625,
+            "current": 197692292
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 196471375,
+            "current": 198159375
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 197816000,
+            "current": 198160750
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 196971875,
+            "current": 198013125
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 197259291,
+            "current": 199347125
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 196397542,
+            "current": 197499167
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 196257334,
+            "current": 197454500
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 196235458,
+            "current": 197948834
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 196630792,
+            "current": 197287083
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 198093042,
+            "current": 198396750
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 197157500,
+            "current": 202007500
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 197007041,
+            "current": 198467500
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 1981583,
+      "current_median_ns": 2018833,
+      "median_paired_difference_ns": 32709,
+      "median_paired_ratio": 1.0166475721845225,
+      "observation_count": 1000,
+      "parameter_groups": 1,
+      "path": "slope_one",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 1957916,
+            "current": 2032250
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 2054375,
+            "current": 2182667
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 1948792,
+            "current": 1986125
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 1980167,
+            "current": 1982709
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 2028084,
+            "current": 2146042
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 1981583,
+            "current": 2008166
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 1977291,
+            "current": 1988666
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 2107458,
+            "current": 2018875
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 1964791,
+            "current": 1997500
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 1982583,
+            "current": 2021667
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 2018209,
+            "current": 2057333
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 1976291,
+            "current": 1991458
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 1969042,
+            "current": 1971459
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 2000792,
+            "current": 2121375
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 1986834,
+            "current": 2018833
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 557292,
+      "current_median_ns": 581125,
+      "median_paired_difference_ns": 19375,
+      "median_paired_ratio": 1.0344666709732062,
+      "observation_count": 1000,
+      "parameter_groups": 1,
+      "path": "ordinary",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 560959,
+            "current": 573959
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 556875,
+            "current": 583459
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 557292,
+            "current": 576500
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 561500,
+            "current": 597125
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 561791,
+            "current": 581125
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 569750,
+            "current": 584792
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 563083,
+            "current": 580167
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 568250,
+            "current": 587625
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 556416,
+            "current": 581958
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 638000,
+            "current": 575458
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 555167,
+            "current": 592792
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 554333,
+            "current": 647708
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 556709,
+            "current": 574542
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 548292,
+            "current": 574333
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 548167,
+            "current": 574333
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 2235125,
+      "current_median_ns": 2317875,
+      "median_paired_difference_ns": 54917,
+      "median_paired_ratio": 1.0251025273939667,
+      "observation_count": 1000,
+      "parameter_groups": 100,
+      "path": "slope_one",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 2218000,
+            "current": 2261500
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 2256666,
+            "current": 2362791
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 2187708,
+            "current": 2242625
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 2371667,
+            "current": 2257375
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 2349500,
+            "current": 2357417
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 2235125,
+            "current": 2317875
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 2304792,
+            "current": 2429250
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 2231125,
+            "current": 2268667
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 2363375,
+            "current": 2406833
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 2179458,
+            "current": 2337584
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 2176833,
+            "current": 2230666
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 2309417,
+            "current": 2254583
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 2189791,
+            "current": 2414833
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 2199958,
+            "current": 2287000
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 2347292,
+            "current": 2523834
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 38625,
+      "current_median_ns": 40416,
+      "median_paired_difference_ns": 1791,
+      "median_paired_ratio": 1.046368932038835,
+      "observation_count": 10,
+      "parameter_groups": 1,
+      "path": "slope_one",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 39792,
+            "current": 40875
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 39250,
+            "current": 40208
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 37834,
+            "current": 40000
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 38166,
+            "current": 40541
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 38291,
+            "current": 39708
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 38625,
+            "current": 40416
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 38625,
+            "current": 41417
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 38791,
+            "current": 40542
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 38750,
+            "current": 40041
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 38833,
+            "current": 40875
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 38084,
+            "current": 40208
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 38375,
+            "current": 40916
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 38625,
+            "current": 40791
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 38417,
+            "current": 39583
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 38500,
+            "current": 39167
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 234167,
+      "current_median_ns": 278125,
+      "median_paired_difference_ns": 44167,
+      "median_paired_ratio": 1.1885134298799356,
+      "observation_count": 10,
+      "parameter_groups": 100,
+      "path": "ordinary",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 233125,
+            "current": 278125
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 233334,
+            "current": 276375
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 235042,
+            "current": 273500
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 232917,
+            "current": 276792
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 232584,
+            "current": 415667
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 234291,
+            "current": 278458
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 233959,
+            "current": 276250
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 234708,
+            "current": 277708
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 240083,
+            "current": 321875
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 242375,
+            "current": 300209
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 246791,
+            "current": 279959
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 234083,
+            "current": 281500
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 240750,
+            "current": 289667
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 234167,
+            "current": 277125
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 230625,
+            "current": 276791
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 264459,
+      "current_median_ns": 312334,
+      "median_paired_difference_ns": 48209,
+      "median_paired_ratio": 1.1738421208178367,
+      "observation_count": 10,
+      "parameter_groups": 100,
+      "path": "slope_one",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 261917,
+            "current": 310625
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 259792,
+            "current": 320083
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 257625,
+            "current": 305916
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 260000,
+            "current": 320125
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 263000,
+            "current": 308041
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 263666,
+            "current": 306625
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 264459,
+            "current": 350792
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 271209,
+            "current": 312334
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 266708,
+            "current": 304084
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 260541,
+            "current": 305834
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 319834,
+            "current": 304416
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 266000,
+            "current": 326709
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 265291,
+            "current": 346708
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 284208,
+            "current": 332417
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 285666,
+            "current": 319291
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 54503042,
+      "current_median_ns": 56740333,
+      "median_paired_difference_ns": 2359126,
+      "median_paired_ratio": 1.0433113848074715,
+      "observation_count": 100000,
+      "parameter_groups": 100,
+      "path": "ordinary",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 55113125,
+            "current": 56589084
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 54503042,
+            "current": 56424083
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 54113667,
+            "current": 56975750
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 54622583,
+            "current": 57148000
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 54701625,
+            "current": 56740333
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 54132792,
+            "current": 56460791
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 54604000,
+            "current": 56723208
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 54174167,
+            "current": 56753125
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 53926875,
+            "current": 56511417
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 54218917,
+            "current": 56715000
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 54468958,
+            "current": 56828084
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 54497959,
+            "current": 56865458
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 54893125,
+            "current": 58010292
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 55005958,
+            "current": 57313542
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 54756583,
+            "current": 56541833
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 15792,
+      "current_median_ns": 17333,
+      "median_paired_difference_ns": 1416,
+      "median_paired_ratio": 1.0903810557222187,
+      "observation_count": 10,
+      "parameter_groups": 1,
+      "path": "ordinary",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 16000,
+            "current": 17917
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 15416,
+            "current": 17333
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 15958,
+            "current": 17250
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 15917,
+            "current": 17167
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 15542,
+            "current": 17333
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 15792,
+            "current": 17166
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 15708,
+            "current": 17458
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 15667,
+            "current": 17083
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 16208,
+            "current": 17541
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 15792,
+            "current": 17333
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 15750,
+            "current": 17417
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 16250,
+            "current": 16917
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 15958,
+            "current": 17583
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 16083,
+            "current": 17209
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 15792,
+            "current": 16959
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 197047833,
+      "current_median_ns": 198548625,
+      "median_paired_difference_ns": 1608667,
+      "median_paired_ratio": 1.008214036393702,
+      "observation_count": 100000,
+      "parameter_groups": 1,
+      "path": "slope_one",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 197242292,
+            "current": 197579666
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 197178208,
+            "current": 198310625
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 200072083,
+            "current": 199498750
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 197986291,
+            "current": 200395375
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 197047833,
+            "current": 200051666
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 198260459,
+            "current": 200012042
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 196212375,
+            "current": 199776666
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 196404500,
+            "current": 198273833
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 196345083,
+            "current": 198548625
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 196245042,
+            "current": 198646000
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 198370208,
+            "current": 199342709
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 197750833,
+            "current": 198466875
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 196242792,
+            "current": 197315417
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 196811208,
+            "current": 196647500
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 195843666,
+            "current": 197452333
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 778000,
+      "current_median_ns": 839917,
+      "median_paired_difference_ns": 59458,
+      "median_paired_ratio": 1.0762078830260648,
+      "observation_count": 1000,
+      "parameter_groups": 100,
+      "path": "ordinary",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 809167,
+            "current": 864459
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 771375,
+            "current": 833667
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 776667,
+            "current": 845417
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 772458,
+            "current": 830709
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 784459,
+            "current": 834541
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 773042,
+            "current": 839917
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 916125,
+            "current": 851709
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 780250,
+            "current": 835958
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 769791,
+            "current": 834458
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 771416,
+            "current": 829792
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 799209,
+            "current": 849667
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 780250,
+            "current": 842459
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 780208,
+            "current": 839666
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 773667,
+            "current": 967167
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 778000,
+            "current": 988041
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 14
+        }
+      ]
+    },
+    {
+      "baseline_median_ns": 53775917,
+      "current_median_ns": 55874125,
+      "median_paired_difference_ns": 2049167,
+      "median_paired_ratio": 1.03813299402883,
+      "observation_count": 100000,
+      "parameter_groups": 1,
+      "path": "ordinary",
+      "raw_pairs": [
+        {
+          "duration_ns": {
+            "baseline": 53984333,
+            "current": 55698417
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 0
+        },
+        {
+          "duration_ns": {
+            "baseline": 53715125,
+            "current": 55875292
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 1
+        },
+        {
+          "duration_ns": {
+            "baseline": 54559334,
+            "current": 56076125
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 2
+        },
+        {
+          "duration_ns": {
+            "baseline": 53775917,
+            "current": 55874542
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "duration_ns": {
+            "baseline": 53880042,
+            "current": 55881667
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 4
+        },
+        {
+          "duration_ns": {
+            "baseline": 53873209,
+            "current": 56030500
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 5
+        },
+        {
+          "duration_ns": {
+            "baseline": 54080375,
+            "current": 56224250
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "duration_ns": {
+            "baseline": 53737375,
+            "current": 55786542
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "duration_ns": {
+            "baseline": 53954000,
+            "current": 56059291
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 8
+        },
+        {
+          "duration_ns": {
+            "baseline": 53881875,
+            "current": 55454417
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "duration_ns": {
+            "baseline": 53673417,
+            "current": 55462625
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 10
+        },
+        {
+          "duration_ns": {
+            "baseline": 53567292,
+            "current": 55392583
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 11
+        },
+        {
+          "duration_ns": {
+            "baseline": 53628083,
+            "current": 55361666
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 12
+        },
+        {
+          "duration_ns": {
+            "baseline": 53487291,
+            "current": 55652459
+          },
+          "order": [
+            "baseline",
+            "current"
+          ],
+          "pair": 13
+        },
+        {
+          "duration_ns": {
+            "baseline": 53770167,
+            "current": 55874125
+          },
+          "order": [
+            "current",
+            "baseline"
+          ],
+          "pair": 14
+        }
+      ]
+    }
+  ],
+  "retained_sources_unchanged": true,
+  "runner_sha256": "e836a0df87d7fc218dafbc6caa3f6f6e2b5133366d46ac7e958fdab77f0adef0",
+  "schema_version": 1,
+  "scope": "Descriptive scheduler-only timing; no training-quality, deployment-latency, or acceptance claim.",
+  "source_sha256": {
+    "baseline": {
+      "dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+      "dlrs/scheduler.py": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+      "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f"
+    },
+    "current": {
+      "dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+      "dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
+      "dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+    }
+  },
+  "started_at_utc": "2026-10-21T19:54:35.894337+00:00"
+}

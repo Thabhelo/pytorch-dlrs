@@ -1,0 +1,13 @@
+{
+  "files": {
+    "benchmarks/validate_cuda.py": "07872dde9e0c2716774aa13025b6d9d87203754acc231360aa493a06d7207e22",
+    "dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+    "dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
+    "dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+    "pyproject.toml": "bec251f611c969c74eb288744b27e3a10c2caca314cddb40c6c36d9f77e81dc3",
+    "tests/test_cuda_validation.py": "af7cb7510b05ae87af558164fec9e105bba50877200328a0c14a6bb697bf5b6f"
+  },
+  "git_head": "2ff033d66d49b0adc994d30b00dfd23dfb6664d0",
+  "git_tracked_changes": "",
+  "scope": "installed_wheel"
+}

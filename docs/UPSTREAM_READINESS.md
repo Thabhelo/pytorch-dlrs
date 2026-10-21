@@ -6,6 +6,23 @@ support a bounded implementation contract; its workload results do not support
 replacing arbitrary production schedulers. No critical deployment target,
 production quality tolerance or operational budget has been specified.
 
+## Correctness-contract revision
+
+The [versioned contract](CORRECTNESS_CONTRACT.md) and its
+[verification report](CORRECTNESS_VERIFICATION.md) add explicit mathematical,
+floating-point, state and recovery assumptions. The exact-real model has 25
+solver-checked properties; the final targeted mutation audit detects all 14
+declared defects after repairing a test assertion blind spot. Neither result
+proves the full implementation or substitutes for independent human review.
+
+This revision changes decimal-decade selection and extreme-value handling.
+Earlier CI, CUDA and workload records below retain their original source
+identities; the new report records revalidation separately. The corrected core
+at `2ff033d` passed a fresh free-T4 installed-wheel run: 18 required checks and
+two unsupported native-BF16 skips. See the [new CUDA receipt](CUDA_VALIDATION.md#correctness-revision-rerun). The previous
+CIFAR/PINN failures remain negative evidence. Training quality of the corrected
+code requires a new declared study before extending any quality claim.
+
 ## Completed platform and packaging evidence
 
 [PR #2](https://github.com/Thabhelo/pytorch-dlrs/pull/2) merged into `2fa7373`.

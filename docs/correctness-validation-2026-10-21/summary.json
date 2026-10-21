@@ -1,0 +1,215 @@
+{
+  "archives": {
+    "local-tests": {
+      "bytes": 132301,
+      "member_manifest": "local-tests.members.json",
+      "member_manifest_sha256": "96d9ed566eda021cc8efde9d22554639e4e9403d70fdb7607da331e36ecbaa16",
+      "members": 50,
+      "path": "local-tests.tar.gz",
+      "sha256": "815e96741c598898885d9595eb7796862125999a418b861800185fa4c733136e"
+    },
+    "mutation-final": {
+      "bytes": 406980,
+      "member_manifest": "mutation-final.members.json",
+      "member_manifest_sha256": "c11df65d049d52203f88c4ae368477153018c684652d6076ac71421c571a73b4",
+      "members": 222,
+      "path": "mutation-final.tar.gz",
+      "sha256": "25b6c7351b13b8fe99ab5f85d9f961119a03f8ffa82be9592283c6ccd9311445"
+    },
+    "mutation-initial": {
+      "bytes": 402571,
+      "member_manifest": "mutation-initial.members.json",
+      "member_manifest_sha256": "417cf68441af708e16a09584c7af7edea73dd696290184560c7862142e683005",
+      "members": 222,
+      "path": "mutation-initial.tar.gz",
+      "sha256": "a20a6b9274689a1a68bfa5d69a7c5a8845cb68b20a617ba02b7467d66546cef4"
+    },
+    "mutation-portable-final": {
+      "bytes": 410197,
+      "member_manifest": "mutation-portable-final.members.json",
+      "member_manifest_sha256": "9dad796c23762858c1e7a98bd0444742bc9e9a57f2ad8e53c56610e21218600a",
+      "members": 224,
+      "path": "mutation-portable-final.tar.gz",
+      "sha256": "0987741f00dc95033c24a446420e7f67aff64a12a85113b135f4c4a4234992e1"
+    },
+    "proofs": {
+      "bytes": 11994,
+      "member_manifest": "proofs.members.json",
+      "member_manifest_sha256": "c277e63354af61811717cd4de9edccfb1a2a8e6c26050181069c9068ffed0f59",
+      "members": 51,
+      "path": "proofs.tar.gz",
+      "sha256": "b7935add4711ecb4f67e8c8babc02ad782a51c526a55107d7e3a53bafd792f62"
+    }
+  },
+  "core_commit": "2ff033d66d49b0adc994d30b00dfd23dfb6664d0",
+  "cpu16_helper": {
+    "direction_cases_per_environment": 128764,
+    "environments": [
+      "Python3.8.20/Torch2.0.0",
+      "Python3.11.12/Torch2.14.1"
+    ],
+    "scope": "Exhaustive positive finite CPU float16/bfloat16 helper domain only."
+  },
+  "created_at_utc": "2026-10-21T19:57:54.830179+00:00",
+  "cuda_scope": {
+    "archive": "cuda-evidence.tar.gz",
+    "archive_sha256": "c2a3c0c1b8cb67f2c2ab5e06ff3cc36b939460cf7a7843b3c59e367ff513aaaa",
+    "core_commit": "2ff033d66d49b0adc994d30b00dfd23dfb6664d0",
+    "counts": {
+      "error": 0,
+      "failed": 0,
+      "passed": 18,
+      "skipped": 2
+    },
+    "finished_at_utc": "2026-10-21T19:57:28.526789+00:00",
+    "inner_manifest_entries_verified": 12,
+    "native_bf16": "unsupported",
+    "outer_manifest_entries_verified": 27,
+    "pytest_reported_seconds": 8.93,
+    "scope": "Installed wheel, one process, one free Colab Tesla T4; existing PyTorch2.11.0+cu130 retained. No broader GPU/distributed/production claim.",
+    "source_identity_verified_against_core": true,
+    "started_at_utc": "2026-10-21T19:57:14.648947+00:00",
+    "status": "passed_with_explicit_optional_capability_skips",
+    "summary": "cuda-summary.json",
+    "warnings": 8,
+    "wheel_copies_verified": 2
+  },
+  "current_audit_source_sha256": {
+    "benchmarks/audit_mutations.py": "b026668d7944caeb7dbb91819607eb0c7bbfde95fb420098ba321eb43210ec3c",
+    "benchmarks/verify_contract.py": "1c65a3674daffdd298dc477d03b4ffe5c4c1d0264d6bdaca70dae20dcb34a53a",
+    "dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+    "dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
+    "dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+    "tests/test_contract_proofs.py": "7e1c458517d1da8827309c89426120d78e41e8022069736520f73e20bb62aeca",
+    "tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+    "tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+    "tests/test_mutation_audit.py": "e67009c49d7acd24b91d00dc1816f27457a87d7375b844d014a9d0f80895fe3e",
+    "tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
+  },
+  "implementation_tests": {
+    "current_full_inventory_ci": "pending",
+    "current_inventory": 605,
+    "final_helper_current": {
+      "collected": 147,
+      "errors": 0,
+      "failed": 0,
+      "junit": "mutation-helper-regressions-current.xml",
+      "passed": 147,
+      "skipped": 0
+    },
+    "final_helper_floor": {
+      "collected": 147,
+      "errors": 0,
+      "failed": 0,
+      "junit": "mutation-helper-regressions-floor.xml",
+      "passed": 147,
+      "skipped": 0
+    },
+    "floor_focused_passed": 86,
+    "new_numerical": 62,
+    "new_state": 24,
+    "portability_harness": {
+      "collected": 31,
+      "errors": 0,
+      "failed": 0,
+      "junit": "mutation-portability-regressions.xml",
+      "passed": 31,
+      "skipped": 0
+    },
+    "pre_comparator_regression_full_run": {
+      "collected": 600,
+      "errors": 0,
+      "failed": 0,
+      "junit": "correctness-full-local.xml",
+      "passed": 575,
+      "skipped": 25
+    }
+  },
+  "local_tests_archive_stage": "Post-comparator, before audit report-key portability correction; unchanged runtime. Portability evidence is in mutation-portable-final archive.",
+  "mutations": {
+    "declared": 14,
+    "final": {
+      "baseline_cases": 36,
+      "counts": {
+        "inconclusive": 0,
+        "killed": 14,
+        "survived": 0
+      },
+      "elapsed_seconds": 37.79526324998005,
+      "harness_sha256": "b026668d7944caeb7dbb91819607eb0c7bbfde95fb420098ba321eb43210ec3c"
+    },
+    "initial": {
+      "baseline_cases": 36,
+      "counts": {
+        "inconclusive": 0,
+        "killed": 13,
+        "survived": 1
+      },
+      "elapsed_seconds": 35.38653529199655
+    },
+    "initial_survivor": "checkpoint_applied_before_validation",
+    "portability_repair": "Actual report hook uses POSIX relative test keys; Windows-path regression and 31 harness tests passed.",
+    "post_comparator": {
+      "baseline_cases": 36,
+      "counts": {
+        "inconclusive": 0,
+        "killed": 14,
+        "survived": 0
+      },
+      "elapsed_seconds": 36.96952541600331
+    },
+    "repair": "Type-aware safety-test comparison and four regressions; production and mutation definitions unchanged."
+  },
+  "production_source_sha256": {
+    "dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+    "dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
+    "dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+  },
+  "proofs": {
+    "assumptions_sat": 25,
+    "elapsed_seconds": 0.315232749999268,
+    "harness_tests": {
+      "collected": 22,
+      "errors": 0,
+      "failed": 0,
+      "junit": "correctness-proof-tests.xml",
+      "passed": 22,
+      "skipped": 0
+    },
+    "negations_unsat": 25,
+    "obligations": 25,
+    "queries_replayed": 50,
+    "query_hashes_verified": 50,
+    "scope": "Exact-real and integer abstractions only; no floating-point, refinement or end-to-end proof.",
+    "solver": {
+      "full_version": "5.3.1.0 ac9156f97cb44e56472e1c841f7a2beb1e976b24",
+      "name": "Z3",
+      "package_version": "5.3.1.0",
+      "version": "5.3.1"
+    }
+  },
+  "raw_records_preserved_byte_for_byte": true,
+  "remaining_gates": {
+    "current_core_workload_quality": "unmeasured; prior CIFAR/PINN negative gates unchanged",
+    "global_floating_point_error_or_refinement_proof": "not established",
+    "hosted_ci": "pending",
+    "independent_human_review": "open",
+    "multi_node_and_critical_production": "open",
+    "new_core_cuda": "Bounded single-T4 installed-wheel gate passed; native BF16 and broader GPU/distributed scope remain open."
+  },
+  "schema_version": 1,
+  "status": "local_and_single_gpu_evidence_complete_hosted_ci_pending",
+  "timing": {
+    "cases": 12,
+    "median_paired_difference_ns_range": [
+      1416,
+      2359126
+    ],
+    "median_paired_ratio_range": [
+      1.0074132325047205,
+      1.1885134298799356
+    ],
+    "pairs": 180,
+    "scope": "Scheduler-call local cost; no training throughput, SLO or quality claim."
+  }
+}
