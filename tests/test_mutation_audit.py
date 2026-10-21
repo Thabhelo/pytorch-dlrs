@@ -1,12 +1,14 @@
 """False-green guards for the explicit mutation audit, not a full campaign."""
 
 import copy
+import hashlib
 import json
 from pathlib import PureWindowsPath
 from types import SimpleNamespace
 
 import pytest
 
+import benchmarks.audit_mutations as audit
 from benchmarks.audit_mutations import (
     REPORT_PLUGIN,
     classify_run,
@@ -17,6 +19,22 @@ from benchmarks.audit_mutations import (
 )
 
 NODE = "tests/test_example.py::test_example"
+
+
+def source_hashes(root):
+    return {path.relative_to(root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in root.rglob("*") if path.is_file()}
+
+
+def toy_sources(root):
+    (root / "dlrs").mkdir(parents=True)
+    (root / "tests").mkdir()
+    for name, content in (("__init__.py", ""), ("utils.py", "HELPER_VERSION = 1\n"),
+                          ("scheduler.py", "VALUE = 1\n")):
+        (root / "dlrs" / name).write_bytes(content.encode("utf-8"))
+    (root / "tests/test_probe.py").write_bytes(
+        b"from dlrs.scheduler import VALUE\ndef test_value():\n    assert VALUE == 1\n")
+    return ["tests/test_probe.py::test_value"]
 
 
 def passing_report():
@@ -147,7 +165,7 @@ def test_real_pytest_reports_distinguish_assertion_runtime_and_setup_errors(tmp_
         "def test_setup(bad_setup):\n    pass\n"
         "def test_ok():\n    assert 2 + 2 == 4\n", encoding="utf-8")
     selectors = ["tests/test_probe.py::test_" + name for name in ("assert", "runtime", "setup", "ok")]
-    result = run_case(tmp_path / "case", inputs, selectors, set(selectors), 45)
+    result = run_case(tmp_path / "case", inputs, selectors, set(selectors), 45, source_hashes(inputs))
     assert result["status"] == "inconclusive"
     assert result["reason"] in ("non-assertion failure, skip, or unexpected outcome",
                                 "setup or teardown did not pass")
@@ -159,3 +177,93 @@ def test_real_pytest_reports_distinguish_assertion_runtime_and_setup_errors(tmp_
                     "reports": [event for event in report["reports"] if event["nodeid"] == node]}
         assert classify_run(isolated["exitstatus"], False, isolated, {node})["status"] == expected
     assert result["source_identity"]["dlrs/scheduler.py"]["path"].startswith(str(tmp_path))
+
+
+@pytest.mark.parametrize("changed_file", ["dlrs/utils.py", "tests/test_probe.py"])
+def test_campaign_rejects_snapshot_change_after_passing_baseline(tmp_path, monkeypatch, changed_file):
+    source = tmp_path / "source"
+    selectors = toy_sources(source)
+    monkeypatch.setattr(audit, "MUTATIONS", [audit.mutation(
+        "value_bug", "toy integrity probe", "VALUE = 1", "VALUE = 2", *selectors)])
+    original_run_case = audit.run_case
+
+    def change_snapshot_after_baseline(*args, **kwargs):
+        result = original_run_case(*args, **kwargs)
+        if args[0].name == "baseline":
+            assert result["status"] == "survived"
+            path = args[1] / changed_file
+            path.write_bytes(path.read_bytes() + b"# Changed after baseline.\n")
+        return result
+
+    monkeypatch.setattr(audit, "run_case", change_snapshot_after_baseline)
+    original_run_campaign = audit.run_campaign
+    monkeypatch.setattr(audit, "run_campaign", lambda output, timeout: original_run_campaign(
+        output, timeout, source_root=source))
+    output = tmp_path / "evidence"
+    monkeypatch.setattr(audit.sys, "argv", ["audit_mutations.py", "--output", str(output)])
+    assert audit.main() == 2
+    summary = json.loads((output / "summary.json").read_text(encoding="utf-8"))
+    assert summary["baseline_passed"] and summary["live_inputs_unchanged"]
+    assert not summary["snapshot_inputs_unchanged"]
+    assert summary["status"] == "inconclusive"
+    assert summary["counts"] == {"killed": 0, "survived": 0, "inconclusive": 1}
+    assert not summary["results"][0]["executed"]
+    assert summary["results"][0]["reason"] == "canonical input or scratch integrity mismatch"
+
+
+@pytest.mark.parametrize("changed_file", ["dlrs/utils.py", "tests/test_probe.py"])
+def test_scratch_change_after_assertion_failure_is_not_a_kill(tmp_path, monkeypatch, changed_file):
+    inputs = tmp_path / "inputs"
+    selectors = toy_sources(inputs)
+    hashes = source_hashes(inputs)
+    original_run = audit.subprocess.run
+
+    def change_scratch_after_pytest(*args, **kwargs):
+        result = original_run(*args, **kwargs)
+        assert result.returncode == 1
+        path = kwargs["cwd"] / changed_file
+        path.write_bytes(path.read_bytes() + b"# Changed after report was written.\n")
+        return result
+
+    monkeypatch.setattr(audit.subprocess, "run", change_scratch_after_pytest)
+    result = run_case(tmp_path / "case", inputs, selectors, set(selectors), 45, hashes,
+                      replacement="VALUE = 2\n")
+    assert result["executed"] and result["returncode"] == 1
+    assert result["status"] == "inconclusive" and not result["assertion_failures"]
+    assert result["reason"] == "canonical input or scratch integrity mismatch"
+    report = json.loads((tmp_path / "case/pytest-report.json").read_text(encoding="utf-8"))
+    assert any(event["assertion_failure"] for event in report["reports"])
+
+
+def test_extra_scratch_plugin_prevents_execution(tmp_path, monkeypatch):
+    inputs = tmp_path / "inputs"
+    selectors = toy_sources(inputs)
+    original_copytree = audit.shutil.copytree
+
+    def add_unrecorded_plugin(source, destination, *args, **kwargs):
+        result = original_copytree(source, destination, *args, **kwargs)
+        (destination / "conftest.py").write_bytes(b"raise RuntimeError('must never import')\n")
+        return result
+
+    # copytree recurses using its module attribute, so only inject at the root.
+    def root_copytree(source, destination, *args, **kwargs):
+        if destination == tmp_path / "case/scratch":
+            return add_unrecorded_plugin(source, destination, *args, **kwargs)
+        return original_copytree(source, destination, *args, **kwargs)
+
+    monkeypatch.setattr(audit.shutil, "copytree", root_copytree)
+    result = run_case(tmp_path / "case", inputs, selectors, set(selectors), 45, source_hashes(inputs))
+    assert result["status"] == "inconclusive" and not result["executed"]
+    integrity = json.loads((tmp_path / "case/integrity.json").read_text(encoding="utf-8"))
+    assert "conftest.py: unexpected file" in integrity["scratch_before"]["issues"]
+
+
+def test_missing_snapshot_file_is_retained_as_inconclusive(tmp_path):
+    inputs = tmp_path / "inputs"
+    selectors = toy_sources(inputs)
+    hashes = source_hashes(inputs)
+    (inputs / "dlrs/utils.py").unlink()
+    result = run_case(tmp_path / "case", inputs, selectors, set(selectors), 45, hashes)
+    assert result["status"] == "inconclusive" and not result["executed"]
+    assert (tmp_path / "case/result.json").is_file()
+    assert (tmp_path / "case/integrity.json").is_file()

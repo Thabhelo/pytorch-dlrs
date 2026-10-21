@@ -233,22 +233,51 @@ def write_json(path, data):
         stream.write("\n")
 
 
-def file_identity(path):
-    return {"path": str(path.resolve()), "sha256": sha256(path.read_bytes())}
+def verify_files(directory, expected, exact_tree=True):
+    """Compare retained bytes to the canonical snapshot, never to a fresh baseline."""
+    observed, issues = {}, []
+    for name, digest in sorted(expected.items()):
+        path = directory / name
+        try:
+            if path.is_symlink():
+                issues.append(name + ": unexpected symbolic link")
+            observed[name] = sha256(path.read_bytes())
+            if observed[name] != digest:
+                issues.append(name + ": SHA256 mismatch")
+        except OSError as exc:
+            issues.append(name + ": cannot read (" + type(exc).__name__ + ")")
+    if exact_tree:
+        for path in directory.rglob("*"):
+            name = path.relative_to(directory).as_posix()
+            if path.is_symlink() and name not in expected:
+                issues.append(name + ": unexpected symbolic link")
+            elif path.is_file() and name not in expected:
+                issues.append(name + ": unexpected file")
+    return {"matches": not issues, "observed_sha256": observed, "issues": issues}
 
 
-def run_case(directory, inputs, selectors, expected_nodes, timeout, replacement=None,
+def run_case(directory, inputs, selectors, expected_nodes, timeout, snapshot_hashes, replacement=None,
              expected_environment=None):
     directory.mkdir()
     scratch = directory / "scratch"
-    shutil.copytree(inputs, scratch)
+    case_hashes = dict(snapshot_hashes)
     if replacement is not None:
-        (scratch / "dlrs/scheduler.py").write_text(replacement, encoding="utf-8")
-    (scratch / "audit_report.py").write_text(REPORT_PLUGIN, encoding="utf-8")
-    (scratch / "pytest.ini").write_text("[pytest]\n", encoding="utf-8")
-    expected_sources = {name: file_identity(scratch / name) for name in
+        case_hashes["dlrs/scheduler.py"] = sha256(replacement.encode("utf-8"))
+    case_hashes.update({"audit_report.py": sha256(REPORT_PLUGIN.encode("utf-8")),
+                        "pytest.ini": sha256(b"[pytest]\n")})
+    integrity = {"inputs_before": verify_files(inputs, snapshot_hashes)}
+    if integrity["inputs_before"]["matches"]:
+        shutil.copytree(inputs, scratch)
+        if replacement is not None:
+            (scratch / "dlrs/scheduler.py").write_bytes(replacement.encode("utf-8"))
+        (scratch / "audit_report.py").write_bytes(REPORT_PLUGIN.encode("utf-8"))
+        (scratch / "pytest.ini").write_bytes(b"[pytest]\n")
+    else:
+        scratch.mkdir()
+    integrity["scratch_before"] = verify_files(scratch, case_hashes)
+    expected_sources = {name: {"path": str((scratch / name).resolve()), "sha256": case_hashes[name]} for name in
                         ("dlrs/__init__.py", "dlrs/scheduler.py", "dlrs/utils.py")}
-    expected_tests = {name: file_identity(scratch / name) for name in
+    expected_tests = {name: {"path": str((scratch / name).resolve()), "sha256": case_hashes[name]} for name in
                       sorted({selector.split("::")[0] for selector in selectors})}
     command = [sys.executable, "-m", "pytest", "-q", "-c", "pytest.ini", "--rootdir", str(scratch),
                "-p", "audit_report", "-p", "no:cacheprovider", "--tb=short"] + selectors
@@ -266,20 +295,29 @@ def run_case(directory, inputs, selectors, expected_nodes, timeout, replacement=
     started = time.monotonic()
     timed_out = False
     returncode = None
+    executed = all(check["matches"] for check in integrity.values())
     with (directory / "pytest.log").open("xb") as stream:
-        try:
-            process = subprocess.run(command, cwd=scratch, env=environment, stdout=stream,
-                                     stderr=subprocess.STDOUT, timeout=timeout, check=False)
-            returncode = process.returncode
-        except subprocess.TimeoutExpired:
-            timed_out = True
+        if executed:
+            try:
+                process = subprocess.run(command, cwd=scratch, env=environment, stdout=stream,
+                                         stderr=subprocess.STDOUT, timeout=timeout, check=False)
+                returncode = process.returncode
+            except subprocess.TimeoutExpired:
+                timed_out = True
+        else:
+            stream.write(b"Canonical input integrity check failed; pytest was not executed.\n")
+    integrity["inputs_after"] = verify_files(inputs, snapshot_hashes)
+    integrity["scratch_after"] = verify_files(scratch, case_hashes)
+    write_json(directory / "integrity.json", integrity)
     report_path = directory / "pytest-report.json"
     try:
         report = json.loads(report_path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         report = None
     reason = None
-    if not isinstance(report, dict):
+    if not all(check["matches"] for check in integrity.values()):
+        reason = "canonical input or scratch integrity mismatch"
+    elif not isinstance(report, dict):
         reason = "structured report unavailable"
     elif (report.get("source_before") != expected_sources or report.get("source_after") != expected_sources
           or report.get("test_sources") != expected_tests):
@@ -295,6 +333,7 @@ def run_case(directory, inputs, selectors, expected_nodes, timeout, replacement=
     if reason:
         classification = {"status": "inconclusive", "reason": reason, "assertion_failures": []}
     result = {**classification, "returncode": returncode, "timed_out": timed_out,
+              "executed": executed, "integrity_verified": all(check["matches"] for check in integrity.values()),
               "elapsed_seconds": time.monotonic() - started, "command": command,
               "source_identity": expected_sources, "test_identity": expected_tests,
               "selected_nodes": sorted(expected_nodes or []),
@@ -314,6 +353,7 @@ def run_campaign(output, timeout=45.0, source_root=ROOT):
     inputs = output / "inputs"
     inputs.mkdir()
     snapshot = {name: (source_root / name).read_bytes() for name in paths}
+    snapshot_hashes = {name: sha256(data) for name, data in snapshot.items()}
     if any((source_root / name).read_bytes() != data for name, data in snapshot.items()):
         raise ValueError("Source changed during snapshot preparation")
     source = snapshot["dlrs/scheduler.py"].decode("utf-8")
@@ -325,7 +365,7 @@ def run_campaign(output, timeout=45.0, source_root=ROOT):
         path.write_bytes(data)
     write_json(output / "protocol.json", {"schema_version": 1, "mutations": MUTATIONS,
         "selected_tests": selectors, "timeout_seconds_per_run": timeout,
-        "source_sha256": {name: sha256(data) for name, data in snapshot.items()},
+        "source_sha256": snapshot_hashes,
         "harness_sha256": sha256(Path(__file__).read_bytes()),
         "report_plugin_sha256": sha256(REPORT_PLUGIN.encode()),
         "python": platform.python_version(), "executable": sys.executable,
@@ -333,17 +373,19 @@ def run_campaign(output, timeout=45.0, source_root=ROOT):
         "scope": "Fourteen deliberately selected scheduler defects, not an exhaustive mutation score or correctness proof."})
     cases = output / "cases"
     cases.mkdir()
-    baseline = run_case(cases / "baseline", inputs, selectors, None, timeout)
+    baseline = run_case(cases / "baseline", inputs, selectors, None, timeout, snapshot_hashes)
     results = []
     print("baseline: " + baseline["status"], flush=True)
     if baseline["status"] == "survived":
         for entry in MUTATIONS:
             nodes = nodes_for_selectors(baseline["selected_nodes"], entry["tests"])
-            result = run_case(cases / entry["name"], inputs, entry["tests"], nodes, timeout,
+            result = run_case(cases / entry["name"], inputs, entry["tests"], nodes, timeout, snapshot_hashes,
                               changed_sources[entry["name"]], baseline["environment"])
             results.append({"name": entry["name"], **result})
             print(entry["name"] + ": " + result["status"], flush=True)
-    unchanged = all((source_root / name).read_bytes() == data for name, data in snapshot.items())
+    live_check = verify_files(source_root, snapshot_hashes, exact_tree=False)
+    snapshot_check = verify_files(inputs, snapshot_hashes)
+    unchanged = live_check["matches"]
     counts = {status: sum(item["status"] == status for item in results)
               for status in ("killed", "survived", "inconclusive")}
     complete = baseline["status"] == "survived" and len(results) == len(MUTATIONS)
@@ -351,9 +393,11 @@ def run_campaign(output, timeout=45.0, source_root=ROOT):
         "status": "complete" if complete and not counts["inconclusive"] else "inconclusive",
         "counts": counts, "mutations_planned": len(MUTATIONS), "baseline": baseline,
         "results": results, "live_inputs_unchanged": unchanged,
+        "snapshot_inputs_unchanged": snapshot_check["matches"],
+        "final_input_verification": {"live": live_check, "snapshot": snapshot_check},
         "elapsed_seconds": time.monotonic() - started,
         "scope": "Detecting these selected defects does not establish universal correctness, optimizer quality, or deployment safety."}
-    if not unchanged:
+    if not unchanged or not snapshot_check["matches"]:
         summary["status"] = "inconclusive"
     write_json(output / "summary.json", summary)
     manifest = {str(path.relative_to(output)): sha256(path.read_bytes())

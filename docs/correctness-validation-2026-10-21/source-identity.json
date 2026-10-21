@@ -1,5 +1,7 @@
 {
+  "archived_ci_head": "23c84133440b8071ea541fbdf8b6a8fca6773c66",
   "core_commit": "2ff033d66d49b0adc994d30b00dfd23dfb6664d0",
+  "current_audit_revision_identity": "SHA256 of the current source files below; no future commit or hosted outcome is inferred.",
   "git_commit_at_capture_is_not_candidate_identity": true,
   "historical_baseline_commit": "d1d850b006cf0d1048a7cec8050c2c79dec91e12",
   "production_sha256": {
@@ -8,9 +10,9 @@
     "dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
   },
   "schema_version": 1,
-  "scope": "Runtime hashes match published core commit; current audit/test hashes include the later report-key portability correction. Historical local-tests archive retains its pre-portability snapshot.",
+  "scope": "Runtime remains byte-identical to core2ff033d. Current audit/test hashes include canonical snapshot binding; historical CI23c8413 and earlier archives retain their earlier audit revisions.",
   "source_sha256": {
-    "benchmarks/audit_mutations.py": "b026668d7944caeb7dbb91819607eb0c7bbfde95fb420098ba321eb43210ec3c",
+    "benchmarks/audit_mutations.py": "187a74de0fe752d8a15347ebea96b44d90dc8a3e341f3b3d97a96480ca0f6521",
     "benchmarks/verify_contract.py": "1c65a3674daffdd298dc477d03b4ffe5c4c1d0264d6bdaca70dae20dcb34a53a",
     "dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
     "dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
@@ -18,7 +20,7 @@
     "tests/test_contract_proofs.py": "7e1c458517d1da8827309c89426120d78e41e8022069736520f73e20bb62aeca",
     "tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
     "tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
-    "tests/test_mutation_audit.py": "e67009c49d7acd24b91d00dc1816f27457a87d7375b844d014a9d0f80895fe3e",
+    "tests/test_mutation_audit.py": "68b21766c936dd2dfd00d40616196644e3689d0f669b1830ae72a21afd85f9f6",
     "tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
   }
 }

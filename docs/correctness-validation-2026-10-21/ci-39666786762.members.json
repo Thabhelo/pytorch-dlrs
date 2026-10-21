@@ -1,0 +1,27 @@
+{
+  "algorithm": "sha256",
+  "coverage": "Every regular archive member, including original nested manifests.",
+  "members": {
+    "ci-39666786762/archive-layout.json": "e1b43a18b6ceff0b4e6aeb22809ac4c5869f1619b03a0df7708c3ed8d2fde683",
+    "ci-39666786762/artifacts-api.json": "aed384aafbf3b206a646980537a86957741bcd234f884217a81b7a3f705f5608",
+    "ci-39666786762/logs-identity.json": "9319f1ab60e11a07fb38029050c464489754493f3063c72153dedd4ed10b39b9",
+    "ci-39666786762/raw/correctness-audit.zip": "bb6d0166b7607793ff37c5f0efb29076f9647da6c4fd430431e2a9b7fc8ac97e",
+    "ci-39666786762/raw/coverage.zip": "fc2f3c9c5c48c974fe746e4811a2e64cf61309e0172f4101d25b0d8ac4097033",
+    "ci-39666786762/raw/dist-packages.zip": "ca37c5e76afbd089086cb993cf5cba1425e2c3de1b8fa9991edd349719c51f5f",
+    "ci-39666786762/raw/distribution-validation.zip": "8752cd9968e98cd71bc953bc22e53f2207f6759ca2fefbf79e35ac817d82a150",
+    "ci-39666786762/raw/run-logs.zip": "f493d2bb91815241bd86666a770ef609d469662586062848d44cb19c1986864a",
+    "ci-39666786762/raw/tests-macos-latest-py3.12-torch2.14.1.zip": "2f1de6ce67d590fcf1420e46b43716735b4cc0e1af4daedc117eb66575ed94f2",
+    "ci-39666786762/raw/tests-ubuntu-22.04-py3.8-torch2.0.0.zip": "d35e65906600caeffd72ff38ff227e8ce59f5ee096b2f6dbee823c90535ec0d5",
+    "ci-39666786762/raw/tests-ubuntu-22.04-py3.9-torch2.4.1.zip": "2b435ae6c5af7a8114c44a659a62a01a61bc2263c6d9065454c7ff3099e4b7ac",
+    "ci-39666786762/raw/tests-ubuntu-latest-py3.10-torch2.5.1.zip": "8e9a275ded10d931fedd89e5ea846e04e11412464e37e8fffce276e24ff04418",
+    "ci-39666786762/raw/tests-ubuntu-latest-py3.11-torch2.6.0.zip": "af8ee4260ae68a72094e293bb8ab624b7c2847961dd32b0d89c83de86b0ddd43",
+    "ci-39666786762/raw/tests-ubuntu-latest-py3.12-torch2.14.1.zip": "a8134ea3ee8c05537cbb7502aa78eab6ee135b05d614bf138c18e84fecc76504",
+    "ci-39666786762/raw/tests-ubuntu-latest-py3.12-torchlatest.zip": "86212264b544e4caa0d089ff53c6b99c2276f702d91a2695d6ca03a36e805c06",
+    "ci-39666786762/raw/tests-ubuntu-latest-py3.14-torch2.14.1.zip": "ad0debb93163f09d8ebddbc169176e900070d5aca4e5ae49ae853b700ba98477",
+    "ci-39666786762/raw/tests-windows-latest-py3.11-torch2.6.0.zip": "a5ae8d3ae0a4165e611a62002d77fb5593077b9323b29bd3bd101f8622750140",
+    "ci-39666786762/receipt.json": "3d11b62662d96ac0896cf65bb57e3bbfea8b4cf8204805002b3005f9660282d1",
+    "ci-39666786762/run.json": "2266008c2b50df9bb898a70739e54ad547f14592c1ef12baba8ee6fd179e2a27",
+    "ci-39666786762/verified-artifacts.json": "0b5da0470fa07fd8a7bd144004c608ad86b3f63e7fa8149ae282bab44e2247d1"
+  },
+  "schema_version": 1
+}

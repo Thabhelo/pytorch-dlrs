@@ -12,8 +12,12 @@ The local core was published as
 The local evidence applies to the source hashes in
 [source identity](correctness-validation-2026-10-21/source-identity.json).
 The [machine-readable summary](correctness-validation-2026-10-21/summary.json)
-records the result counts and archive hashes. Hosted CI is pending at this
-report's initial publication. The changed core has a separate verified
+records the result counts and archive hashes. The archived
+[hosted CI run](https://github.com/Thabhelo/pytorch-dlrs/actions/runs/39666786762)
+passed at `23c84133440b8071ea541fbdf8b6a8fca6773c66`; it predates the later
+audit source-binding correction described below. Exact-revision outcomes for
+subsequent changes are available in the [PR checks](https://github.com/Thabhelo/pytorch-dlrs/pull/4/checks).
+The changed core has a separate verified
 [installed-wheel T4 rerun](CUDA_VALIDATION.md#correctness-revision-rerun): 18
 required cases passed and two unsupported native-BF16 cases skipped. Earlier
 T4 results retain their original source identities.
@@ -64,21 +68,73 @@ these finite samples does not prove that error budget for every input.
 |---|---|---|
 | Python 3.8.20 / PyTorch 2.0.0, numerical and state suites | 86 passed, 2.90 seconds | Declared version floor on macOS arm64 |
 | Python 3.11.12 / PyTorch 2.14.1, full suite before the final comparator regressions | 575 passed, 25 skipped, 66.19 seconds; 600 collected | Includes all 86 numerical/state cases, real local MPS and Lightning checks; 20 CUDA cases and five solver-dependent tests explicitly skipped |
-| Python 3.11.12 / PyTorch 2.14.1, final safety and mutation-harness tests | 147 passed, 3.40 seconds | 117 safety cases plus 30 mutation-harness cases |
-| Python 3.8.20 / PyTorch 2.0.0, same final safety and mutation-harness tests | 147 passed, 2.96 seconds | Same inventory on the floor |
+| Python 3.11.12 / PyTorch 2.14.1, post-comparator safety and mutation-harness tests | 147 passed, 3.40 seconds | 117 safety cases plus 30 mutation-harness cases |
+| Python 3.8.20 / PyTorch 2.0.0, same post-comparator safety and mutation-harness tests | 147 passed, 2.96 seconds | Same inventory on the floor |
 | Python 3.11.12 / PyTorch 2.14.1, mutation-harness tests after the portability correction | 31 passed, 2.21 seconds | Includes the actual report hook exercised with Windows-style paths |
+| Python 3.11.12 / PyTorch 2.14.1, mutation-harness tests after the source-binding correction | 37 passed, 7.97 seconds | Six additional cases reject evidence-input or scratch-file changes |
+| Python 3.8.20 / PyTorch 2.0.0, same source-binding harness tests | 37 passed, 6.07 seconds | Same guard inventory on the floor |
 
 Four type-comparison regressions were added after the 600-case full run. The
-resulting suite inventory was **604** before the later Windows report-key
-regression described below; it is now **605**. This is not a claim that a final
-605-case run has already passed. Hosted CI results for that inventory are pending. The separate
-147-case runs cover those four additions; they must not be added to the full
-suite count as if they were disjoint tests.
+resulting suite inventory was **604**, then **605** after the Windows report-key
+regression. The archived hosted run below executed the 605-case inventory.
+Six later source-binding regressions bring the inventory to **611**, with **59**
+dedicated proof/audit guard tests (22 plus 37). Those inventory counts do not
+assert a hosted result for a later revision. The separate 147-case runs cover
+the comparator additions; overlapping runs must not be summed as disjoint tests.
 
 The retained [local test archive](correctness-validation-2026-10-21/local-tests.tar.gz)
-contains the full-run log/JUnit, both final helper JUnit files, the floor focused
+contains the full-run log/JUnit, both post-comparator helper JUnit files, the floor focused
 log and relevant source snapshots. JUnit skip records remain visible. Elapsed
 times describe this local execution, not a service-level guarantee.
+
+## Archived hosted execution
+
+[Run 39666786762](https://github.com/Thabhelo/pytorch-dlrs/actions/runs/39666786762)
+completed successfully on head `23c84133440b8071ea541fbdf8b6a8fca6773c66`:
+13 jobs passed and the release-only PyPI publication job was skipped. All nine
+matrix cells collected 605 cases, with no failures or errors. The
+[complete receipt](correctness-validation-2026-10-21/ci-39666786762-summary.json)
+retains each skipped test and its reason, observed Python/PyTorch versions,
+artifact identities and package-install evidence.
+
+| Hosted cell at the recorded head | Passed | Explicitly skipped |
+|---|---:|---:|
+| macOS, Python 3.12 / PyTorch 2.14.1 | 576 | 29 |
+| Ubuntu 22.04, Python 3.8 / PyTorch 2.0.0 | 564 | 41 |
+| Ubuntu 22.04, Python 3.9 / PyTorch 2.4.1 | 570 | 35 |
+| Ubuntu, Python 3.10 / PyTorch 2.5.1 | 570 | 35 |
+| Ubuntu, Python 3.11 / PyTorch 2.6.0 | 570 | 35 |
+| Ubuntu, Python 3.12 / PyTorch 2.14.1 | 570 | 35 |
+| Ubuntu, Python 3.12 / latest PyTorch, resolved to 2.14.1+cpu | 570 | 35 |
+| Ubuntu, Python 3.14 / PyTorch 2.14.1 | 570 | 35 |
+| Windows, Python 3.11 / PyTorch 2.6.0 | 570 | 35 |
+
+All cells skipped 20 CUDA cases, five optional Z3 tests and four optional
+Lightning tests. Linux and Windows additionally skipped six MPS cases; the
+PyTorch 2.0 floor skipped six CPU GradScaler cases because the required API was
+absent. The dedicated Lightning job passed all four cases. The dedicated
+correctness job passed **53 guard tests**, all **25 mathematical obligations**
+and the **14-mutation campaign**. Those separate checks close their stated
+coverage only; skips elsewhere remain skips.
+
+Both the wheel and source distribution separately passed **570 cases with 35
+explicit skips** on Python 3.11.17 / PyTorch 2.6.0+cpu. Tests ran from an extracted
+source tree after its `dlrs` package directory was removed; the isolated import
+probe resolved the installed package under `site-packages`. Both packaged core
+copies match commit `2ff033d66d49b0adc994d30b00dfd23dfb6664d0` byte-for-byte.
+
+| Hosted distribution | SHA256 |
+|---|---|
+| Wheel | `a1358e5bbd84f7ec59e76ab78bf73ed773a5367362a818cc1086e7bb5e1981b6` |
+| Source distribution | `bae2df9c96b1fec3775df19f803ba1aa8651d94a8e7f418a3271e208c9591330` |
+
+All 13 downloaded artifact ZIP digests match GitHub's API digests. The
+[CI archive](correctness-validation-2026-10-21/ci-39666786762.tar.gz) preserves
+those raw ZIPs, official run logs, API metadata and the receipt. Its layout record
+describes extraction into the paths named by the receipt. This is an archived
+result for the stated head, not a claim that the later 611-case inventory or
+59-guard job has already passed. Later exact-revision outcomes are available in
+the [PR checks](https://github.com/Thabhelo/pytorch-dlrs/pull/4/checks).
 
 ## Solver-checked mathematical obligations
 
@@ -145,7 +201,8 @@ mutated source, selected test identities, raw log and structured test report.
 |---|---|---|---|
 | [Initial summary](correctness-validation-2026-10-21/mutation-initial-summary.json) | 36 passed | 13 / 1 / 0 | 35.39 seconds |
 | [After the comparator correction](correctness-validation-2026-10-21/mutation-final-summary.json) | 36 passed | 14 / 0 / 0 | 36.97 seconds |
-| [Final portable harness](correctness-validation-2026-10-21/mutation-portable-final-summary.json) | 36 passed | 14 / 0 / 0 | 37.80 seconds |
+| [After the portability correction](correctness-validation-2026-10-21/mutation-portable-final-summary.json) | 36 passed | 14 / 0 / 0 | 37.80 seconds |
+| [After canonical source binding](correctness-validation-2026-10-21/mutation-bound-final-summary.json) | 36 passed | 14 / 0 / 0 | 44.36 seconds |
 
 The initial survivor was `checkpoint_applied_before_validation`: the deliberately
 broken loader committed epoch metadata before validating a checkpoint. Its
@@ -162,19 +219,41 @@ relative test paths with Windows backslashes while selectors used forward
 slashes. The harness now normalizes those report keys with `as_posix()`. A
 regression executes the actual report hook using Windows-style paths. Its
 31-case harness suite passed, and a third campaign again detected all 14
-mutations. Production source and mutation definitions were unchanged. This
-local simulated-path check does not replace the pending hosted Windows run.
+mutations. Production source and mutation definitions were unchanged. The
+archived 605-case Windows run subsequently passed with that regression included.
+
+A further audit found a provenance weakness: each fresh scratch copy supplied
+its own expected hashes. A helper or test changed in retained evidence inputs
+after the passing baseline could therefore become a new accepted expectation,
+even though it differed from the original protocol. This could affect future
+runs; it is not evidence that a saved campaign was corrupted. Independent
+[reconstruction of the historical campaigns](correctness-validation-2026-10-21/canonical-history-verification.json)
+checked their retained input and scratch bytes, recorded imported-source/test
+identities and exactly declared mutations against each frozen protocol. All
+three original local campaigns and the archived hosted campaign matched.
+
+The corrected harness derives expected hashes from the original in-memory
+snapshot plus only the declared scheduler mutation. It checks complete retained
+input and scratch-file inventories before and after every case. Changes,
+missing files or unexpected plugins make the result inconclusive; a resulting
+assertion failure cannot count as detection. Six new regressions cover these
+paths. The fourth campaign passed its 36-case baseline and detected all 14
+mutations, with all **60 per-case before/after integrity checks** successful,
+all **236 original manifest entries** verified and live/snapshot inputs unchanged.
+The production core and mutation definitions remain unchanged.
 
 The mutations exercise factor selection, loss direction, group-specific rates,
 decimal decades, frozen zero, both clamps, validation timing, checkpoint rate
 restoration, snapshot aliasing, wrapper history and maximum-mode direction.
 This is a targeted sensitivity check, not an exhaustive mutation score or an
 independent proof of correctness. Passing the selected mutants cannot rule out
-an untested defect or a mistaken specification. All three complete campaigns remain
+an untested defect or a mistaken specification. All four complete campaigns remain
 available as [initial](correctness-validation-2026-10-21/mutation-initial.tar.gz),
-[post-comparator](correctness-validation-2026-10-21/mutation-final.tar.gz) and
-[portable-final](correctness-validation-2026-10-21/mutation-portable-final.tar.gz)
-archives. The last also contains the portability test source and JUnit result.
+[post-comparator](correctness-validation-2026-10-21/mutation-final.tar.gz),
+[portable](correctness-validation-2026-10-21/mutation-portable-final.tar.gz) and
+[source-bound](correctness-validation-2026-10-21/mutation-bound-final.tar.gz)
+archives. The latter includes the current harness/test source and both 37-case
+guard JUnit results; earlier snapshots remain unchanged.
 
 ## Cost, reproduction and remaining gates
 
@@ -212,7 +291,9 @@ The dedicated CI job installs the pinned optional solver, runs the proof CLI and
 the harness regression tests, then runs the mutation CLI. Failure propagates to
 the build dependency; raw queries and mutation reports are retained even on
 failure. The runtime compatibility matrix remains separate. This describes the
-configured checks; hosted execution of this revision is still pending.
+configured checks. The archived hosted result above is pinned to its exact head;
+subsequent exact-revision execution is tracked in the PR checks, without rewriting
+historical receipts or implying that test inventories are executed passes.
 
 To reproduce in a development environment containing the package test
 dependencies and `z3-solver==5.3.1.0`, choose new output directories:

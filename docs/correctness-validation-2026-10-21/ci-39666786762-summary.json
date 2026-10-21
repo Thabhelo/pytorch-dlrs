@@ -1,0 +1,2769 @@
+{
+  "artifacts": [
+    {
+      "api_digest_matches": true,
+      "bytes": 9036,
+      "id": 12378440397,
+      "members_sha256": {
+        "pytest-results.xml": "5fbc139c7f8a8e979ffefd95b50691c3d1fa390895d0317a94bc304f54ff9f33"
+      },
+      "name": "tests-ubuntu-latest-py3.12-torchlatest",
+      "sha256": "86212264b544e4caa0d089ff53c6b99c2276f702d91a2695d6ca03a36e805c06"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 9043,
+      "id": 12378086465,
+      "members_sha256": {
+        "pytest-results.xml": "f527ce48729df7af65543806ecfe795a628d1da97f08f080c2d2be9433ff3096"
+      },
+      "name": "tests-ubuntu-latest-py3.12-torch2.14.1",
+      "sha256": "a8134ea3ee8c05537cbb7502aa78eab6ee135b05d614bf138c18e84fecc76504"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 9049,
+      "id": 12377906636,
+      "members_sha256": {
+        "pytest-results.xml": "03ae1cf777c340342d09d17d6927f1ccbf5bb477318ad5e4aabb7a94a42588bb"
+      },
+      "name": "tests-ubuntu-latest-py3.10-torch2.5.1",
+      "sha256": "8e9a275ded10d931fedd89e5ea846e04e11412464e37e8fffce276e24ff04418"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 9002,
+      "id": 12377744195,
+      "members_sha256": {
+        "pytest-results.xml": "784dbdd54dd8384faa1d2593036479401a4866463c999f5d193861335011315e"
+      },
+      "name": "tests-ubuntu-latest-py3.14-torch2.14.1",
+      "sha256": "ad0debb93163f09d8ebddbc169176e900070d5aca4e5ae49ae853b700ba98477"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 9133,
+      "id": 12377204769,
+      "members_sha256": {
+        "pytest-results.xml": "173fce2b5baa9fe1a569fb41376e3e84b795a6090274e7ef1b91d0b285c5c97a"
+      },
+      "name": "tests-windows-latest-py3.11-torch2.6.0",
+      "sha256": "a5ae8d3ae0a4165e611a62002d77fb5593077b9323b29bd3bd101f8622750140"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 551805,
+      "id": 12377053374,
+      "members_sha256": {
+        "contract-proofs/clamp_idempotent-assumptions.smt2": "8e1ed8aedbacabe41d56d945ba23b712259866ecfc8f7de6a793fb1599fc14eb",
+        "contract-proofs/clamp_idempotent-negation.smt2": "3e82a9421a200ebe253d442c4e158aa8dbefa0616e79a1d35dc3c5044b202df2",
+        "contract-proofs/delta_always_positive-assumptions.smt2": "1c9b87e500511cf61f91415da061b12d59e8150adff685ef00763daa403a0523",
+        "contract-proofs/delta_always_positive-negation.smt2": "9472e460dbada02fbcf209f2b2158d43d7be64f4bf436833faa3b6760549490a",
+        "contract-proofs/delta_diverging-assumptions.smt2": "6411f81dfd2758383d2cd34f0230be65bd47870a41b480584700277139e51b64",
+        "contract-proofs/delta_diverging-negation.smt2": "d1222fdc8e9f54b55deaa52df6ce810d660f9a85cb6432ffee587abd4064f6b1",
+        "contract-proofs/delta_equality_at_one-assumptions.smt2": "f32bd39b5d90889b62773bb2d1faeaa0d9f7be8e62c2022eab3e74535d9da6cf",
+        "contract-proofs/delta_equality_at_one-negation.smt2": "be8c56477b333b39b902edc0db8933e5962e5193592144c677002c3bde39aee4",
+        "contract-proofs/delta_improving-assumptions.smt2": "cbebfd58642236a64a00ad44c7702fbcc3090ff6e7a3711e503e8afa22ab0a2c",
+        "contract-proofs/delta_improving-negation.smt2": "983f9bfaa367a325afb725f2bd48bf29e2ec820ea366f11340c1713373989adb",
+        "contract-proofs/delta_middle-assumptions.smt2": "8d04bc4b0d4cad2cd8769e08a1a9ca3afcc4aa85b4dad6ffab585c811b5ffa81",
+        "contract-proofs/delta_middle-negation.smt2": "c4d4fc9677c484b6d75583e946a9e64c5a003d6eee2f910e95c4a59a1db62ea0",
+        "contract-proofs/group_locality-assumptions.smt2": "009e5474706c33c13b504ae7607e22c0d7e94ea28dd3de665a87b6000c482170",
+        "contract-proofs/group_locality-negation.smt2": "f62fb3509b52478fd3bbfe5c03620ceeb8b1b6e6cafca84068b0723877b18b3d",
+        "contract-proofs/in_bounds_nondecrease-assumptions.smt2": "f9eb0dc268ec18ee9699e304dadc989828e3a23922827e6b5a0154d770db0500",
+        "contract-proofs/in_bounds_nondecrease-negation.smt2": "f285ed14b497aadf18cdcea149df78c7e85ddc10fd52b1853b47c8e155254d52",
+        "contract-proofs/in_bounds_nonincrease-assumptions.smt2": "65049c0391a7ccd07c28876092c1fb2a43a3c7e0fd9505afd6f7f03931c87258",
+        "contract-proofs/in_bounds_nonincrease-negation.smt2": "d72bbdffe5b6b75cbc55d7cb4476c009b5e30c099f89b38eecb873879fdc5060",
+        "contract-proofs/in_bounds_zero_slope_identity-assumptions.smt2": "e30acabe9836c79f14980d7152c1d8f34025bede78384ea866dd194ac906bbc8",
+        "contract-proofs/in_bounds_zero_slope_identity-negation.smt2": "4faa8cee5852e5042d264794ce991a1bd6fe1e14b33b0cf0ad2f6ffbd3385984",
+        "contract-proofs/lower_only_clamp_bound-assumptions.smt2": "eab983c25161d8aef5d822f3365266f332b2735b7ae09cae9e5883c8d1db66bd",
+        "contract-proofs/lower_only_clamp_bound-negation.smt2": "ea8319575bf3349d9e1ffb6b59e3f7cd7a3a3f7e6ccb5df27cf1ba8f4fd8ae28",
+        "contract-proofs/lower_only_in_bounds_nondecrease-assumptions.smt2": "3e8d7139637b3a0cfbd2dde50c38dc99af475022d654d430c0059a6e8a4fdddb",
+        "contract-proofs/lower_only_in_bounds_nondecrease-negation.smt2": "1792bee63b6a0fe727f0c86033e9725cc6ad16ebdaba84bca03bda826a0418c9",
+        "contract-proofs/lower_only_in_bounds_nonincrease-assumptions.smt2": "5d4a7a9b4b36fbc052c3bdc8351c6c65ff5776a590902ee42b5d00ab001e5b43",
+        "contract-proofs/lower_only_in_bounds_nonincrease-negation.smt2": "f8fc1fb5bc45e796912443f55d7e952dbb09ae8b9d2575a89015c771826e10c7",
+        "contract-proofs/max_mode_reverses_slope-assumptions.smt2": "17aded217b650348ae543f6dcf24bc23ac0b20b1ff213aef3f40c21a9f4a1678",
+        "contract-proofs/max_mode_reverses_slope-negation.smt2": "1829bc98e91dbd6c99ec8065816165eac0c6611fc1e0209499eeefdf901dfda3",
+        "contract-proofs/positive_loss_scaling-assumptions.smt2": "6800327d34be1eec95c57ce5a6043472a0745e655fbbee8ee0ac8691548a4d15",
+        "contract-proofs/positive_loss_scaling-negation.smt2": "110c300596d87dbd5126074f27917938e2773cac4ca6430cd492894f4ee7f447",
+        "contract-proofs/relative_unclamped_adjustment_bound-assumptions.smt2": "0329859d6ae744a1f4b2732305e2d2f0aa1c9fe2d0166ab29009463a887b5426",
+        "contract-proofs/relative_unclamped_adjustment_bound-negation.smt2": "1d159f0f87e43e8505662e6f3584f88dffd753f9dd731e5d9178c5d84cb5bd5f",
+        "contract-proofs/report.json": "a5a6234f839dcf99f4e065e73200f0c27e04eea32e1a093a1a84905d0daa0fb4",
+        "contract-proofs/slope_bounds-assumptions.smt2": "5e20c8f40aede000928dc4743569599b30c3d612c0c90a1c79fee0d9836badb4",
+        "contract-proofs/slope_bounds-negation.smt2": "221b1ce92bfbc10691364b2e9b1ff91a284471c2e9721b1faa68f87a9b06afc9",
+        "contract-proofs/slope_endpoint_sign-assumptions.smt2": "5e20c8f40aede000928dc4743569599b30c3d612c0c90a1c79fee0d9836badb4",
+        "contract-proofs/slope_endpoint_sign-negation.smt2": "7008f8788405cc28501aca93de54ac6e63f1619520834f019a44106f5c82a149",
+        "contract-proofs/two_sided_clamp_bounds-assumptions.smt2": "400ac93a5724670b7ea98e89582d77e0839c62210c8e7110b3630675d6b801e8",
+        "contract-proofs/two_sided_clamp_bounds-negation.smt2": "1a0b2c9493300662cac7a4d839a4f6a9194d1b32debf2ea23363dfb91728cd20",
+        "contract-proofs/unclamped_negative_slope_increases-assumptions.smt2": "cd1012130f3ce73b6f47500ba0be621ba2dbf1d471b38d029180ce63051060bc",
+        "contract-proofs/unclamped_negative_slope_increases-negation.smt2": "fa9978423f333ecfaf665733b52f35f0153656ab62e4bfb0c5ec5cb985f085b5",
+        "contract-proofs/unclamped_positive_slope_decreases-assumptions.smt2": "c0a6a96da67d71f92e21343fa741d32bf34f373b9b12b8f654e6ad3802163a3f",
+        "contract-proofs/unclamped_positive_slope_decreases-negation.smt2": "f4e6412db1f73607381331e59d40a8218045d72d4338f49a83b29b10b14cdd0e",
+        "contract-proofs/window_length_base-assumptions.smt2": "82a0ef59482fddb0257b8ad90ca4d8071692dadbc07ae83f191fd6b7b691c9a0",
+        "contract-proofs/window_length_base-negation.smt2": "ce44d9f055d48b9c2efe83367393385e4e21e99b570480f1f6ab6199b05314c5",
+        "contract-proofs/window_length_inductive_step-assumptions.smt2": "330ac9b18700b7a0ccd116716ec388ea2aa095ca59118e09f58c342b58ac47a4",
+        "contract-proofs/window_length_inductive_step-negation.smt2": "8c37118072d3244dc69598aed1654dc2b91a964a6d293d54bf4d81afd019f85d",
+        "contract-proofs/window_length_saturates-assumptions.smt2": "a5fde35f8de6d08919c0bfd2ea28153339ec052ce367a0dd0d87607f753afbed",
+        "contract-proofs/window_length_saturates-negation.smt2": "78ab028b759dd40255ddde9e418313ad61c2fd6f5590caef5d85276c10b1aff4",
+        "contract-proofs/zero_rate_frozen-assumptions.smt2": "bcf0db8c5d2d42c659bd09aba1661283c06ba5d5b42889eb38533bfaa6ad49ec",
+        "contract-proofs/zero_rate_frozen-negation.smt2": "83facb814eff0e7da80a84c811edcd919988a161053360fa3fb096e3b80ec08d",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/command.json": "42ddef4d88d8e5fffd1e191ec45c5853ab3b4fefc32910c849f0dfcf9ed27501",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/pytest-report.json": "4c6710f66d893699abcee8e6faf77b6fa7d5dcbf31a8eb59d649be45016d417f",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/pytest.log": "a94592c3a41ba9389e7354ea96d147c6751c57941e6c7ae0888a4392a36b292b",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/result.json": "34721c805065f4064ec25cf43e5e45aeef9108746dc056ebf4ff4b1ce0ca1b81",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/scratch/dlrs/scheduler.py": "b5d4990c3ffb89f7e08d6f043df74194a1e9833932cbb29d17411a3a8f67be8c",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/aliased_tensor_rate_snapshot/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/baseline/command.json": "61627d962b8edef180316c5e00719a19f1d355522622fe7f64c8933a411028ee",
+        "mutation-audit/cases/baseline/pytest-report.json": "78cc4cd411c184f91c42cf845246ac20048ce9c09b7fe8d2823b0c2d5cf754c7",
+        "mutation-audit/cases/baseline/pytest.log": "9908e84ede8afeebecf775cbc1499c11c18a839db4c25991750f31b331826064",
+        "mutation-audit/cases/baseline/result.json": "7ad5869433213077b39b36e22fd4c2b94f0ea6732f2631278a19e934ad2d3418",
+        "mutation-audit/cases/baseline/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/baseline/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/baseline/scratch/dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
+        "mutation-audit/cases/baseline/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/baseline/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/baseline/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/baseline/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/baseline/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/baseline/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/baseline/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/checkpoint_applied_before_validation/command.json": "518be5f4224e613f29e64672af1bb044adf8f6cda6611783f2a0a593a3e296bb",
+        "mutation-audit/cases/checkpoint_applied_before_validation/pytest-report.json": "fac14ec76186ae78ff1cfb204150d6417c9a80717620d7f499eac5e95868d1e7",
+        "mutation-audit/cases/checkpoint_applied_before_validation/pytest.log": "6aeecbd1b9cffa8e57b602a1dda70aad04ab69a3858e4abc89bed2abb50e9415",
+        "mutation-audit/cases/checkpoint_applied_before_validation/result.json": "5310b4c3fbdf26ec331992ef3a6714f06d9fe7a494b627e34a5e1a3e5091d6fa",
+        "mutation-audit/cases/checkpoint_applied_before_validation/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/checkpoint_applied_before_validation/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/checkpoint_applied_before_validation/scratch/dlrs/scheduler.py": "3801948add87d3d8437ffea1416100448a330aa9988343acaaf5ff253643e244",
+        "mutation-audit/cases/checkpoint_applied_before_validation/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/checkpoint_applied_before_validation/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/checkpoint_applied_before_validation/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/checkpoint_applied_before_validation/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/checkpoint_applied_before_validation/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/checkpoint_applied_before_validation/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/checkpoint_applied_before_validation/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/command.json": "f4c80a1986fe1fefa83a3b4f1f92e82cec4d4162f31be3e86acf43d99f38da0a",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/pytest-report.json": "b278860985135c3dbf24593045bbea234f42b0bb39157e19c1603a29e75ce529",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/pytest.log": "70d82d427a9f5313ac0a719bf507d6543ffb143205bee2696c64a6b7b93f10dc",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/result.json": "10a32bf59073c58803ced0ea4d40c081206d4e38596462a694780a448bea8d08",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/scratch/dlrs/scheduler.py": "7f1047c0973acbbbe9263159b9900803496e68813188c12fe474a89ddd22de59",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/checkpoint_does_not_restore_rates/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/ignore_max_mode/command.json": "ef2cb81d2a90d9174398fbb956ad448775e94b5036d5c6c444a3b2470113b8f9",
+        "mutation-audit/cases/ignore_max_mode/pytest-report.json": "1634268f6eb665345828095391c7d39b39c68d3c8bdcf43c63899ca69ee6ef07",
+        "mutation-audit/cases/ignore_max_mode/pytest.log": "e96ac22fcda53a9bfec1b08b9cdb419b193df9c5e754fff10502e79da6226f8b",
+        "mutation-audit/cases/ignore_max_mode/result.json": "99b7f3266875dc5a1dd72e3dcbba69152b686d329feb0c84b179a71c0c93ed02",
+        "mutation-audit/cases/ignore_max_mode/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/ignore_max_mode/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/ignore_max_mode/scratch/dlrs/scheduler.py": "acc4fad87b271228dc924abd0b45cc080ed6b5cd44c68babb314e1d9b189fba9",
+        "mutation-audit/cases/ignore_max_mode/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/ignore_max_mode/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/ignore_max_mode/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/ignore_max_mode/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/ignore_max_mode/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/ignore_max_mode/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/ignore_max_mode/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/invalid_input_changes_epoch/command.json": "5f644eff8b8f041dfadd00d18c05800426de071d4b076f6b4392821dd108c604",
+        "mutation-audit/cases/invalid_input_changes_epoch/pytest-report.json": "51db594f0cac3b91783c4fbb79fad819aba68900db316eac845538383eb68874",
+        "mutation-audit/cases/invalid_input_changes_epoch/pytest.log": "bd0d40ced18c73f56865e74f26aff659d9892f66641d8754cdfd404b6e8914e1",
+        "mutation-audit/cases/invalid_input_changes_epoch/result.json": "00d29db646aa221222308491d377658b4868832747c19e984e5e80eecad64564",
+        "mutation-audit/cases/invalid_input_changes_epoch/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/invalid_input_changes_epoch/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/invalid_input_changes_epoch/scratch/dlrs/scheduler.py": "00499daa0ea7509cf54f7c3bded630ca260b1c19be2c0ae414e583371f72523b",
+        "mutation-audit/cases/invalid_input_changes_epoch/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/invalid_input_changes_epoch/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/invalid_input_changes_epoch/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/invalid_input_changes_epoch/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/invalid_input_changes_epoch/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/invalid_input_changes_epoch/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/invalid_input_changes_epoch/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/remove_maximum_bound/command.json": "f4ccf0950414b390a976a6cd3bb96c5e569fd31b5f012aad5c2819e042a4b277",
+        "mutation-audit/cases/remove_maximum_bound/pytest-report.json": "b1217bde3aaab3bf45c2bf37d1f5da2f08aaabc12af9cb7db68dc16b40e037f7",
+        "mutation-audit/cases/remove_maximum_bound/pytest.log": "fb1b4131fbd4aea2d7a5e6bd03520dc130967d1ea1ca80fbf6437c48b4455c49",
+        "mutation-audit/cases/remove_maximum_bound/result.json": "c940c855c2f648385caf3512ff9f7142b61d5702faaf5df24ceb08678add64ce",
+        "mutation-audit/cases/remove_maximum_bound/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/remove_maximum_bound/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/remove_maximum_bound/scratch/dlrs/scheduler.py": "f00bcd27491e44e4403455dbcbccf2360034ee506e2397c99c02b209388a17ae",
+        "mutation-audit/cases/remove_maximum_bound/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/remove_maximum_bound/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/remove_maximum_bound/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/remove_maximum_bound/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/remove_maximum_bound/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/remove_maximum_bound/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/remove_maximum_bound/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/remove_minimum_bound/command.json": "af700b98d21c51e7dda4c341d552bfc72df9f177c961e2ae2b7a4abd5fee092f",
+        "mutation-audit/cases/remove_minimum_bound/pytest-report.json": "e939d43ca77b81919096aedc6a45448bb13f4b23cd6ae57c1d1a1aa87c5ab750",
+        "mutation-audit/cases/remove_minimum_bound/pytest.log": "6dfbbd1a1fd89ddd811b74df785e33e7590fb8c492fee874e41495594d821a31",
+        "mutation-audit/cases/remove_minimum_bound/result.json": "6b28fbd7e28036c86805e4a723686b718b602727b622dd120922b3730b8c221f",
+        "mutation-audit/cases/remove_minimum_bound/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/remove_minimum_bound/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/remove_minimum_bound/scratch/dlrs/scheduler.py": "c965ee99072b409028fa99b53b34d87712ee74cc4c09ea6f536cdc781c519cec",
+        "mutation-audit/cases/remove_minimum_bound/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/remove_minimum_bound/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/remove_minimum_bound/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/remove_minimum_bound/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/remove_minimum_bound/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/remove_minimum_bound/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/remove_minimum_bound/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/reuse_first_group_rate/command.json": "c74ea3ece2f9b232d1adbcbbdbf50a6d994ab81c6f932ebd01658412a0207403",
+        "mutation-audit/cases/reuse_first_group_rate/pytest-report.json": "c59e91efbfc60fa1dea1c9054e7deb29e263a44587a3ee6d5fd368085fad0f12",
+        "mutation-audit/cases/reuse_first_group_rate/pytest.log": "1fbcd0843c9bc82768f0b47737fde29a78425e791335a717d5a7841ad1a1e83a",
+        "mutation-audit/cases/reuse_first_group_rate/result.json": "7269e8547d1d3c2ca2c9b0b7d7a3748167a01b30fdf986076e50401cc0e9935e",
+        "mutation-audit/cases/reuse_first_group_rate/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/reuse_first_group_rate/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/reuse_first_group_rate/scratch/dlrs/scheduler.py": "5c87ade4c86f785a51b83c26efe03e69f73c4ac6ad96bb86a99dc101e98f121f",
+        "mutation-audit/cases/reuse_first_group_rate/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/reuse_first_group_rate/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/reuse_first_group_rate/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/reuse_first_group_rate/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/reuse_first_group_rate/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/reuse_first_group_rate/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/reuse_first_group_rate/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/reverse_loss_direction/command.json": "d59cf925ef3907038ce307a1bc4f332fecd5e5e8e9b5d8db3f16ade47d2aca2b",
+        "mutation-audit/cases/reverse_loss_direction/pytest-report.json": "84040af38227d5342cca0812af2fd75e482d8fa430d5f884434b1e46d1abd273",
+        "mutation-audit/cases/reverse_loss_direction/pytest.log": "608d3e65f7a741db8586b46ef91862ea9b849e2d2a282ac9dd4650c87d1b87b2",
+        "mutation-audit/cases/reverse_loss_direction/result.json": "fdabc86096edf5306943dd2893e3a5abaf33307f57967addd0e0b50035d6aa13",
+        "mutation-audit/cases/reverse_loss_direction/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/reverse_loss_direction/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/reverse_loss_direction/scratch/dlrs/scheduler.py": "cc673bb9957b01f04d3874808909d3f7e0711cb4c3dccae6fef34de29c71a15d",
+        "mutation-audit/cases/reverse_loss_direction/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/reverse_loss_direction/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/reverse_loss_direction/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/reverse_loss_direction/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/reverse_loss_direction/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/reverse_loss_direction/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/reverse_loss_direction/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/rounded_decade/command.json": "7790ebb8a7112b3fdbbba05021ab605b983a6eb2166a245e18490539c42f4966",
+        "mutation-audit/cases/rounded_decade/pytest-report.json": "04287b0f51825bf07e070fffd11c183f51c253e4dd6062d6f640f018fc9c7ad7",
+        "mutation-audit/cases/rounded_decade/pytest.log": "1767ee29922957d99e4e55f9306730f084a49b2edcb41f4e7ddf6638b09067fa",
+        "mutation-audit/cases/rounded_decade/result.json": "715b0974171e1e1457126ce7288134dad6e927007a6e71322685a884bb9e0df9",
+        "mutation-audit/cases/rounded_decade/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/rounded_decade/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/rounded_decade/scratch/dlrs/scheduler.py": "aeb2a83b92d3a9688d0b33ba6472b86d470a75dc258635555474f9691eb383b6",
+        "mutation-audit/cases/rounded_decade/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/rounded_decade/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/rounded_decade/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/rounded_decade/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/rounded_decade/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/rounded_decade/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/rounded_decade/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/shallow_checkpoint/command.json": "41c485261bc11ea7d04b2989d0afd0a1679554b1a2dccdd0631f6656030ae157",
+        "mutation-audit/cases/shallow_checkpoint/pytest-report.json": "24bd08db0462c9b66558a2fc346ffa68326ef574c407179c7f7808225bb40861",
+        "mutation-audit/cases/shallow_checkpoint/pytest.log": "a8dc10f9db9f21daaef7b544d72745c32066381d5168a7a89f8610fac1bd44fd",
+        "mutation-audit/cases/shallow_checkpoint/result.json": "1937e9079fa0d581a91ca3e6d726fc46a14740c4c60ec373ddd639a6e5158128",
+        "mutation-audit/cases/shallow_checkpoint/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/shallow_checkpoint/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/shallow_checkpoint/scratch/dlrs/scheduler.py": "03ee93b51de8ecbabf82c686d68acdfab5313a4a483eb5aad1f91eb50081b148",
+        "mutation-audit/cases/shallow_checkpoint/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/shallow_checkpoint/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/shallow_checkpoint/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/shallow_checkpoint/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/shallow_checkpoint/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/shallow_checkpoint/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/shallow_checkpoint/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/slope_one_wrong_factor/command.json": "01f56d520a796b25c0034061fc964baa2526841bbc8a1ca26bed54b09c709275",
+        "mutation-audit/cases/slope_one_wrong_factor/pytest-report.json": "efe2a567246e3064351bcd1b18e94ec60c4e97192e018e8ded2c3210965bd66c",
+        "mutation-audit/cases/slope_one_wrong_factor/pytest.log": "0481e870a3b1157e65889bef31744796d251f99cd4fd6b464942946a61c380aa",
+        "mutation-audit/cases/slope_one_wrong_factor/result.json": "8d923afdef3f8a618487f5fdd44590f4acf395970519ace9c33a5da6d6d528cc",
+        "mutation-audit/cases/slope_one_wrong_factor/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/slope_one_wrong_factor/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/slope_one_wrong_factor/scratch/dlrs/scheduler.py": "ffdf57b35603622cfd5463b36ad1dc0a96ee3bb7cb46fc3206ba367655f4442b",
+        "mutation-audit/cases/slope_one_wrong_factor/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/slope_one_wrong_factor/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/slope_one_wrong_factor/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/slope_one_wrong_factor/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/slope_one_wrong_factor/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/slope_one_wrong_factor/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/slope_one_wrong_factor/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/unbounded_metric_history/command.json": "2c89f2ee893608e647aaba2ee17ca5f65abf31ad9006f44f8f8075865d100dfb",
+        "mutation-audit/cases/unbounded_metric_history/pytest-report.json": "4fc5e819fb36e3196d93417594c7badee66441dfe50112f7a02a3fb039157933",
+        "mutation-audit/cases/unbounded_metric_history/pytest.log": "7dc59405233f375c17adb312d375a8df629f0290841a35e8e7777bb909e28bfe",
+        "mutation-audit/cases/unbounded_metric_history/result.json": "38a729f4768b40a04e1ce5478b1d0b0f54678f8a8ed46d1de8ffaa9264641069",
+        "mutation-audit/cases/unbounded_metric_history/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/unbounded_metric_history/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/unbounded_metric_history/scratch/dlrs/scheduler.py": "e8b0a2e66643bd622df5724ce18aad4e4e8b6076fbe29a779e76f21ae3900d9b",
+        "mutation-audit/cases/unbounded_metric_history/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/unbounded_metric_history/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/unbounded_metric_history/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/unbounded_metric_history/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/unbounded_metric_history/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/unbounded_metric_history/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/unbounded_metric_history/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/cases/unfreeze_zero_rate/command.json": "e36f991255b83c9b9fc0008d0582748360a40c6883e5dffc1269afccd07c7fa6",
+        "mutation-audit/cases/unfreeze_zero_rate/pytest-report.json": "e5f6772437328057eb03417d07f7a2d45889365703fb171300c43dfd5d711dc4",
+        "mutation-audit/cases/unfreeze_zero_rate/pytest.log": "06259aaf05f2efd016c3962c5be8ef3944c0ab8fec1318a268b948411def33d2",
+        "mutation-audit/cases/unfreeze_zero_rate/result.json": "c708ce997fd0a8fc9b8a576dcbf67e7d4b10be12ebd828a932de0b47db27cbee",
+        "mutation-audit/cases/unfreeze_zero_rate/scratch/audit_report.py": "9d11cb783f749068fc1e8d802da4437343aa764a259dc5b1f276a603ff154945",
+        "mutation-audit/cases/unfreeze_zero_rate/scratch/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/cases/unfreeze_zero_rate/scratch/dlrs/scheduler.py": "762a181e024a141dc546d6b2be267ed967aef0ffcd552893dc9874b56f7c3d6f",
+        "mutation-audit/cases/unfreeze_zero_rate/scratch/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/cases/unfreeze_zero_rate/scratch/pytest.ini": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+        "mutation-audit/cases/unfreeze_zero_rate/scratch/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/cases/unfreeze_zero_rate/scratch/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/cases/unfreeze_zero_rate/scratch/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/cases/unfreeze_zero_rate/scratch/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/cases/unfreeze_zero_rate/scratch/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/file-sha256.json": "4f20a090da8cb004fbf421ecede761fd4bf4f240baea7dfe772d260d350a84d6",
+        "mutation-audit/harness.py": "b026668d7944caeb7dbb91819607eb0c7bbfde95fb420098ba321eb43210ec3c",
+        "mutation-audit/inputs/dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+        "mutation-audit/inputs/dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
+        "mutation-audit/inputs/dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b",
+        "mutation-audit/inputs/tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
+        "mutation-audit/inputs/tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
+        "mutation-audit/inputs/tests/test_scheduler.py": "237d00179326cfe76101fb5d216b8e5cc138401bd792e7b61944abe2e47909b1",
+        "mutation-audit/inputs/tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730",
+        "mutation-audit/inputs/tests/test_training_contract.py": "0bec22718e5296973ce3a6917880db73587fdcdc5b16d3d2c0ca007d902ef9de",
+        "mutation-audit/protocol.json": "b20c1621808e46138236547408d7f262d21d99d3fed2a34bc5928ff1d34461e2",
+        "mutation-audit/summary.json": "c9baba7b68b8d753dc76bfe54d8ff619b7fa79f8d5547c25462baa0c39e14229"
+      },
+      "name": "correctness-audit",
+      "sha256": "bb6d0166b7607793ff37c5f0efb29076f9647da6c4fd430431e2a9b7fc8ac97e"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 9066,
+      "id": 12376923761,
+      "members_sha256": {
+        "pytest-results.xml": "b6c448590bd9fa2cd580316b4c450b87c42e663e762c46cd316b3fc28c66912f"
+      },
+      "name": "tests-ubuntu-22.04-py3.9-torch2.4.1",
+      "sha256": "2b435ae6c5af7a8114c44a659a62a01a61bc2263c6d9065454c7ff3099e4b7ac"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 23101,
+      "id": 12376849353,
+      "members_sha256": {
+        "distributions.json": "2217646f9d3bab199d2142d1890dbc5ac1c13eda82ee533d13708b4141524ddd",
+        "results.json": "a5e47e5a1e890f85b7f86f176ace9c7e2067e1c41624e8ecd9177a409be99301",
+        "sdist-dependencies.log": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+        "sdist-install.log": "62b4b1c8898d20e0864994a1dc591a461941e4629bf43218b29614c182de8d66",
+        "sdist-installed-packages.log": "637f14da8b8eada308a554f9c905b6b41526894961a35a9932208eaf051f41a7",
+        "sdist-probe.log": "b3f587c779ae7cf3918d1289c7d73a424ba0232f3fb7b0b97ef0011a8765a79a",
+        "sdist-tests.log": "c1594ecd79ff61e011cd1e05fa797157ffffaffe5f5d965e9722e6d681e369ba",
+        "sdist-tests.xml": "54b034d8d63323b2aff62653943df84ab3ab2686466cf160b00232b267862bcd",
+        "wheel-dependencies.log": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+        "wheel-install.log": "4c4ae886611ce90f76e00764a96465d71c07c34c022f21684a1cacb3581e58ea",
+        "wheel-installed-packages.log": "637f14da8b8eada308a554f9c905b6b41526894961a35a9932208eaf051f41a7",
+        "wheel-probe.log": "b3f587c779ae7cf3918d1289c7d73a424ba0232f3fb7b0b97ef0011a8765a79a",
+        "wheel-tests.log": "6ad4184ac389bb74d423b90c0615fc2133a54647fa2cd0c672f2307a4d033cb5",
+        "wheel-tests.xml": "4d62c67c36fdb58142d6846ddceb3eb8b1e774b36446d6008d43bc3016a84e6f"
+      },
+      "name": "distribution-validation",
+      "sha256": "8752cd9968e98cd71bc953bc22e53f2207f6759ca2fefbf79e35ac817d82a150"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 9086,
+      "id": 12376798690,
+      "members_sha256": {
+        "pytest-results.xml": "b2866bbad79778e75705498e454e46bc44c28948e6c3195fc551326ffdce9545"
+      },
+      "name": "tests-ubuntu-22.04-py3.8-torch2.0.0",
+      "sha256": "d35e65906600caeffd72ff38ff227e8ce59f5ee096b2f6dbee823c90535ec0d5"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 9382,
+      "id": 12376614776,
+      "members_sha256": {
+        "pytest-results.xml": "d0e8b50906c7e7f13a1cef291654b77e9ff0280bf2e461a5d05fd9a948cc73d9"
+      },
+      "name": "tests-macos-latest-py3.12-torch2.14.1",
+      "sha256": "2f1de6ce67d590fcf1420e46b43716735b4cc0e1af4daedc117eb66575ed94f2"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 1823,
+      "id": 12376583772,
+      "members_sha256": {
+        "coverage.xml": "dfc38bc5ebc86828ce0993a6b09171a7cdbd9bef159d2c11cf3ae2f0e27747d8"
+      },
+      "name": "coverage",
+      "sha256": "fc2f3c9c5c48c974fe746e4811a2e64cf61309e0172f4101d25b0d8ac4097033"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 2196081,
+      "id": 12376424305,
+      "members_sha256": {
+        "pytorch_dlrs-0.3.0.dev0-py3-none-any.whl": "a1358e5bbd84f7ec59e76ab78bf73ed773a5367362a818cc1086e7bb5e1981b6",
+        "pytorch_dlrs-0.3.0.dev0.tar.gz": "bae2df9c96b1fec3775df19f803ba1aa8651d94a8e7f418a3271e208c9591330"
+      },
+      "name": "dist-packages",
+      "sha256": "ca37c5e76afbd089086cb993cf5cba1425e2c3de1b8fa9991edd349719c51f5f"
+    },
+    {
+      "api_digest_matches": true,
+      "bytes": 8981,
+      "id": 12376333813,
+      "members_sha256": {
+        "pytest-results.xml": "9d3782bc4f8561b83e7f33c2f6c6e5f9c32348152a7b27d211bb3f00cb7f6cdf"
+      },
+      "name": "tests-ubuntu-latest-py3.11-torch2.6.0",
+      "sha256": "af8ee4260ae68a72094e293bb8ab624b7c2847961dd32b0d89c83de86b0ddd43"
+    }
+  ],
+  "conclusion": "success",
+  "core_commit": "2ff033d66d49b0adc994d30b00dfd23dfb6664d0",
+  "head_sha": "23c84133440b8071ea541fbdf8b6a8fca6773c66",
+  "installed_distributions": [
+    {
+      "artifact": "pytorch_dlrs-0.3.0.dev0-py3-none-any.whl",
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 35,
+        "tests": 605
+      },
+      "environment": {
+        "package": "/home/runner/work/_temp/dlrs-install/lib/python3.11/site-packages/dlrs",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+        "python": "3.11.17",
+        "runtime_dependencies": [
+          "torch>=2.0.0"
+        ],
+        "torch": "2.6.0+cpu",
+        "version": "0.3.0.dev0"
+      },
+      "kind": "wheel",
+      "parsed_junit": {
+        "collected": 605,
+        "errors": 0,
+        "failures": 0,
+        "passed": 570,
+        "skip_reasons": {
+          "CUDA hardware unavailable": 20,
+          "MPS hardware unavailable": 6,
+          "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+          "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+        },
+        "skipped": 35,
+        "skipped_cases": [
+          {
+            "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+            "kind": "skipped",
+            "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+          },
+          {
+            "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+            "kind": "skipped",
+            "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+          },
+          {
+            "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+            "kind": "skipped",
+            "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+          },
+          {
+            "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+            "kind": "skipped",
+            "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+          },
+          {
+            "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+            "kind": "skipped",
+            "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+            "kind": "skipped",
+            "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[SGD]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[AdamW]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+            "kind": "skipped",
+            "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+            "kind": "skipped",
+            "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+            "kind": "skipped",
+            "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+          }
+        ],
+        "xml": "extracted/distribution-validation/wheel-tests.xml",
+        "xml_sha256": "4d62c67c36fdb58142d6846ddceb3eb8b1e774b36446d6008d43bc3016a84e6f"
+      },
+      "runtime_files_match_core": true,
+      "sha256": "a1358e5bbd84f7ec59e76ab78bf73ed773a5367362a818cc1086e7bb5e1981b6",
+      "source_package_removed": true
+    },
+    {
+      "artifact": "pytorch_dlrs-0.3.0.dev0.tar.gz",
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 35,
+        "tests": 605
+      },
+      "environment": {
+        "package": "/home/runner/work/_temp/dlrs-install/lib/python3.11/site-packages/dlrs",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+        "python": "3.11.17",
+        "runtime_dependencies": [
+          "torch>=2.0.0"
+        ],
+        "torch": "2.6.0+cpu",
+        "version": "0.3.0.dev0"
+      },
+      "kind": "sdist",
+      "parsed_junit": {
+        "collected": 605,
+        "errors": 0,
+        "failures": 0,
+        "passed": 570,
+        "skip_reasons": {
+          "CUDA hardware unavailable": 20,
+          "MPS hardware unavailable": 6,
+          "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+          "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+        },
+        "skipped": 35,
+        "skipped_cases": [
+          {
+            "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+            "kind": "skipped",
+            "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+          },
+          {
+            "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+            "kind": "skipped",
+            "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+          },
+          {
+            "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+            "kind": "skipped",
+            "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+          },
+          {
+            "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+            "kind": "skipped",
+            "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+          },
+          {
+            "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+            "kind": "skipped",
+            "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+            "kind": "skipped",
+            "reason": "CUDA hardware unavailable"
+          },
+          {
+            "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+            "kind": "skipped",
+            "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[SGD]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[AdamW]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+            "kind": "skipped",
+            "reason": "MPS hardware unavailable"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+            "kind": "skipped",
+            "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+            "kind": "skipped",
+            "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+          },
+          {
+            "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+            "kind": "skipped",
+            "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+          }
+        ],
+        "xml": "extracted/distribution-validation/sdist-tests.xml",
+        "xml_sha256": "54b034d8d63323b2aff62653943df84ab3ab2686466cf160b00232b267862bcd"
+      },
+      "runtime_files_match_core": true,
+      "sha256": "bae2df9c96b1fec3775df19f803ba1aa8651d94a8e7f418a3271e208c9591330",
+      "source_package_removed": true
+    }
+  ],
+  "jobs": [
+    {
+      "conclusion": "success",
+      "id": 119453830210,
+      "name": "Lightning CPU train and checkpoint resume",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830468,
+      "name": "ubuntu-22.04 / Python 3.8 / torch 2.0.0",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830515,
+      "name": "ubuntu-latest / Python 3.12 / torch 2.14.1",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830584,
+      "name": "ubuntu-latest / Python 3.12 / torch latest",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830604,
+      "name": "Lint and type check",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830626,
+      "name": "macos-latest / Python 3.12 / torch 2.14.1",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830667,
+      "name": "ubuntu-latest / Python 3.10 / torch 2.5.1",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830668,
+      "name": "Mathematical contract and mutation audit",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830683,
+      "name": "ubuntu-latest / Python 3.14 / torch 2.14.1",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830788,
+      "name": "ubuntu-latest / Python 3.11 / torch 2.6.0",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830792,
+      "name": "ubuntu-22.04 / Python 3.9 / torch 2.4.1",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119453830913,
+      "name": "windows-latest / Python 3.11 / torch 2.6.0",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 119455879532,
+      "name": "Build and install distributions",
+      "status": "completed"
+    },
+    {
+      "conclusion": "skipped",
+      "id": 119457369577,
+      "name": "Publish verified artifacts to PyPI",
+      "status": "completed"
+    }
+  ],
+  "lightning_cases_passed": 4,
+  "limitations": [
+    "Explicit optional/device skips retained; these are not passes.",
+    "Installed package probe verifies site-packages isolation; wheel/sdist bytes match frozen core.",
+    "Formal model, selected mutations and CI are bounded evidence, not universal quality or production safety."
+  ],
+  "matrix": [
+    {
+      "artifact": "tests-macos-latest-py3.12-torch2.14.1",
+      "collected": 605,
+      "errors": 0,
+      "failures": 0,
+      "observed_environment": {
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "python": "3.12.10",
+        "torch": "2.14.1"
+      },
+      "passed": 576,
+      "skip_reasons": {
+        "CUDA hardware unavailable": 20,
+        "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+        "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+      },
+      "skipped": 29,
+      "skipped_cases": [
+        {
+          "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        }
+      ],
+      "xml": "extracted/tests-macos-latest-py3.12-torch2.14.1/pytest-results.xml",
+      "xml_sha256": "d0e8b50906c7e7f13a1cef291654b77e9ff0280bf2e461a5d05fd9a948cc73d9"
+    },
+    {
+      "artifact": "tests-ubuntu-22.04-py3.8-torch2.0.0",
+      "collected": 605,
+      "errors": 0,
+      "failures": 0,
+      "observed_environment": {
+        "platform": "Linux-6.8.0-1070-azure-x86_64-with-glibc2.34",
+        "python": "3.8.18",
+        "torch": "2.0.0+cpu"
+      },
+      "passed": 564,
+      "skip_reasons": {
+        "CUDA hardware unavailable": 20,
+        "MPS hardware unavailable": 6,
+        "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+        "This torch version does not expose torch.amp.GradScaler": 6,
+        "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+      },
+      "skipped": 41,
+      "skipped_cases": [
+        {
+          "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[SGD]",
+          "kind": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[AdamW]",
+          "kind": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        },
+        {
+          "case": "tests.test_training_modes::test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-SGD]",
+          "kind": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        },
+        {
+          "case": "tests.test_training_modes::test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-AdamW]",
+          "kind": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[SGD]",
+          "kind": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        },
+        {
+          "case": "tests.test_training_modes::test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[AdamW]",
+          "kind": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        }
+      ],
+      "xml": "extracted/tests-ubuntu-22.04-py3.8-torch2.0.0/pytest-results.xml",
+      "xml_sha256": "b2866bbad79778e75705498e454e46bc44c28948e6c3195fc551326ffdce9545"
+    },
+    {
+      "artifact": "tests-ubuntu-22.04-py3.9-torch2.4.1",
+      "collected": 605,
+      "errors": 0,
+      "failures": 0,
+      "observed_environment": {
+        "platform": "Linux-6.8.0-1070-azure-x86_64-with-glibc2.35",
+        "python": "3.9.25",
+        "torch": "2.4.1+cpu"
+      },
+      "passed": 570,
+      "skip_reasons": {
+        "CUDA hardware unavailable": 20,
+        "MPS hardware unavailable": 6,
+        "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+        "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+      },
+      "skipped": 35,
+      "skipped_cases": [
+        {
+          "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        }
+      ],
+      "xml": "extracted/tests-ubuntu-22.04-py3.9-torch2.4.1/pytest-results.xml",
+      "xml_sha256": "b6c448590bd9fa2cd580316b4c450b87c42e663e762c46cd316b3fc28c66912f"
+    },
+    {
+      "artifact": "tests-ubuntu-latest-py3.10-torch2.5.1",
+      "collected": 605,
+      "errors": 0,
+      "failures": 0,
+      "observed_environment": {
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+        "python": "3.10.22",
+        "torch": "2.5.1+cpu"
+      },
+      "passed": 570,
+      "skip_reasons": {
+        "CUDA hardware unavailable": 20,
+        "MPS hardware unavailable": 6,
+        "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+        "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+      },
+      "skipped": 35,
+      "skipped_cases": [
+        {
+          "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        }
+      ],
+      "xml": "extracted/tests-ubuntu-latest-py3.10-torch2.5.1/pytest-results.xml",
+      "xml_sha256": "03ae1cf777c340342d09d17d6927f1ccbf5bb477318ad5e4aabb7a94a42588bb"
+    },
+    {
+      "artifact": "tests-ubuntu-latest-py3.11-torch2.6.0",
+      "collected": 605,
+      "errors": 0,
+      "failures": 0,
+      "observed_environment": {
+        "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+        "python": "3.11.17",
+        "torch": "2.6.0+cpu"
+      },
+      "passed": 570,
+      "skip_reasons": {
+        "CUDA hardware unavailable": 20,
+        "MPS hardware unavailable": 6,
+        "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+        "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+      },
+      "skipped": 35,
+      "skipped_cases": [
+        {
+          "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        }
+      ],
+      "xml": "extracted/tests-ubuntu-latest-py3.11-torch2.6.0/pytest-results.xml",
+      "xml_sha256": "9d3782bc4f8561b83e7f33c2f6c6e5f9c32348152a7b27d211bb3f00cb7f6cdf"
+    },
+    {
+      "artifact": "tests-ubuntu-latest-py3.12-torch2.14.1",
+      "collected": 605,
+      "errors": 0,
+      "failures": 0,
+      "observed_environment": {
+        "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+        "python": "3.12.15",
+        "torch": "2.14.1+cpu"
+      },
+      "passed": 570,
+      "skip_reasons": {
+        "CUDA hardware unavailable": 20,
+        "MPS hardware unavailable": 6,
+        "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+        "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+      },
+      "skipped": 35,
+      "skipped_cases": [
+        {
+          "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        }
+      ],
+      "xml": "extracted/tests-ubuntu-latest-py3.12-torch2.14.1/pytest-results.xml",
+      "xml_sha256": "f527ce48729df7af65543806ecfe795a628d1da97f08f080c2d2be9433ff3096"
+    },
+    {
+      "artifact": "tests-ubuntu-latest-py3.12-torchlatest",
+      "collected": 605,
+      "errors": 0,
+      "failures": 0,
+      "observed_environment": {
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+        "python": "3.12.15",
+        "torch": "2.14.1+cpu"
+      },
+      "passed": 570,
+      "skip_reasons": {
+        "CUDA hardware unavailable": 20,
+        "MPS hardware unavailable": 6,
+        "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+        "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+      },
+      "skipped": 35,
+      "skipped_cases": [
+        {
+          "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        }
+      ],
+      "xml": "extracted/tests-ubuntu-latest-py3.12-torchlatest/pytest-results.xml",
+      "xml_sha256": "5fbc139c7f8a8e979ffefd95b50691c3d1fa390895d0317a94bc304f54ff9f33"
+    },
+    {
+      "artifact": "tests-ubuntu-latest-py3.14-torch2.14.1",
+      "collected": 605,
+      "errors": 0,
+      "failures": 0,
+      "observed_environment": {
+        "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+        "python": "3.14.8",
+        "torch": "2.14.1+cpu"
+      },
+      "passed": 570,
+      "skip_reasons": {
+        "CUDA hardware unavailable": 20,
+        "MPS hardware unavailable": 6,
+        "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+        "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+      },
+      "skipped": 35,
+      "skipped_cases": [
+        {
+          "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        }
+      ],
+      "xml": "extracted/tests-ubuntu-latest-py3.14-torch2.14.1/pytest-results.xml",
+      "xml_sha256": "784dbdd54dd8384faa1d2593036479401a4866463c999f5d193861335011315e"
+    },
+    {
+      "artifact": "tests-windows-latest-py3.11-torch2.6.0",
+      "collected": 605,
+      "errors": 0,
+      "failures": 0,
+      "observed_environment": {
+        "platform": "Windows-10-10.0.26100-SP0",
+        "python": "3.11.9",
+        "torch": "2.6.0+cpu"
+      },
+      "passed": 570,
+      "skip_reasons": {
+        "CUDA hardware unavailable": 20,
+        "MPS hardware unavailable": 6,
+        "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence": 5,
+        "could not import 'pytorch_lightning': No module named 'pytorch_lightning'": 4
+      },
+      "skipped": 35,
+      "skipped_cases": [
+        {
+          "case": "tests.test_contract_proofs::test_all_exact_model_obligations_with_actual_solver_and_replay",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_contradictory_assumptions_do_not_prove_a_claim",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_clamp_can_increase_an_initially_out_of_bounds_rate",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_delta_boundary_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_contract_proofs::test_wrong_update_sign_is_detected_by_solver",
+          "kind": "skipped",
+          "reason": "Optional Z3 absent; run verify_contract.py separately to obtain proof evidence"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_eager_training_matches_independent_rate_reference[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[float_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_float32_stochastic_checkpoint_restores_all_state[cuda_tensor_lr-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[one_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_scaler_overflow_matches_explicitly_omitted_update[all_skipped-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_bfloat16_eager_reference[AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[float32-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-SGD]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_cuda_validation::test_cuda_gradient_accumulation_matches_full_effective_batches[fp16-AdamW]",
+          "kind": "skipped",
+          "reason": "CUDA hardware unavailable"
+        },
+        {
+          "case": "tests.test_integrations::test_real_lightning_epoch_checkpoint_resume_in_fresh_processes",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_float32_checkpoint_resume[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "kind": "skipped",
+          "reason": "MPS hardware unavailable"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "case": "tests.test_training_modes::test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "kind": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        }
+      ],
+      "xml": "extracted/tests-windows-latest-py3.11-torch2.6.0/pytest-results.xml",
+      "xml_sha256": "173fce2b5baa9fe1a569fb41376e3e84b795a6090274e7ef1b91d0b285c5c97a"
+    }
+  ],
+  "mutation_audit": {
+    "baseline_passed": 36,
+    "canonical_case_identities_independently_verified": 15,
+    "counts": {
+      "inconclusive": 0,
+      "killed": 14,
+      "survived": 0
+    },
+    "declared": 14,
+    "harness_sha256": "b026668d7944caeb7dbb91819607eb0c7bbfde95fb420098ba321eb43210ec3c",
+    "manifest_entries_verified": 221,
+    "summary": "extracted/correctness-audit/mutation-audit/summary.json"
+  },
+  "proofs": {
+    "assumptions_sat": 25,
+    "guard_tests_passed": 53,
+    "negations_unsat": 25,
+    "obligations": 25,
+    "query_hashes_verified": 50,
+    "report": "extracted/correctness-audit/contract-proofs/report.json",
+    "solver": {
+      "full_version": "5.3.1.0",
+      "name": "Z3",
+      "package_version": "5.3.1.0",
+      "version": "5.3.1"
+    }
+  },
+  "run_id": 39666786762,
+  "runtime_source_sha256": {
+    "dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
+    "dlrs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
+    "dlrs/utils.py": "1cd09b46d885d569c5ecb651bed5bb039b9d0b2ca6b4ffb2049afa162a48638b"
+  },
+  "schema_version": 1,
+  "scope": "Completed CI receipt for the exact recorded head only. Later audit-harness provenance changes require their own CI; this receipt does not certify a future head.",
+  "status": "completed",
+  "url": "https://github.com/Thabhelo/pytorch-dlrs/actions/runs/39666786762"
+}

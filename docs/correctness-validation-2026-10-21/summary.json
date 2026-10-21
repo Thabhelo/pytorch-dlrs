@@ -1,5 +1,13 @@
 {
   "archives": {
+    "ci-39666786762": {
+      "bytes": 3074295,
+      "member_manifest": "ci-39666786762.members.json",
+      "member_manifest_sha256": "6f0d57b3675435a5f82fd11783a24dfa5547c78706ba553c4a7c7b85a73138b7",
+      "members": 20,
+      "path": "ci-39666786762.tar.gz",
+      "sha256": "c134e52e78badcd0250c1f73cddee0b691e951d6628ca17d6ff129cd938a0dfb"
+    },
     "local-tests": {
       "bytes": 132301,
       "member_manifest": "local-tests.members.json",
@@ -7,6 +15,14 @@
       "members": 50,
       "path": "local-tests.tar.gz",
       "sha256": "815e96741c598898885d9595eb7796862125999a418b861800185fa4c733136e"
+    },
+    "mutation-bound-final": {
+      "bytes": 423911,
+      "member_manifest": "mutation-bound-final.members.json",
+      "member_manifest_sha256": "031cdb934e170aec3be71f93c18918c41fe0ae52d26fd38d6bd5df3ff2273bf0",
+      "members": 241,
+      "path": "mutation-bound-final.tar.gz",
+      "sha256": "4a5a2fa641300418e192f1885f2a801f9927ef6fb17ed12ddd2a675559d85eee"
     },
     "mutation-final": {
       "bytes": 406980,
@@ -75,7 +91,7 @@
     "wheel_copies_verified": 2
   },
   "current_audit_source_sha256": {
-    "benchmarks/audit_mutations.py": "b026668d7944caeb7dbb91819607eb0c7bbfde95fb420098ba321eb43210ec3c",
+    "benchmarks/audit_mutations.py": "187a74de0fe752d8a15347ebea96b44d90dc8a3e341f3b3d97a96480ca0f6521",
     "benchmarks/verify_contract.py": "1c65a3674daffdd298dc477d03b4ffe5c4c1d0264d6bdaca70dae20dcb34a53a",
     "dlrs/__init__.py": "a3dd65303ad78193d276b56b3a9ed292c408ab4ae88ae02c02c6ecb3ef830396",
     "dlrs/scheduler.py": "8cf8897aad9bc5e1616a5347aa1bc7212ccf412fab0970d0bc00c27065a6e484",
@@ -83,12 +99,44 @@
     "tests/test_contract_proofs.py": "7e1c458517d1da8827309c89426120d78e41e8022069736520f73e20bb62aeca",
     "tests/test_correctness_numerics.py": "8c528489a6d6f488304055d3d6499cbcffa23f96cb82723037c4a0aeb673d308",
     "tests/test_correctness_state.py": "232195052a1a3a3541b11556bcb1de05cfd09e320f06798a58ad5277d68a7aaa",
-    "tests/test_mutation_audit.py": "e67009c49d7acd24b91d00dc1816f27457a87d7375b844d014a9d0f80895fe3e",
+    "tests/test_mutation_audit.py": "68b21766c936dd2dfd00d40616196644e3689d0f669b1830ae72a21afd85f9f6",
     "tests/test_scheduler_safety.py": "28567fac6f81d1e33d7acdafdb887800f1478593fef2d6c5b316442a72ffb730"
   },
+  "historical_hosted_ci": {
+    "cases_per_cell": 605,
+    "conclusion": "success",
+    "dedicated_guards_passed": 53,
+    "head_sha": "23c84133440b8071ea541fbdf8b6a8fca6773c66",
+    "later_revision_checks": "https://github.com/Thabhelo/pytorch-dlrs/pull/4/checks",
+    "lightning_cases_passed": 4,
+    "matrix_cells": 9,
+    "mutants_killed": 14,
+    "proof_obligations": 25,
+    "publication_job": "skipped",
+    "raw_artifact_api_digests_verified": 13,
+    "receipt": "ci-39666786762-summary.json",
+    "run_id": 39666786762,
+    "successful_jobs": 13,
+    "url": "https://github.com/Thabhelo/pytorch-dlrs/actions/runs/39666786762"
+  },
   "implementation_tests": {
-    "current_full_inventory_ci": "pending",
-    "current_inventory": 605,
+    "binding_harness_current": {
+      "errors": 0,
+      "failed": 0,
+      "junit": "mutation-binding-regressions.xml",
+      "passed": 37,
+      "skipped": 0
+    },
+    "binding_harness_floor": {
+      "errors": 0,
+      "failed": 0,
+      "junit": "mutation-binding-regressions-floor.xml",
+      "passed": 37,
+      "skipped": 0
+    },
+    "current_dedicated_guard_inventory": 59,
+    "current_full_inventory_ci": "Not asserted by this archive. Archived hosted run23c8413 executed605; consult PR4 exact-revision checks for later changes.",
+    "current_inventory": 611,
     "final_helper_current": {
       "collected": 147,
       "errors": 0,
@@ -127,16 +175,20 @@
   },
   "local_tests_archive_stage": "Post-comparator, before audit report-key portability correction; unchanged runtime. Portability evidence is in mutation-portable-final archive.",
   "mutations": {
+    "canonical_binding_repair": "Expectations derive from frozen snapshot hashes plus declared mutation; full before/after input and scratch inventories fail closed. Six new regression cases; historical saved campaign identities independently reconstructed and all match.",
     "declared": 14,
     "final": {
       "baseline_cases": 36,
+      "canonical_before_after_checks": 60,
       "counts": {
         "inconclusive": 0,
         "killed": 14,
         "survived": 0
       },
-      "elapsed_seconds": 37.79526324998005,
-      "harness_sha256": "b026668d7944caeb7dbb91819607eb0c7bbfde95fb420098ba321eb43210ec3c"
+      "elapsed_seconds": 44.364663665997796,
+      "harness_sha256": "187a74de0fe752d8a15347ebea96b44d90dc8a3e341f3b3d97a96480ca0f6521",
+      "manifest_entries_verified": 236,
+      "source_and_snapshot_unchanged": true
     },
     "initial": {
       "baseline_cases": 36,
@@ -157,6 +209,16 @@
         "survived": 0
       },
       "elapsed_seconds": 36.96952541600331
+    },
+    "post_portability": {
+      "baseline_cases": 36,
+      "counts": {
+        "inconclusive": 0,
+        "killed": 14,
+        "survived": 0
+      },
+      "elapsed_seconds": 37.79526324998005,
+      "harness_sha256": "b026668d7944caeb7dbb91819607eb0c7bbfde95fb420098ba321eb43210ec3c"
     },
     "repair": "Type-aware safety-test comparison and four regressions; production and mutation definitions unchanged."
   },
@@ -192,13 +254,13 @@
   "remaining_gates": {
     "current_core_workload_quality": "unmeasured; prior CIFAR/PINN negative gates unchanged",
     "global_floating_point_error_or_refinement_proof": "not established",
-    "hosted_ci": "pending",
+    "hosted_ci": "Archived run39666786762 is verified for23c8413 only. Subsequent exact-revision outcomes are available in PR4 checks; no result is inferred from inventory counts.",
     "independent_human_review": "open",
     "multi_node_and_critical_production": "open",
     "new_core_cuda": "Bounded single-T4 installed-wheel gate passed; native BF16 and broader GPU/distributed scope remain open."
   },
   "schema_version": 1,
-  "status": "local_and_single_gpu_evidence_complete_hosted_ci_pending",
+  "status": "evidence_scoped_to_recorded_revisions",
   "timing": {
     "cases": 12,
     "median_paired_difference_ns_range": [
