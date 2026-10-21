@@ -93,10 +93,10 @@ The [Transformers callback](../examples/huggingface_callback.py) is disabled bec
 
 ## Migrating from 0.2.1
 
-These changes are unreleased until a new version is published:
+The experimental `0.3.0.dev0` prerelease includes these intentional behavior changes:
 
 - Invalid/nonfinite/negative losses, metrics, hyperparameters, and rates now fail before a partial update. Previously some corrupted values could propagate. Fix the source instead of relying on silent clamping or skipped errors.
-- Positive losses below the previous `1e-10` mean threshold now produce a scale-invariant update. All-zero loss sequences still skip. Very small positive losses can therefore change the LR trajectory on resume.
+- Positive losses below the previous `1e-10` mean threshold are no longer automatically treated as zero. All-zero loss sequences still skip, and unrepresentable nonzero scheduler slopes are rejected as described below. Very small positive losses can change the LR trajectory on resume; this is not a promise of invariance under arbitrary floating-point rescaling.
 - Zero-rate groups remain zero instead of being raised to `min_lr`. Set a positive rate explicitly if a group should resume learning.
 - `DLRSOnPlateau(mode='max')` now reverses the slope direction; the old implementation ignored `mode`. Runs using that mode will change. History is bounded; `patience` retains its rolling-window meaning.
 - Checkpoint validation rejects malformed states and mismatched group counts instead of silently accepting partial restoration. Restore optimizer and scheduler together with matching groups.
