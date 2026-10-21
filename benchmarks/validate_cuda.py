@@ -41,6 +41,9 @@ REQUIRED_CASES = {
 } | {
     f"test_cuda_fp16_stochastic_checkpoint_restores_scaler_and_rng[{optimizer}]"
     for optimizer in ("SGD", "AdamW")
+} | {
+    f"test_cuda_gradient_accumulation_matches_full_effective_batches[{precision}-{optimizer}]"
+    for precision in ("float32", "fp16") for optimizer in ("SGD", "AdamW")
 }
 BF16_CASES = {f"test_cuda_bfloat16_eager_reference[{optimizer}]" for optimizer in ("SGD", "AdamW")}
 

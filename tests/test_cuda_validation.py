@@ -338,3 +338,141 @@ def test_cuda_bfloat16_eager_reference(optimizer_name):
     if not native_bfloat16:
         pytest.skip("CUDA device lacks native bfloat16; mandatory CUDA cases remain required")
     _reference_training(optimizer_name, tensor_lr=False, dtype=torch.bfloat16)
+
+
+def _assert_vector_error(actual, expected, *, relative, absolute):
+    """Compare global L2 error without unstable per-element relative division."""
+    assert torch.isfinite(actual).all().item() and torch.isfinite(expected).all().item()
+    error = torch.linalg.vector_norm(actual.double() - expected.double()).item()
+    reference_norm = torch.linalg.vector_norm(expected.double()).item()
+    assert error <= absolute + relative * reference_norm, (error, reference_norm)
+
+
+@pytest.mark.parametrize("optimizer_name", ["SGD", "AdamW"])
+@pytest.mark.parametrize("precision", ["float32", "fp16"])
+def test_cuda_gradient_accumulation_matches_full_effective_batches(optimizer_name, precision):
+    accumulated = _setup(optimizer_name)
+    reference = _setup(optimizer_name)
+    # Positive inputs and an underpredicting model avoid nearly cancelled
+    # gradients, where FP16 relative comparisons would be ill-conditioned.
+    with torch.no_grad():
+        for parameter in accumulated[0].parameters():
+            parameter.fill_(0.05)
+    reference[0].load_state_dict(accumulated[0].state_dict())
+    inputs = (torch.arange(23 * 4, dtype=torch.float32).reshape(23, 4) / 100 + 0.1).to(DEVICE)
+    targets = inputs @ torch.tensor([[0.4], [0.2], [0.6], [0.1]], device=DEVICE) + 0.8
+    mixed = precision == "fp16"
+    scalers = [_scaler(), _scaler()] if mixed else [None, None]
+    completed = [0, 0]
+
+    def count_update(index):
+        def count(*_):
+            completed[index] += 1
+        return count
+
+    handles = [trial[1].register_step_post_hook(count_update(index))
+               for index, trial in enumerate((accumulated, reference))]
+    starting_epochs = [trial[2].last_epoch for trial in (accumulated, reference)]
+    # Separate GEMM/reduction shapes need numerical tolerance. FP16 allows
+    # 0.5% gradient-norm error and 0.8% update-norm error; float32 is tighter.
+    gradient_relative = 0.005 if mixed else 1e-5
+    update_relative = 0.008 if mixed else 1e-4
+    loss_relative = 0.001 if mixed else 1e-5
+    partial_weighting_gaps = []
+    try:
+        for epoch in range(2):
+            observations = [[], []]
+            microbatch_counts = []
+            for window, (x, y) in enumerate(zip(inputs.split(6), targets.split(6))):
+                before = [torch.cat([p.detach().flatten().clone() for p in trial[0].parameters()])
+                          for trial in (accumulated, reference)]
+                for trial in (accumulated, reference):
+                    trial[0].train()
+                    trial[1].zero_grad(set_to_none=True)
+
+                # Accumulated path: each microbatch contributes its sample share
+                # of the effective batch, including the last 3+2 sample window.
+                micro_losses = []
+                micro_sizes = []
+                for micro_x, micro_y in zip(x.split(3), y.split(3)):
+                    context = torch.autocast("cuda", dtype=torch.float16) if mixed else nullcontext()
+                    with context:
+                        prediction = accumulated[0](micro_x)
+                        loss = nn.functional.mse_loss(prediction, micro_y)
+                    assert prediction.dtype == (torch.float16 if mixed else torch.float32)
+                    raw = loss.detach().item()
+                    assert math.isfinite(raw) and raw >= 0
+                    micro_losses.append(raw)
+                    micro_sizes.append(len(micro_x))
+                    weighted = loss * (len(micro_x) / len(x))
+                    if mixed:
+                        scalers[0].scale(weighted).backward()
+                    else:
+                        weighted.backward()
+                microbatch_counts.append(micro_sizes)
+                observed_loss = math.fsum(value * size for value, size in zip(micro_losses, micro_sizes)) / len(x)
+                if len(x) == 5:
+                    naive_average = math.fsum(micro_losses) / len(micro_losses)
+                    partial_weighting_gaps.append(abs(observed_loss - naive_average) / observed_loss)
+
+                # Independent reference: one forward/backward on the entire
+                # effective batch; no microbatch weighting code is reused.
+                context = torch.autocast("cuda", dtype=torch.float16) if mixed else nullcontext()
+                with context:
+                    prediction = reference[0](x)
+                    full_loss = nn.functional.mse_loss(prediction, y)
+                assert prediction.dtype == (torch.float16 if mixed else torch.float32)
+                expected_loss = full_loss.detach().item()
+                assert math.isfinite(expected_loss) and expected_loss >= 0
+                if mixed:
+                    scalers[1].scale(full_loss).backward()
+                else:
+                    full_loss.backward()
+
+                gradients = []
+                for trial, scaler in zip((accumulated, reference), scalers):
+                    if scaler is not None:
+                        scaler.unscale_(trial[1])
+                    nn.utils.clip_grad_norm_(trial[0].parameters(), math.inf, error_if_nonfinite=True)
+                    gradients.append(torch.cat([p.grad.detach().flatten().clone()
+                                                for p in trial[0].parameters()]))
+                assert torch.linalg.vector_norm(gradients[1]).item() > 0
+                _assert_vector_error(gradients[0], gradients[1], relative=gradient_relative,
+                                     absolute=2e-6 if mixed else 1e-7)
+                assert observed_loss == pytest.approx(expected_loss, rel=loss_relative, abs=2e-6 if mixed else 1e-7)
+
+                previous_counts = completed.copy()
+                for trial, scaler in zip((accumulated, reference), scalers):
+                    if scaler is None:
+                        trial[1].step()
+                    else:
+                        scaler.step(trial[1])
+                        scaler.update()
+                assert completed == [count + 1 for count in previous_counts], "Unexpected skipped optimizer update"
+                assert completed == [epoch * 4 + window + 1] * 2
+                updates = [torch.cat([p.detach().flatten() for p in trial[0].parameters()]) - initial
+                           for trial, initial in zip((accumulated, reference), before)]
+                assert torch.linalg.vector_norm(updates[1]).item() > 0
+                _assert_vector_error(updates[0], updates[1], relative=update_relative,
+                                     absolute=2e-6 if mixed else 1e-7)
+                # Only now, after the actual update hook fired, record one
+                # unscaled sample-weighted observation for this effective batch.
+                observations[0].append(observed_loss)
+                observations[1].append(expected_loss)
+            assert microbatch_counts == [[3, 3], [3, 3], [3, 3], [3, 2]]
+            for index, trial in enumerate((accumulated, reference)):
+                assert len(observations[index]) == 4
+                trial[2].step(observations[index])
+                assert trial[2].batch_losses == observations[index]
+                assert trial[2].last_epoch == starting_epochs[index] + epoch + 1
+                assert all(MIN_LR <= float(group["lr"]) <= MAX_LR for group in trial[1].param_groups)
+            for actual_group, expected_group in zip(accumulated[1].param_groups, reference[1].param_groups):
+                assert actual_group["lr"] == pytest.approx(expected_group["lr"], rel=0.002 if mixed else 1e-5)
+            if mixed:
+                _assert_equal(scalers[0].state_dict(), scalers[1].state_dict())
+        assert completed == [8, 8]
+        # Verify the fixture would expose a naive equally-weighted loss average.
+        assert len(partial_weighting_gaps) == 2 and min(partial_weighting_gaps) > 5 * loss_relative
+    finally:
+        for handle in handles:
+            handle.remove()

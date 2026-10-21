@@ -36,7 +36,7 @@ def test_complete_cuda_contract_requires_actual_required_cases(tmp_path, bf16):
     result = runner.evaluate_junit(report(tmp_path, bf16=bf16), bf16)
     assert result["cuda_gate_passed"]
     assert result["mandatory_cases_passed"]
-    assert result["counts"]["passed"] == (16 if bf16 else 14)
+    assert result["counts"]["passed"] == (20 if bf16 else 18)
     assert result["bf16_status"] == ("passed" if bf16 else "unsupported")
 
 
