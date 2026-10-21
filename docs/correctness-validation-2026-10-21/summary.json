@@ -173,7 +173,7 @@
       "skipped": 25
     }
   },
-  "local_tests_archive_stage": "Post-comparator, before audit report-key portability correction; unchanged runtime. Portability evidence is in mutation-portable-final archive.",
+  "local_tests_archive_stage": "Execution logs include runs before the report-key portability correction; the retained final-source snapshot already includes that correction (audit harness b026668d). Runtime is unchanged. Dedicated portability evidence is in mutation-portable-final; later canonical source-binding evidence is in mutation-bound-final.",
   "mutations": {
     "canonical_binding_repair": "Expectations derive from frozen snapshot hashes plus declared mutation; full before/after input and scratch inventories fail closed. Six new regression cases; historical saved campaign identities independently reconstructed and all match.",
     "declared": 14,
