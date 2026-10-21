@@ -20,9 +20,28 @@ def scalar_rates(opt):
 
 
 def assert_same_state(actual, expected):
-    assert actual.keys() == expected.keys()
-    for key in actual:
-        assert actual[key] == expected[key], key
+    # Equality alone accepts True == 1 and scalar_tensor == float. Checkpoint
+    # atomicity also requires preserving the kinds of the stored values.
+    assert type(actual) is type(expected), (type(actual), type(expected))
+    if isinstance(expected, dict):
+        assert actual.keys() == expected.keys()
+        for key in expected:
+            assert_same_state(actual[key], expected[key])
+    elif isinstance(expected, (list, tuple)):
+        assert len(actual) == len(expected)
+        for left, right in zip(actual, expected):
+            assert_same_state(left, right)
+    elif isinstance(expected, torch.Tensor):
+        torch.testing.assert_close(actual, expected, rtol=0, atol=0)
+    else:
+        assert actual == expected
+
+
+@pytest.mark.parametrize('actual,expected', [(True, 1), (1, True), (1.0, 1),
+                                          (torch.tensor(1.0), 1.0)])
+def test_state_comparator_rejects_equal_values_with_changed_types(actual, expected):
+    with pytest.raises(AssertionError):
+        assert_same_state({'nested': [actual]}, {'nested': [expected]})
 
 
 @pytest.mark.parametrize('field', ['delta_d', 'delta_o', 'delta_i', 'min_lr', 'max_lr'])

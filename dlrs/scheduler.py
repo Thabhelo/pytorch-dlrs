@@ -7,7 +7,7 @@ import math
 import sys
 import warnings
 from copy import deepcopy
-from decimal import Decimal, localcontext
+from decimal import ROUND_HALF_EVEN, Context, Decimal, localcontext
 from fractions import Fraction
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
@@ -58,6 +58,15 @@ def _lr_value(value, name: str) -> float:
 
 def _clone_lr(value) -> Union[float, torch.Tensor]:
     return value.detach().clone() if isinstance(value, torch.Tensor) else float(value)
+
+
+def _positive_lr_neighbor(value: torch.Tensor, increase: bool) -> torch.Tensor:
+    # PyTorch 2.0 CPU lacks nextafter for Half. Positive finite float16/bfloat16
+    # values have monotonically ordered 16-bit encodings, including subnormals.
+    # _prepare_lr checks the resulting value again before any live rate write.
+    if value.device.type == "cpu" and value.dtype in (torch.float16, torch.bfloat16):
+        return (value.view(torch.int16) + (1 if increase else -1)).view(value.dtype)
+    return torch.nextafter(value, torch.full_like(value, math.inf if increase else -math.inf))
 
 
 class DLRSScheduler(LRScheduler):
@@ -141,26 +150,19 @@ class DLRSScheduler(LRScheduler):
                    max_lr: Optional[float]):
         if current == 0:
             return 0.0, 0.0
-        exponent = math.floor(math.log10(current))
+        # Decide the discontinuous decade from the exact binary64 input. Both
+        # log10 and a power-of-ten comparison can round onto the wrong boundary,
+        # including ordinary normal values such as float(1e-6).
+        exponent = Decimal.from_float(current).adjusted()
         granularity = 10.0 ** exponent
-        # log10 may round a value immediately below a decade onto that decade.
-        if current < sys.float_info.min:
-            # A rounded subnormal power of ten can equal a value mathematically
-            # below that decade; compare the exact binary64 value instead.
-            exponent = Decimal.from_float(current).adjusted()
-            granularity = 10.0 ** exponent
-        elif granularity > current:
-            exponent -= 1
-            granularity = 10.0 ** exponent
-        elif exponent < 308 and 10.0 ** (exponent + 1) <= current:
-            exponent += 1
-            granularity = 10.0 ** exponent
         if (granularity < sys.float_info.min
                 or granularity * delta < sys.float_info.min
                 or not math.isfinite(granularity * delta)):
             # 10**-324 is smaller than a binary64 float, but its product need not be.
-            with localcontext() as context:
-                context.prec = 50
+            # The application's Decimal precision, exponent limits, rounding,
+            # and traps must not change a float-based scheduler's behavior.
+            with localcontext(Context(prec=50, rounding=ROUND_HALF_EVEN,
+                                      Emin=-999999, Emax=999999, traps=[])):
                 exact_adjustment = Decimal(10) ** exponent * Decimal(str(delta)) * Decimal(str(slope))
                 adjustment = float(exact_adjustment)
                 proposed = float(Decimal.from_float(current) - exact_adjustment)
@@ -188,10 +190,10 @@ class DLRSScheduler(LRScheduler):
             raise ValueError("learning rate is not representable in optimizer tensor dtype")
         # Round bounds inward so the stored tensor value also satisfies them.
         if value > 0 and min_lr is not None and actual < min_lr:
-            prepared = torch.nextafter(prepared, torch.full_like(prepared, math.inf))
+            prepared = _positive_lr_neighbor(prepared, True)
             actual = float(prepared.item())
         if value > 0 and max_lr is not None and actual > max_lr:
-            prepared = torch.nextafter(prepared, torch.full_like(prepared, -math.inf))
+            prepared = _positive_lr_neighbor(prepared, False)
             actual = float(prepared.item())
         if (not math.isfinite(actual) or (value > 0 and actual <= 0)
                 or (value > 0 and min_lr is not None and actual < min_lr)
@@ -247,13 +249,22 @@ class DLRSScheduler(LRScheduler):
                 normalized = [math.ldexp(value, -exponent) for value in losses]
                 slope = direction * (normalized[-1] - normalized[0]) / (math.fsum(normalized) / len(losses))
                 diverging = slope > 1
-                if abs(slope - 1.0) <= 1e-15:
-                    # The discontinuous delta switch requires an exact comparison:
-                    # a rounded mean may hide a true slope immediately above 1.
+                endpoint_underflow = any(
+                    original > 0 and scaled < sys.float_info.min
+                    for original, scaled in ((losses[0], normalized[0]),
+                                             (losses[-1], normalized[-1]))
+                )
+                if (abs(slope - 1.0) <= 1e-15 or endpoint_underflow
+                        or 0 < abs(slope) < sys.float_info.min
+                        or (slope == 0 and losses[0] != losses[-1])):
+                    # Resolve the discontinuous branch exactly, and avoid losing
+                    # tiny endpoints when normalizing a mixed-scale sequence.
                     exact_sum = sum((Fraction(value) for value in losses), Fraction())
                     exact_slope = (Fraction(direction) * (Fraction(losses[-1]) - Fraction(losses[0]))
                                    * len(losses) / exact_sum)
                     slope = float(exact_slope)
+                    if exact_slope != 0 and slope == 0:
+                        raise ValueError("nonzero loss slope is not representable as a float")
                     diverging = exact_slope > 1
                 delta = config['delta_d'] if diverging else config['delta_o'] if slope >= 0 else config['delta_i']
                 candidates = [self._candidate(rate, slope, delta, config['min_lr'], config['max_lr'])
