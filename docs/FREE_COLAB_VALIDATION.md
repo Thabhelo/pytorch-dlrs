@@ -2,7 +2,7 @@
 
 The first [recorded T4 run](CUDA_VALIDATION.md) passed all 14 required installed-wheel
 cases on 2026-10-21, with two native-BF16 capability skips. That evidence is
-preserved separately. The expanded run at the current pinned revision also passed:
+preserved separately. The expanded run and final run at the current pinned revision passed:
 18 required checks, including four accumulation cases, and two native-BF16 skips.
 
 This is a bounded, opt-in check of an installed DLRS wheel on **one CUDA GPU in
@@ -11,7 +11,7 @@ start distributed workers, mount Google Drive, or acquire paid compute.
 
 The [notebook](../notebooks/free_colab_cuda_validation.ipynb) pins the executable
 source and tests to commit
-`4700e584711861bc54e8b62b752270b6c173b414`. The notebook itself is a user interface
+`8358f1b4c065a5098de708bbeee1891dd5a69cc2`. The notebook itself is a user interface
 for that revision; changing its setup prose does not change the tested source.
 The runner also supports a clearly labeled checkout-source mode.
 
@@ -73,7 +73,9 @@ python benchmarks/validate_cuda.py \
   --timeout 300
 ```
 
-The output directory must be new, so previous results cannot be overwritten.
+The output directory and its adjacent `<directory>.tar.gz` archive must both be
+new. Archive creation is exclusive, so a later collision cannot overwrite an
+existing archive either.
 The runner does not install packages. `--installed-package` requires the exact
 wheel that was installed. It retains that wheel, its hash and dependency
 metadata, and verifies that its core files match the fingerprinted source.

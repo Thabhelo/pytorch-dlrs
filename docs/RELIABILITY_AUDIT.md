@@ -267,7 +267,7 @@ the checkout's importable package removed; the separate Lightning job passed
 four tests. Publishing to PyPI was skipped. These results supersede the earlier
 unexecuted CI gap without rewriting the historical local reports.
 
-A subsequent [installed-wheel CUDA run](CUDA_VALIDATION.md) at `4700e58` passed
+A subsequent [installed-wheel CUDA run](CUDA_VALIDATION.md) at `8358f1b` passed
 all 18 required checks on a free Colab NVIDIA T4, with two native-BF16 cases
 skipped because the device does not support that capability. The measured
 environment was Python 3.13.15, Torch 2.11.0+cu130, CUDA 13.0 and driver

@@ -56,7 +56,7 @@ snapshot nor the CI's 409-case count should be relabeled as a later test run.
 ## Completed bounded CUDA evidence
 
 The separate [CUDA validation report](CUDA_VALIDATION.md) records an actual
-installed-wheel execution at `4700e58` on a free Colab NVIDIA T4, compute
+installed-wheel execution at `8358f1b` on a free Colab NVIDIA T4, compute
 capability 7.5. Python 3.13.15 / Torch 2.11.0+cu130 / CUDA 13.0 / driver
 580.82.07 executed **18 required passes and two native-BF16 unsupported skips**
 in 5.07 seconds of pytest time. This is a separate 20-case targeted run, not a

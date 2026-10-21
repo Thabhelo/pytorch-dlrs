@@ -13,7 +13,7 @@ of another free GPU is not guaranteed; see the [Colab workflow](FREE_COLAB_VALID
 
 | Item | Recorded value |
 |---|---|
-| Source/test/runner revision | `4700e584711861bc54e8b62b752270b6c173b414` |
+| Source/test/runner revision | `8358f1b4c065a5098de708bbeee1891dd5a69cc2` |
 | Package | `pytorch-dlrs 0.3.0.dev0`, noneditable wheel installation |
 | Python | 3.13.15 |
 | PyTorch | 2.11.0+cu130; Colab's existing build retained |
@@ -23,14 +23,14 @@ of another free GPU is not guaranteed; see the [Colab workflow](FREE_COLAB_VALID
 | Precision | Float32 and FP16 with a real CUDA GradScaler |
 | Native BF16 | Unsupported; two optional cases skipped |
 | Test result | 18 passed, 2 skipped, 0 failed/errors; pytest exit 0 |
-| Test duration | 5.07 seconds reported by pytest; not a throughput benchmark |
-| Execution window | 2026-10-21 08:01:27–08:01:37 UTC |
+| Test duration | 10.25 seconds reported by pytest; not a throughput benchmark |
+| Execution window | 2026-10-21 08:54:22–08:54:38 UTC |
 
-The [summary](cuda-validation-2026-10-21/expanded-summary.json) lists every case and outcome.
-The [environment](cuda-validation-2026-10-21/expanded-environment.json) records GPU memory,
-cuDNN, package versions, import paths and capabilities. The source checkout was
-clean at the recorded revision. Later notebook/report additions do not alter
-the executed source, test or runner fingerprints.
+The [summary](cuda-validation-2026-10-21/final-summary.json) lists every case and outcome.
+The final bundle's `evidence/environment.json` records GPU memory, cuDNN, package
+versions, import paths and capabilities. The source checkout was clean at the
+recorded revision. Later notebook-pin and report additions do not alter the
+executed source, test or runner fingerprints.
 
 ## What passed
 
@@ -68,7 +68,7 @@ scaler was enabled and executed on CUDA. The warnings are retained in the raw lo
 
 ## Retained evidence
 
-The [expanded evidence bundle](cuda-validation-2026-10-21/expanded-evidence.tar.gz)
+The [final evidence bundle](cuda-validation-2026-10-21/final-evidence.tar.gz)
 contains the exact tested wheel, JUnit report, logs, command records, environment
 and source identities, plus setup logs and the notebook process outcome. The
 reusable notebook's exact setup, run and export cells were executed through
@@ -80,15 +80,26 @@ byte-identical convenience copies.
 
 | Artifact | SHA-256 |
 |---|---|
+| Final evidence bundle | `4e2a3f663f00dec3316505b49759f1db21634ed8dcb7f4f78533abab190ec14a` |
+| Final-run tested wheel | `29da11de500cf3ac00a49e7a4ff7c48e8fd7e4f35113552d1e3e88ba05d9347a` |
 | Expanded evidence bundle | `8e26f00ab97b60969625e5e8e2d3a30194bb92aa630730d69f69283bc9852eb4` |
 | Expanded-run tested wheel | `6fc56b91067b0a2f7603ebe77c567feae969cd07155766d03a42d53df3547408` |
 | Initial evidence bundle | `64c5575400428fd7f3878dbdbc6229410d8a6daab1caaeef6863bf3396c85db7` |
 | Initial-run tested wheel | `554a3c57276e6bfa22995a0db93d066bcc706989e7eaa1c85ad45f7cbb247d45` |
 
-See the expanded [source identity](cuda-validation-2026-10-21/expanded-source.json),
-[wheel metadata](cuda-validation-2026-10-21/expanded-wheel.json), and
-[internal file manifest](cuda-validation-2026-10-21/expanded-evidence-sha256.json).
+See the final [source identity](cuda-validation-2026-10-21/final-source.json),
+[wheel metadata](cuda-validation-2026-10-21/final-wheel.json), and
+[internal file manifest](cuda-validation-2026-10-21/final-evidence-sha256.json).
 That internal manifest names files in the bundle's `evidence/` directory.
+
+The [expanded bundle](cuda-validation-2026-10-21/expanded-evidence.tar.gz) and
+[expanded summary](cuda-validation-2026-10-21/expanded-summary.json) preserve the
+first 18-case run at `4700e584711861bc54e8b62b752270b6c173b414`, executed
+08:01:27–08:01:37 UTC in 5.07 seconds of pytest time. Review then found two runner
+issues: checkout-source mode required installed metadata, and an existing sibling
+archive could be overwritten. Both were fixed with four regression cases. The
+final run repeated all 18 required checks with that corrected runner. Its notebook
+also requires a completed process and exit zero before displaying a pass.
 
 The [initial bundle](cuda-validation-2026-10-21/evidence.tar.gz) and
 [initial summary](cuda-validation-2026-10-21/summary.json) remain unchanged.
@@ -99,7 +110,7 @@ original cases too. The wheel hashes differ because these are separate builds;
 the runtime source fingerprints remain identical.
 
 Before the accumulation extension, the local Mac suite passed **430 tests**, with **16 explicit CUDA skips**.
-The 21 new runner regressions also passed on Python 3.8/Torch 2.0. These checks
+The final 25 runner regressions passed on Python 3.11 and Python 3.8/Torch 2.0. These checks
 validate the runner and preserve existing CPU/MPS behavior; they are distinct
 from the actual T4 passes. The expanded CUDA inventory collects 20 cases, all
 explicitly skipped without CUDA. Eight additional CPU cases exercise the actual
