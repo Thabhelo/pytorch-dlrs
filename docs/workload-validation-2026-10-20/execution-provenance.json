@@ -1,0 +1,109 @@
+{
+  "merged_utc": "2026-10-20T22:57:21.206855+00:00",
+  "source": ".audit/cifar-workload",
+  "identical_manifests": true,
+  "policy": "Byte-for-byte combination of independently executed dataset subsets; no trial dropped or replaced",
+  "copied_records": [
+    {
+      "path": "trials/CIFAR10-confirmation-s11-CosineAnnealingLR-lr0.03.json",
+      "sha256": "259f7770298de67856446d41d8556723f38ea0fd9cfce14627c1d5247440024b"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s11-DLRS-lr0.01.json",
+      "sha256": "6bf1471f00a75f6441e0a2c137212bbf80598af1db6d1ca40ecb7c0c4b3f2b4e"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s11-NoScheduler-lr0.03.json",
+      "sha256": "72e18ce63ea41651f840bad7e8bbc4ba968258750cc5fe5b10301e73bac7fba2"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s12-CosineAnnealingLR-lr0.03.json",
+      "sha256": "6257a34b235b96dbc1431554f0535339d60571c48caf1f0d1bb3ea890a0d4d58"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s12-DLRS-lr0.01.json",
+      "sha256": "5e7b972331b35049e53b2d372ab25c8396be6a04036c57ef6e7a65d2c251dbaf"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s12-NoScheduler-lr0.03.json",
+      "sha256": "fe959931b06db98ff20f20c8e9ec2010898d86e11286f1386cf06f509df48217"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s13-CosineAnnealingLR-lr0.03.json",
+      "sha256": "8f63de2bed6e109177699feea70d03af96aee215bac3f1fc8e7493ad5d8b14ad"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s13-DLRS-lr0.01.json",
+      "sha256": "be48d1219c0ece7d3303041656405bba044125dac4c7c3eae029aa0b8e64a80f"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s13-NoScheduler-lr0.03.json",
+      "sha256": "96a33ce9b449628d57ec099dad7e1ad452ea1e0ae22124e610962d2862616860"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s14-CosineAnnealingLR-lr0.03.json",
+      "sha256": "ba0e5ce6a269da65cb7d92de9dedeed606ea6819bf016c26ab5f0ce67fe9e45d"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s14-DLRS-lr0.01.json",
+      "sha256": "22bd18aeb56b610112fcef05ae61bbac5912fcde4bff7f20b7a25ae880959740"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s14-NoScheduler-lr0.03.json",
+      "sha256": "68216383a4f26478ada8a4ff3bbd9f6ec001b46ce825d77a61b53c86a0d5583d"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s15-CosineAnnealingLR-lr0.03.json",
+      "sha256": "a8fa84010d863eac090e2b56074af0fdb7e11d0938f415891538c6974ef2a39c"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s15-DLRS-lr0.01.json",
+      "sha256": "e6b486046622775505174d387333eb11913947e200bdb806b1d31df335abdec5"
+    },
+    {
+      "path": "trials/CIFAR10-confirmation-s15-NoScheduler-lr0.03.json",
+      "sha256": "07745fd94f97a4c1de071bdca0eb3812ddb3dc54f7f51f0cfe2745df200d10a9"
+    },
+    {
+      "path": "trials/CIFAR10-tuning-s0-CosineAnnealingLR-lr0.01.json",
+      "sha256": "f6548927fb169c08b573e171cbd9524ab9fb712b05487552b3317d7b367f70da"
+    },
+    {
+      "path": "trials/CIFAR10-tuning-s0-CosineAnnealingLR-lr0.03.json",
+      "sha256": "da14db8bd9621ff7131bdbb1d825e23264052928f1e23b3e522ae83618d4b7bb"
+    },
+    {
+      "path": "trials/CIFAR10-tuning-s0-CosineAnnealingLR-lr0.1.json",
+      "sha256": "3ced00301c756dbb198f819b3fe632a32d9173557fc27fb05c8e43d22b7cbc7c"
+    },
+    {
+      "path": "trials/CIFAR10-tuning-s0-DLRS-lr0.01.json",
+      "sha256": "42dfbe90b16d0b29c0eb823ff955b9a8d947f53f5d5ed76e1fc976cffc655e32"
+    },
+    {
+      "path": "trials/CIFAR10-tuning-s0-DLRS-lr0.03.json",
+      "sha256": "a3bbbc73aadead1908ca417ba28fecaa7fe46928a08168cd18f1e0db1a5eba33"
+    },
+    {
+      "path": "trials/CIFAR10-tuning-s0-DLRS-lr0.1.json",
+      "sha256": "bcd13bd8353e0fc509ce8908956ccfcfdc850da21fb9e77236f5764601eaabd4"
+    },
+    {
+      "path": "trials/CIFAR10-tuning-s0-NoScheduler-lr0.01.json",
+      "sha256": "bd79093b6bd496f0cf9141a6d808c0ec4a82f6c7c9cb42540a0b8c5a52aab513"
+    },
+    {
+      "path": "trials/CIFAR10-tuning-s0-NoScheduler-lr0.03.json",
+      "sha256": "4a623e88e6c2309fb206652c43698f1a648d9614eb103e151c04ef82bf63fbe4"
+    },
+    {
+      "path": "trials/CIFAR10-tuning-s0-NoScheduler-lr0.1.json",
+      "sha256": "39bbf0b475c9634774612b24ec324e9cad3033b46ad5f6d1a12febf81199dccb"
+    },
+    {
+      "path": "CIFAR10-selection.json",
+      "sha256": "4d12c7f2e0db7c198a5ecb9e359fde9a324ded776f30b472908d7b747ea42b35"
+    }
+  ],
+  "summary_action": "Recompute with unchanged canonical runner after all subsets complete"
+}

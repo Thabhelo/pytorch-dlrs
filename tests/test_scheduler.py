@@ -463,7 +463,7 @@ class TestDLRSOnPlateau:
         for i in range(5):
             scheduler.step(float(i))
 
-        assert len(scheduler._metric_history) == 5
+        assert scheduler._metric_history == [3.0, 4.0]
 
     def test_state_dict_save_load(self):
         """Test state_dict and load_state_dict."""

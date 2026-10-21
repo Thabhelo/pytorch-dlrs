@@ -5,7 +5,7 @@ Solves the 1D Helmholtz equation using Physics-Informed Neural Networks:
     d²u/dx² + k²u = f(x)  for x in [0, 1]
     u(0) = 0, u(1) = 0  (Dirichlet boundary conditions)
 
-With k=1 and f(x)=0, the exact solution is:
+With k=1 and f(x)=(1-π²)sin(πx), the exact solution is:
     u(x) = sin(πx)
 
 This example demonstrates DLRS on a PINN task, where loss dynamics
@@ -13,12 +13,14 @@ can be highly non-monotonic during training.
 """
 
 import argparse
+import math
 import sys
 from pathlib import Path
+from typing import Callable, Optional, Union
 
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -30,11 +32,13 @@ class HelmholtzPINN(nn.Module):
 
     def __init__(self, hidden_layers: int = 3, hidden_dim: int = 32):
         super().__init__()
+        if hidden_layers < 1 or hidden_dim < 1:
+            raise ValueError("hidden_layers and hidden_dim must be positive")
         layers = []
         layers.append(nn.Linear(1, hidden_dim))
         layers.append(nn.Tanh())
 
-        for _ in range(hidden_layers):
+        for _ in range(hidden_layers - 1):
             layers.append(nn.Linear(hidden_dim, hidden_dim))
             layers.append(nn.Tanh())
 
@@ -46,40 +50,50 @@ class HelmholtzPINN(nn.Module):
 
 
 def exact_solution(x: np.ndarray) -> np.ndarray:
-    """Exact solution for k=1, f=0: u(x) = sin(πx)."""
+    """Manufactured solution for f(x)=(k²-π²)sin(πx): u(x)=sin(πx)."""
     return np.sin(np.pi * x)
+
+
+def forcing_term(x: torch.Tensor, k: float = 1.0) -> torch.Tensor:
+    """Forcing consistent with the analytic solution and zero endpoint values."""
+    return (k ** 2 - math.pi ** 2) * torch.sin(math.pi * x)
 
 
 def compute_pde_residual(
     model: nn.Module,
     x: torch.Tensor,
     k: float = 1.0,
-    f: float = 0.0
+    f: Optional[Union[float, Callable[[torch.Tensor], torch.Tensor]]] = None
 ) -> torch.Tensor:
     """
     Compute PDE residual: d²u/dx² + k²u - f.
 
-    Uses automatic differentiation to compute derivatives.
+    Uses automatic differentiation to compute derivatives. ``f=None`` selects
+    the manufactured forcing matching ``exact_solution``. Coordinates are
+    detached and copied so this routine does not modify the caller's tensor or
+    accumulate coordinate gradients. Model parameter gradients are preserved.
     """
-    x.requires_grad_(True)
-    u = model(x)
-
-    u_x = torch.autograd.grad(
-        u, x,
-        grad_outputs=torch.ones_like(u),
-        create_graph=True,
-        retain_graph=True
-    )[0]
-
-    u_xx = torch.autograd.grad(
-        u_x, x,
-        grad_outputs=torch.ones_like(u_x),
-        create_graph=True,
-        retain_graph=True
-    )[0]
-
-    residual = u_xx + (k ** 2) * u - f
-    return residual
+    with torch.enable_grad():
+        coordinates = x.detach().clone().requires_grad_(True)
+        u = model(coordinates)
+        u_x = None
+        if u.requires_grad:
+            u_x = torch.autograd.grad(
+                u, coordinates, grad_outputs=torch.ones_like(u),
+                create_graph=True, allow_unused=True,
+            )[0]
+        u_xx = None
+        if u_x is not None and u_x.requires_grad:
+            u_xx = torch.autograd.grad(
+                u_x, coordinates, grad_outputs=torch.ones_like(u_x),
+                create_graph=True, allow_unused=True,
+            )[0]
+        if u_xx is None:
+            u_xx = torch.zeros_like(u)
+        forcing = forcing_term(coordinates, k) if f is None else (
+            f(coordinates) if callable(f) else f
+        )
+        return u_xx + (k ** 2) * u - forcing
 
 
 def pinn_loss(
@@ -87,7 +101,7 @@ def pinn_loss(
     x_interior: torch.Tensor,
     x_boundary: torch.Tensor,
     k: float = 1.0,
-    f: float = 0.0,
+    f: Optional[Union[float, Callable[[torch.Tensor], torch.Tensor]]] = None,
     lambda_pde: float = 1.0,
     lambda_bc: float = 10.0
 ) -> torch.Tensor:
@@ -99,7 +113,7 @@ def pinn_loss(
         x_interior: Interior collocation points
         x_boundary: Boundary points (x=0, x=1)
         k: Wave number in Helmholtz equation
-        f: Forcing term
+        f: Forcing term; None uses the manufactured analytic-solution forcing
         lambda_pde: Weight for PDE residual loss
         lambda_bc: Weight for boundary condition loss
 
@@ -130,6 +144,10 @@ def train_pinn(
     verbose: bool = False
 ) -> dict:
     """Train PINN with DLRS scheduler."""
+    if epochs < 1 or n_interior < 1 or batches_per_epoch < 2:
+        raise ValueError("epochs/n_interior must be positive and batches_per_epoch >= 2")
+    if n_boundary != 2:
+        raise ValueError("This 1D example uses exactly two boundary points: x=0 and x=1")
     results = {
         'loss': [],
         'learning_rates': [],
@@ -139,6 +157,7 @@ def train_pinn(
     x_boundary = torch.tensor([[0.0], [1.0]], device=device, dtype=torch.float32)
 
     for epoch in range(1, epochs + 1):
+        model.train()
         batch_losses = []
 
         for _ in range(batches_per_epoch):
@@ -255,6 +274,10 @@ def main():
                        help='hidden layer dimension (default: 32)')
     parser.add_argument('--lr', type=float, default=1e-3,
                        help='initial learning rate (default: 1e-3)')
+    parser.add_argument('--max-lr', type=float, default=1e-2,
+                       help='explicit DLRS upper bound (default: 1e-2)')
+    parser.add_argument('--seed', type=int, default=0,
+                       help='random seed for this illustrative run (default: 0)')
     parser.add_argument('--device', type=str,
                        default='cuda' if torch.cuda.is_available() else 'cpu',
                        choices=['cpu', 'cuda', 'mps'],
@@ -273,10 +296,11 @@ def main():
                        help='output path for plot (default: show plot)')
 
     args = parser.parse_args()
+    torch.manual_seed(args.seed)
 
     device = torch.device(args.device)
     print(f"Using device: {device}")
-    print(f"\nConfiguration:")
+    print("\nConfiguration:")
     print(f"  Epochs: {args.epochs}")
     print(f"  Batches per epoch: {args.batches_per_epoch}")
     print(f"  Interior points per batch: {args.n_interior}")
@@ -292,6 +316,7 @@ def main():
         delta_o=args.delta_o,
         delta_i=args.delta_i,
         min_lr=1e-8,
+        max_lr=args.max_lr,
         verbose=False
     )
 
@@ -313,7 +338,7 @@ def main():
 
     final_l2_error = results['l2_error'][-1]
     print("\n" + "=" * 60)
-    print(f"Training Complete")
+    print("Training Complete")
     print(f"Final L2 Error: {final_l2_error:.6f}")
     print("=" * 60)
 

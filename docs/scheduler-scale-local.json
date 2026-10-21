@@ -1,0 +1,2474 @@
+{
+  "started_utc": "2026-10-20T20:56:11.832484+00:00",
+  "completed_utc": "2026-10-20T20:56:51.889037+00:00",
+  "environment": {
+    "python": "3.11.12",
+    "torch": "2.14.1",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "torch_threads": 2,
+    "cuda_available": false,
+    "mps_available": true,
+    "mps_fallback_env": null
+  },
+  "arguments": {
+    "output": "docs/scheduler-scale-local.json",
+    "repeats": 5,
+    "mps": true,
+    "concurrent_workloads": true
+  },
+  "command_argv": [
+    "/Users/thabhelo/Documents/Playground/pytorch-dlrs/benchmarks/scheduler_scale_validation.py",
+    "--repeats",
+    "5",
+    "--mps",
+    "--concurrent-workloads",
+    "--output",
+    "docs/scheduler-scale-local.json"
+  ],
+  "source_sha256": {
+    "dlrs/scheduler.py": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+    "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+    "benchmarks/scheduler_scale_validation.py": "ef106458af80425b85bdcd2ed2b52d293ba0e5b0b74f4c48821757a77e4bd8c6"
+  },
+  "scope": "Exploratory eager scheduler microbenchmarks; no model-throughput, SLO, or large-model acceptance claim.",
+  "timing_notes": [
+    "Input/optimizer construction and initial optimizer update excluded.",
+    "MPS timings synchronize this process before and after each operation.",
+    "Stage diagnostics overlap, alter LR state, and are not additive attribution.",
+    "Python tracing excludes native tensor storage, allocator caches, and external-process memory.",
+    "Model tensors contain one float32 value each; tensor counts are not model capacity."
+  ],
+  "cases": [
+    {
+      "device": "cpu",
+      "lr_kind": "float",
+      "parameter_tensors": 1,
+      "parameter_elements": 1,
+      "parameter_payload_bytes": 4,
+      "groups": 1,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.0009341249970020726,
+          "minimum_seconds": 0.0009033339883899316,
+          "maximum_seconds": 0.001093166007194668,
+          "samples_seconds": [
+            0.000934915995458141,
+            0.001093166007194668,
+            0.0009341249970020726,
+            0.0009103749907808378,
+            0.0009033339883899316
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 3.875000402331352e-06,
+          "minimum_seconds": 3.249995643272996e-06,
+          "maximum_seconds": 7.042006473056972e-06,
+          "samples_seconds": [
+            4.125002305954695e-06,
+            3.875000402331352e-06,
+            3.4580007195472717e-06,
+            7.042006473056972e-06,
+            3.249995643272996e-06
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 1.124994014389813e-06,
+          "minimum_seconds": 9.159994078800082e-07,
+          "maximum_seconds": 1.334003172814846e-06,
+          "samples_seconds": [
+            1.334003172814846e-06,
+            9.170034900307655e-07,
+            1.1660013115033507e-06,
+            1.124994014389813e-06,
+            9.159994078800082e-07
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 4.458997864276171e-06,
+          "minimum_seconds": 4.084009560756385e-06,
+          "maximum_seconds": 6.250003934837878e-06,
+          "samples_seconds": [
+            6.250003934837878e-06,
+            4.750007065013051e-06,
+            4.458997864276171e-06,
+            4.250003257766366e-06,
+            4.084009560756385e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 8.33999365568161e-07,
+          "minimum_seconds": 7.079943316057324e-07,
+          "maximum_seconds": 1.124994014389813e-06,
+          "samples_seconds": [
+            8.33999365568161e-07,
+            7.079943316057324e-07,
+            1.0830117389559746e-06,
+            1.124994014389813e-06,
+            7.499911589547992e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.000364125007763505,
+          "minimum_seconds": 0.000343833991792053,
+          "maximum_seconds": 0.0003997499879915267,
+          "samples_seconds": [
+            0.0003997499879915267,
+            0.000364125007763505,
+            0.00036520800495054573,
+            0.00036116699629928917,
+            0.000343833991792053
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 12400,
+          "peak_python_bytes": 43536
+        },
+        "state_dict": {
+          "retained_python_bytes": 10248,
+          "peak_python_bytes": 11520
+        }
+      },
+      "checkpoint_serialized_bytes": 10605,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "tensor",
+      "parameter_tensors": 1,
+      "parameter_elements": 1,
+      "parameter_payload_bytes": 4,
+      "groups": 1,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.0012298750079935417,
+          "minimum_seconds": 0.0009330409957328811,
+          "maximum_seconds": 0.001375250009004958,
+          "samples_seconds": [
+            0.0012298750079935417,
+            0.0012322090042289346,
+            0.0009546250075800344,
+            0.0009330409957328811,
+            0.001375250009004958
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 5.750000127591193e-06,
+          "minimum_seconds": 4.457993782125413e-06,
+          "maximum_seconds": 6.6250067902728915e-06,
+          "samples_seconds": [
+            6.6250067902728915e-06,
+            6.582995411008596e-06,
+            5.750000127591193e-06,
+            4.665998858399689e-06,
+            4.457993782125413e-06
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 3.5829871194437146e-06,
+          "minimum_seconds": 3.0420051189139485e-06,
+          "maximum_seconds": 4.583998816087842e-06,
+          "samples_seconds": [
+            4.583998816087842e-06,
+            3.6249984987080097e-06,
+            3.1249946914613247e-06,
+            3.5829871194437146e-06,
+            3.0420051189139485e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 6.041998858563602e-06,
+          "minimum_seconds": 5.49999822396785e-06,
+          "maximum_seconds": 8.292001439258456e-06,
+          "samples_seconds": [
+            8.292001439258456e-06,
+            6.7920045694336295e-06,
+            5.833993782289326e-06,
+            5.49999822396785e-06,
+            6.041998858563602e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 9.159994078800082e-07,
+          "minimum_seconds": 7.920025382190943e-07,
+          "maximum_seconds": 1.167005393654108e-06,
+          "samples_seconds": [
+            1.124994014389813e-06,
+            1.167005393654108e-06,
+            9.159994078800082e-07,
+            8.749921107664704e-07,
+            7.920025382190943e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.0006181250064400956,
+          "minimum_seconds": 0.00044420799531508237,
+          "maximum_seconds": 0.0013584170083049685,
+          "samples_seconds": [
+            0.00044420799531508237,
+            0.0013584170083049685,
+            0.0009221670043189079,
+            0.0005606250051641837,
+            0.0006181250064400956
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 12664,
+          "peak_python_bytes": 43904
+        },
+        "state_dict": {
+          "retained_python_bytes": 11813,
+          "peak_python_bytes": 14661
+        }
+      },
+      "checkpoint_serialized_bytes": 11361,
+      "checkpoint_tensor_payload": {
+        "tensors": 3,
+        "elements": 3,
+        "bytes": 12
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "float",
+      "parameter_tensors": 1,
+      "parameter_elements": 1,
+      "parameter_payload_bytes": 4,
+      "groups": 1,
+      "observations": 100000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.09506204198987689,
+          "minimum_seconds": 0.09055608299968299,
+          "maximum_seconds": 0.11169737500313204,
+          "samples_seconds": [
+            0.09506204198987689,
+            0.09134695799730252,
+            0.09055608299968299,
+            0.09550550000858493,
+            0.11169737500313204
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 3.1249946914613247e-06,
+          "minimum_seconds": 2.916989615187049e-06,
+          "maximum_seconds": 4.250003257766366e-06,
+          "samples_seconds": [
+            4.250003257766366e-06,
+            3.374996595084667e-06,
+            3.1249946914613247e-06,
+            2.916989615187049e-06,
+            2.9170041671022773e-06
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 8.329952834174037e-07,
+          "minimum_seconds": 7.90998456068337e-07,
+          "maximum_seconds": 1.167005393654108e-06,
+          "samples_seconds": [
+            1.1660013115033507e-06,
+            8.329952834174037e-07,
+            1.167005393654108e-06,
+            7.90998456068337e-07,
+            7.920025382190943e-07
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 4.250003257766366e-06,
+          "minimum_seconds": 4.125002305954695e-06,
+          "maximum_seconds": 5.249996320344508e-06,
+          "samples_seconds": [
+            5.249996320344508e-06,
+            5.249996320344508e-06,
+            4.250003257766366e-06,
+            4.250003257766366e-06,
+            4.125002305954695e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 7.079943316057324e-07,
+          "minimum_seconds": 6.659975042566657e-07,
+          "maximum_seconds": 7.90998456068337e-07,
+          "samples_seconds": [
+            7.90998456068337e-07,
+            6.659975042566657e-07,
+            7.079943316057324e-07,
+            7.079943316057324e-07,
+            6.67001586407423e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.03167304200178478,
+          "minimum_seconds": 0.03092458299943246,
+          "maximum_seconds": 0.03212162500130944,
+          "samples_seconds": [
+            0.03212162500130944,
+            0.03167304200178478,
+            0.03092458299943246,
+            0.03200491699681152,
+            0.031450166992726736
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 804528,
+          "peak_python_bytes": 4003792
+        },
+        "state_dict": {
+          "retained_python_bytes": 802376,
+          "peak_python_bytes": 803648
+        }
+      },
+      "checkpoint_serialized_bytes": 901805,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "tensor",
+      "parameter_tensors": 1,
+      "parameter_elements": 1,
+      "parameter_payload_bytes": 4,
+      "groups": 1,
+      "observations": 100000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.12446058400382753,
+          "minimum_seconds": 0.10922254199977033,
+          "maximum_seconds": 0.1535018750000745,
+          "samples_seconds": [
+            0.1535018750000745,
+            0.12200412500533275,
+            0.10922254199977033,
+            0.12446058400382753,
+            0.15245120799227152
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 4.1669991333037615e-06,
+          "minimum_seconds": 3.749999450519681e-06,
+          "maximum_seconds": 7.790993549861014e-06,
+          "samples_seconds": [
+            7.790993549861014e-06,
+            4.583009285852313e-06,
+            4.1669991333037615e-06,
+            3.957989974878728e-06,
+            3.749999450519681e-06
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 2.8750073397532105e-06,
+          "minimum_seconds": 2.5420013116672635e-06,
+          "maximum_seconds": 3.916997229680419e-06,
+          "samples_seconds": [
+            3.916997229680419e-06,
+            2.7089990908280015e-06,
+            2.5420013116672635e-06,
+            3.792010829783976e-06,
+            2.8750073397532105e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 6.874994141981006e-06,
+          "minimum_seconds": 6.000002031214535e-06,
+          "maximum_seconds": 4.9124995712190866e-05,
+          "samples_seconds": [
+            4.9124995712190866e-05,
+            8.916991646401584e-06,
+            6.874994141981006e-06,
+            6.457994459196925e-06,
+            6.000002031214535e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 9.57996235229075e-07,
+          "minimum_seconds": 8.750066626816988e-07,
+          "maximum_seconds": 1.167005393654108e-06,
+          "samples_seconds": [
+            1.167005393654108e-06,
+            9.590003173798323e-07,
+            9.170034900307655e-07,
+            8.750066626816988e-07,
+            9.57996235229075e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.0338916250038892,
+          "minimum_seconds": 0.03188874998886604,
+          "maximum_seconds": 0.11188174999551848,
+          "samples_seconds": [
+            0.03188874998886604,
+            0.0338916250038892,
+            0.033055084000807256,
+            0.037150332995224744,
+            0.11188174999551848
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 804792,
+          "peak_python_bytes": 4004160
+        },
+        "state_dict": {
+          "retained_python_bytes": 803941,
+          "peak_python_bytes": 806789
+        }
+      },
+      "checkpoint_serialized_bytes": 902561,
+      "checkpoint_tensor_payload": {
+        "tensors": 3,
+        "elements": 3,
+        "bytes": 12
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "float",
+      "parameter_tensors": 1000,
+      "parameter_elements": 1000,
+      "parameter_payload_bytes": 4000,
+      "groups": 1,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.0007203749992186204,
+          "minimum_seconds": 0.0007037920004222542,
+          "maximum_seconds": 0.000826750008855015,
+          "samples_seconds": [
+            0.0007203749992186204,
+            0.000713042012648657,
+            0.0007037920004222542,
+            0.000826750008855015,
+            0.0007365420024143532
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 6.233299791347235e-05,
+          "minimum_seconds": 6.141699850559235e-05,
+          "maximum_seconds": 6.29170099273324e-05,
+          "samples_seconds": [
+            6.283300172071904e-05,
+            6.29170099273324e-05,
+            6.229200516827404e-05,
+            6.233299791347235e-05,
+            6.141699850559235e-05
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 6.250047590583563e-07,
+          "minimum_seconds": 5.420006345957518e-07,
+          "maximum_seconds": 7.90998456068337e-07,
+          "samples_seconds": [
+            7.90998456068337e-07,
+            7.089984137564898e-07,
+            5.420006345957518e-07,
+            6.250047590583563e-07,
+            5.420006345957518e-07
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 2.91600008495152e-06,
+          "minimum_seconds": 2.7500063879415393e-06,
+          "maximum_seconds": 3.7910067476332188e-06,
+          "samples_seconds": [
+            3.7910067476332188e-06,
+            2.916989615187049e-06,
+            2.91600008495152e-06,
+            2.7919886633753777e-06,
+            2.7500063879415393e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 5.00003807246685e-07,
+          "minimum_seconds": 4.580069798976183e-07,
+          "maximum_seconds": 7.089984137564898e-07,
+          "samples_seconds": [
+            7.089984137564898e-07,
+            5.00003807246685e-07,
+            5.409965524449944e-07,
+            5.00003807246685e-07,
+            4.580069798976183e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.0003634160093497485,
+          "minimum_seconds": 0.0003624579985626042,
+          "maximum_seconds": 0.00036954200186301023,
+          "samples_seconds": [
+            0.00036954200186301023,
+            0.0003634589957073331,
+            0.0003627500118454918,
+            0.0003634160093497485,
+            0.0003624579985626042
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 12400,
+          "peak_python_bytes": 43536
+        },
+        "state_dict": {
+          "retained_python_bytes": 10152,
+          "peak_python_bytes": 41376
+        }
+      },
+      "checkpoint_serialized_bytes": 10605,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "tensor",
+      "parameter_tensors": 1000,
+      "parameter_elements": 1000,
+      "parameter_payload_bytes": 4000,
+      "groups": 1,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.0006229159916983917,
+          "minimum_seconds": 0.000621667000814341,
+          "maximum_seconds": 0.0006326250004349276,
+          "samples_seconds": [
+            0.0006326250004349276,
+            0.0006307920120889321,
+            0.000622583000222221,
+            0.0006229159916983917,
+            0.000621667000814341
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 5.51670091226697e-05,
+          "minimum_seconds": 5.474999488797039e-05,
+          "maximum_seconds": 5.9124999097548425e-05,
+          "samples_seconds": [
+            5.9124999097548425e-05,
+            5.51670091226697e-05,
+            5.516699457075447e-05,
+            5.474999488797039e-05,
+            5.7999990531243384e-05
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 1.8330028979107738e-06,
+          "minimum_seconds": 1.6669946489855647e-06,
+          "maximum_seconds": 2.0419975044205785e-06,
+          "samples_seconds": [
+            2.0419975044205785e-06,
+            1.8749997252598405e-06,
+            1.8330028979107738e-06,
+            1.6669946489855647e-06,
+            1.7499987734481692e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 3.4999975468963385e-06,
+          "minimum_seconds": 3.4580007195472717e-06,
+          "maximum_seconds": 3.958004526793957e-06,
+          "samples_seconds": [
+            3.958004526793957e-06,
+            3.4999975468963385e-06,
+            3.8339931052178144e-06,
+            3.4999975468963385e-06,
+            3.4580007195472717e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 4.999892553314567e-07,
+          "minimum_seconds": 4.580069798976183e-07,
+          "maximum_seconds": 5.00003807246685e-07,
+          "samples_seconds": [
+            4.999892553314567e-07,
+            5.00003807246685e-07,
+            5.00003807246685e-07,
+            4.580069798976183e-07,
+            4.999892553314567e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.00037370801146607846,
+          "minimum_seconds": 0.0003647499979706481,
+          "maximum_seconds": 0.00046445899351965636,
+          "samples_seconds": [
+            0.00046445899351965636,
+            0.0004025839880341664,
+            0.0003724589914781973,
+            0.0003647499979706481,
+            0.00037370801146607846
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 12664,
+          "peak_python_bytes": 43904
+        },
+        "state_dict": {
+          "retained_python_bytes": 11700,
+          "peak_python_bytes": 41480
+        }
+      },
+      "checkpoint_serialized_bytes": 11361,
+      "checkpoint_tensor_payload": {
+        "tensors": 3,
+        "elements": 3,
+        "bytes": 12
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "float",
+      "parameter_tensors": 1000,
+      "parameter_elements": 1000,
+      "parameter_payload_bytes": 4000,
+      "groups": 1,
+      "observations": 100000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.12769637499877717,
+          "minimum_seconds": 0.09245087500312366,
+          "maximum_seconds": 0.20527341599517968,
+          "samples_seconds": [
+            0.12769637499877717,
+            0.1740107500081649,
+            0.1205633749923436,
+            0.09245087500312366,
+            0.20527341599517968
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 9.945800411514938e-05,
+          "minimum_seconds": 8.720900223124772e-05,
+          "maximum_seconds": 0.0001943749957717955,
+          "samples_seconds": [
+            9.945800411514938e-05,
+            8.745800005272031e-05,
+            8.720900223124772e-05,
+            0.0001943749957717955,
+            0.00010604200360830873
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 7.920025382190943e-07,
+          "minimum_seconds": 7.919879863038659e-07,
+          "maximum_seconds": 1.1660013115033507e-06,
+          "samples_seconds": [
+            1.1660013115033507e-06,
+            8.749921107664704e-07,
+            7.919879863038659e-07,
+            7.920025382190943e-07,
+            7.920025382190943e-07
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 3.875000402331352e-06,
+          "minimum_seconds": 3.7919962778687477e-06,
+          "maximum_seconds": 4.665998858399689e-06,
+          "samples_seconds": [
+            4.665998858399689e-06,
+            4.208006430417299e-06,
+            3.875000402331352e-06,
+            3.8330035749822855e-06,
+            3.7919962778687477e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 6.67001586407423e-07,
+          "minimum_seconds": 6.250047590583563e-07,
+          "maximum_seconds": 7.500057108700275e-07,
+          "samples_seconds": [
+            7.500057108700275e-07,
+            7.089984137564898e-07,
+            6.67001586407423e-07,
+            6.67001586407423e-07,
+            6.250047590583563e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.050701957996352576,
+          "minimum_seconds": 0.03311262500938028,
+          "maximum_seconds": 0.05818066600477323,
+          "samples_seconds": [
+            0.0512687920127064,
+            0.05818066600477323,
+            0.050701957996352576,
+            0.03311262500938028,
+            0.03391595800349023
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 804528,
+          "peak_python_bytes": 4003792
+        },
+        "state_dict": {
+          "retained_python_bytes": 802280,
+          "peak_python_bytes": 803552
+        }
+      },
+      "checkpoint_serialized_bytes": 901805,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "tensor",
+      "parameter_tensors": 1000,
+      "parameter_elements": 1000,
+      "parameter_payload_bytes": 4000,
+      "groups": 1,
+      "observations": 100000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.11896033299854025,
+          "minimum_seconds": 0.10425133300304879,
+          "maximum_seconds": 0.13256133400136605,
+          "samples_seconds": [
+            0.10425133300304879,
+            0.1216897090052953,
+            0.13256133400136605,
+            0.10864841600414366,
+            0.11896033299854025
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 8.941700798459351e-05,
+          "minimum_seconds": 8.887499279808253e-05,
+          "maximum_seconds": 9.225000394508243e-05,
+          "samples_seconds": [
+            9.225000394508243e-05,
+            8.941700798459351e-05,
+            8.974999946076423e-05,
+            8.908400195650756e-05,
+            8.887499279808253e-05
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 3.5410048440098763e-06,
+          "minimum_seconds": 2.958011464215815e-06,
+          "maximum_seconds": 4.7909998102113605e-06,
+          "samples_seconds": [
+            4.7909998102113605e-06,
+            3.5410048440098763e-06,
+            2.958011464215815e-06,
+            3.16700607072562e-06,
+            4.5000051613897085e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 5.999987479299307e-06,
+          "minimum_seconds": 5.708003300242126e-06,
+          "maximum_seconds": 8.624992915429175e-06,
+          "samples_seconds": [
+            8.624992915429175e-06,
+            6.2920007621869445e-06,
+            5.832989700138569e-06,
+            5.999987479299307e-06,
+            5.708003300242126e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 7.920025382190943e-07,
+          "minimum_seconds": 7.90998456068337e-07,
+          "maximum_seconds": 8.749921107664704e-07,
+          "samples_seconds": [
+            8.749921107664704e-07,
+            7.920025382190943e-07,
+            7.90998456068337e-07,
+            7.920025382190943e-07,
+            7.920025382190943e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.03827920900948811,
+          "minimum_seconds": 0.033115457990788855,
+          "maximum_seconds": 0.05174595800053794,
+          "samples_seconds": [
+            0.05174595800053794,
+            0.03827920900948811,
+            0.04052483300620224,
+            0.034738125003059395,
+            0.033115457990788855
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 804792,
+          "peak_python_bytes": 4004160
+        },
+        "state_dict": {
+          "retained_python_bytes": 803893,
+          "peak_python_bytes": 806741
+        }
+      },
+      "checkpoint_serialized_bytes": 902561,
+      "checkpoint_tensor_payload": {
+        "tensors": 3,
+        "elements": 3,
+        "bytes": 12
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "float",
+      "parameter_tensors": 1000,
+      "parameter_elements": 1000,
+      "parameter_payload_bytes": 4000,
+      "groups": 32,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.0015406669990625232,
+          "minimum_seconds": 0.0014187500055413693,
+          "maximum_seconds": 0.001736458987579681,
+          "samples_seconds": [
+            0.0017222500027855858,
+            0.001736458987579681,
+            0.0014229160005925223,
+            0.0015406669990625232,
+            0.0014187500055413693
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.00016395800048485398,
+          "minimum_seconds": 0.00015695899492129683,
+          "maximum_seconds": 0.0004567500000121072,
+          "samples_seconds": [
+            0.0001591669861227274,
+            0.00015695899492129683,
+            0.00016395800048485398,
+            0.00034749999758787453,
+            0.0004567500000121072
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 8.499991963617504e-06,
+          "minimum_seconds": 8.41599830891937e-06,
+          "maximum_seconds": 8.749993867240846e-06,
+          "samples_seconds": [
+            8.749993867240846e-06,
+            8.584000170230865e-06,
+            8.499991963617504e-06,
+            8.458009688183665e-06,
+            8.41599830891937e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 1.7167010810226202e-05,
+          "minimum_seconds": 1.6707999748177826e-05,
+          "maximum_seconds": 1.8459002603776753e-05,
+          "samples_seconds": [
+            1.8459002603776753e-05,
+            1.7167010810226202e-05,
+            1.6792007954791188e-05,
+            1.7250000382773578e-05,
+            1.6707999748177826e-05
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 6.333008059300482e-06,
+          "minimum_seconds": 6.291986210271716e-06,
+          "maximum_seconds": 7.124996045604348e-06,
+          "samples_seconds": [
+            6.333008059300482e-06,
+            6.291986210271716e-06,
+            6.374990334734321e-06,
+            7.124996045604348e-06,
+            6.2920007621869445e-06
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.000770584010751918,
+          "minimum_seconds": 0.0007463749934686348,
+          "maximum_seconds": 0.0008849160076351836,
+          "samples_seconds": [
+            0.000770584010751918,
+            0.0007512500014854595,
+            0.0008849160076351836,
+            0.0008013330079847947,
+            0.0007463749934686348
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 14360,
+          "peak_python_bytes": 47584
+        },
+        "state_dict": {
+          "retained_python_bytes": 10776,
+          "peak_python_bytes": 43024
+        }
+      },
+      "checkpoint_serialized_bytes": 11437,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "tensor",
+      "parameter_tensors": 1000,
+      "parameter_elements": 1000,
+      "parameter_payload_bytes": 4000,
+      "groups": 32,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.0011039999953936785,
+          "minimum_seconds": 0.001095041006919928,
+          "maximum_seconds": 0.0011123749864054844,
+          "samples_seconds": [
+            0.0011123749864054844,
+            0.0011051670007873327,
+            0.0011039999953936785,
+            0.001095458006602712,
+            0.001095041006919928
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.00015745899872854352,
+          "minimum_seconds": 0.00015645800158381462,
+          "maximum_seconds": 0.0001584169949637726,
+          "samples_seconds": [
+            0.0001584169949637726,
+            0.00015745899872854352,
+            0.00015645800158381462,
+            0.0001566250139148906,
+            0.00015833400539122522
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 5.612500535789877e-05,
+          "minimum_seconds": 5.60000044060871e-05,
+          "maximum_seconds": 5.658400186803192e-05,
+          "samples_seconds": [
+            5.6333999964408576e-05,
+            5.658400186803192e-05,
+            5.60000044060871e-05,
+            5.604099715128541e-05,
+            5.612500535789877e-05
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 5.354199674911797e-05,
+          "minimum_seconds": 5.3041992941871285e-05,
+          "maximum_seconds": 5.487499583978206e-05,
+          "samples_seconds": [
+            5.487499583978206e-05,
+            5.3499999921768904e-05,
+            5.416700150817633e-05,
+            5.3041992941871285e-05,
+            5.354199674911797e-05
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 8.584000170230865e-06,
+          "minimum_seconds": 8.500006515532732e-06,
+          "maximum_seconds": 9.125011274591088e-06,
+          "samples_seconds": [
+            9.125011274591088e-06,
+            8.83299799170345e-06,
+            8.584000170230865e-06,
+            8.500006515532732e-06,
+            8.54198879096657e-06
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.002220667010988109,
+          "minimum_seconds": 0.0021570420067291707,
+          "maximum_seconds": 0.002283374997205101,
+          "samples_seconds": [
+            0.002256499996292405,
+            0.0021884160087211058,
+            0.0021570420067291707,
+            0.002283374997205101,
+            0.002220667010988109
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 21568,
+          "peak_python_bytes": 59488
+        },
+        "state_dict": {
+          "retained_python_bytes": 44813,
+          "peak_python_bytes": 84445
+        }
+      },
+      "checkpoint_serialized_bytes": 33603,
+      "checkpoint_tensor_payload": {
+        "tensors": 96,
+        "elements": 96,
+        "bytes": 384
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "float",
+      "parameter_tensors": 1000,
+      "parameter_elements": 1000,
+      "parameter_payload_bytes": 4000,
+      "groups": 32,
+      "observations": 100000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.09357704099966213,
+          "minimum_seconds": 0.08863816699886229,
+          "maximum_seconds": 0.11723449999408331,
+          "samples_seconds": [
+            0.11660783398838248,
+            0.11723449999408331,
+            0.08972020899818745,
+            0.08863816699886229,
+            0.09357704099966213
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.0001898749906104058,
+          "minimum_seconds": 0.00018016700050793588,
+          "maximum_seconds": 0.0003002500016009435,
+          "samples_seconds": [
+            0.0001898749906104058,
+            0.00019937499018851668,
+            0.0003002500016009435,
+            0.00018483400344848633,
+            0.00018016700050793588
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 8.916991646401584e-06,
+          "minimum_seconds": 8.458999218419194e-06,
+          "maximum_seconds": 4.3916996219195426e-05,
+          "samples_seconds": [
+            8.916991646401584e-06,
+            4.3916996219195426e-05,
+            1.0000003385357559e-05,
+            8.66700429469347e-06,
+            8.458999218419194e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 1.6999998479150236e-05,
+          "minimum_seconds": 1.6833000699989498e-05,
+          "maximum_seconds": 3.266699786763638e-05,
+          "samples_seconds": [
+            1.7915997887030244e-05,
+            1.6999998479150236e-05,
+            3.266699786763638e-05,
+            1.6874997527338564e-05,
+            1.6833000699989498e-05
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 6.499991286545992e-06,
+          "minimum_seconds": 6.417001713998616e-06,
+          "maximum_seconds": 3.6249999538995326e-05,
+          "samples_seconds": [
+            6.499991286545992e-06,
+            6.417001713998616e-06,
+            3.6249999538995326e-05,
+            8.374991011805832e-06,
+            6.457994459196925e-06
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.03219416699721478,
+          "minimum_seconds": 0.031840875002671964,
+          "maximum_seconds": 0.033186707994900644,
+          "samples_seconds": [
+            0.0330794580077054,
+            0.033186707994900644,
+            0.03210495799430646,
+            0.03219416699721478,
+            0.031840875002671964
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 806488,
+          "peak_python_bytes": 4007840
+        },
+        "state_dict": {
+          "retained_python_bytes": 802904,
+          "peak_python_bytes": 804648
+        }
+      },
+      "checkpoint_serialized_bytes": 902637,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "tensor",
+      "parameter_tensors": 1000,
+      "parameter_elements": 1000,
+      "parameter_payload_bytes": 4000,
+      "groups": 32,
+      "observations": 100000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.18503325000347104,
+          "minimum_seconds": 0.16062550000788178,
+          "maximum_seconds": 0.40815595899766777,
+          "samples_seconds": [
+            0.16062550000788178,
+            0.16394054199918173,
+            0.40815595899766777,
+            0.18503325000347104,
+            0.2645615419896785
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.0001884580124169588,
+          "minimum_seconds": 0.00018791700131259859,
+          "maximum_seconds": 0.00035066700365860015,
+          "samples_seconds": [
+            0.00035066700365860015,
+            0.0002234999992651865,
+            0.0001884580124169588,
+            0.00018812500638887286,
+            0.00018791700131259859
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 6.583399954251945e-05,
+          "minimum_seconds": 6.500000017695129e-05,
+          "maximum_seconds": 6.683399260509759e-05,
+          "samples_seconds": [
+            6.683399260509759e-05,
+            6.608400144614279e-05,
+            6.583399954251945e-05,
+            6.500000017695129e-05,
+            6.512500112876296e-05
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 6.595799641218036e-05,
+          "minimum_seconds": 6.512500112876296e-05,
+          "maximum_seconds": 9.083299664780498e-05,
+          "samples_seconds": [
+            9.083299664780498e-05,
+            6.82909885654226e-05,
+            6.595799641218036e-05,
+            6.512500112876296e-05,
+            6.575000588782132e-05
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 1.0083007509820163e-05,
+          "minimum_seconds": 1.0040996130555868e-05,
+          "maximum_seconds": 1.0584000847302377e-05,
+          "samples_seconds": [
+            1.0584000847302377e-05,
+            1.0167001164518297e-05,
+            1.0042000212706625e-05,
+            1.0040996130555868e-05,
+            1.0083007509820163e-05
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.05911162499978673,
+          "minimum_seconds": 0.04201816700515337,
+          "maximum_seconds": 0.07013612499576993,
+          "samples_seconds": [
+            0.05911162499978673,
+            0.06614999999874271,
+            0.04201816700515337,
+            0.052344499999890104,
+            0.07013612499576993
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 813696,
+          "peak_python_bytes": 4019744
+        },
+        "state_dict": {
+          "retained_python_bytes": 837200,
+          "peak_python_bytes": 876832
+        }
+      },
+      "checkpoint_serialized_bytes": 924803,
+      "checkpoint_tensor_payload": {
+        "tensors": 96,
+        "elements": 96,
+        "bytes": 384
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "float",
+      "parameter_tensors": 10000,
+      "parameter_elements": 10000,
+      "parameter_payload_bytes": 40000,
+      "groups": 1,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.0021341249957913533,
+          "minimum_seconds": 0.0017311669944319874,
+          "maximum_seconds": 0.0022520420025102794,
+          "samples_seconds": [
+            0.0021341249957913533,
+            0.0022520420025102794,
+            0.002154208006686531,
+            0.0017713329871185124,
+            0.0017311669944319874
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.0008727499953238294,
+          "minimum_seconds": 0.0008097499958239496,
+          "maximum_seconds": 0.0011965000012423843,
+          "samples_seconds": [
+            0.0008855000050971285,
+            0.0008727499953238294,
+            0.0008305829978780821,
+            0.0008097499958239496,
+            0.0011965000012423843
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 8.750066626816988e-07,
+          "minimum_seconds": 7.920025382190943e-07,
+          "maximum_seconds": 1.124994014389813e-06,
+          "samples_seconds": [
+            1.124994014389813e-06,
+            9.57996235229075e-07,
+            8.750066626816988e-07,
+            7.920025382190943e-07,
+            8.330098353326321e-07
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 5.4580013966187835e-06,
+          "minimum_seconds": 4.49999060947448e-06,
+          "maximum_seconds": 0.00027179199969395995,
+          "samples_seconds": [
+            0.00027179199969395995,
+            1.3291995855979621e-05,
+            5.4580013966187835e-06,
+            4.959001671522856e-06,
+            4.49999060947448e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 6.67001586407423e-07,
+          "minimum_seconds": 6.250047590583563e-07,
+          "maximum_seconds": 8.750066626816988e-07,
+          "samples_seconds": [
+            8.750066626816988e-07,
+            7.089984137564898e-07,
+            6.67001586407423e-07,
+            6.67001586407423e-07,
+            6.250047590583563e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.005732375007937662,
+          "minimum_seconds": 0.003940166992833838,
+          "maximum_seconds": 0.01465791701048147,
+          "samples_seconds": [
+            0.005947333003859967,
+            0.003940166992833838,
+            0.01465791701048147,
+            0.005732375007937662,
+            0.005612499997369014
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 12400,
+          "peak_python_bytes": 420568
+        },
+        "state_dict": {
+          "retained_python_bytes": 10152,
+          "peak_python_bytes": 420560
+        }
+      },
+      "checkpoint_serialized_bytes": 10605,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "tensor",
+      "parameter_tensors": 10000,
+      "parameter_elements": 10000,
+      "parameter_payload_bytes": 40000,
+      "groups": 1,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.002279750013258308,
+          "minimum_seconds": 0.0020912500040140003,
+          "maximum_seconds": 0.0025628750008763745,
+          "samples_seconds": [
+            0.0025628750008763745,
+            0.002279750013258308,
+            0.0020912500040140003,
+            0.0022440829925471917,
+            0.0025381250015925616
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.0010905829985858873,
+          "minimum_seconds": 0.0010157090000575408,
+          "maximum_seconds": 0.0015619579935446382,
+          "samples_seconds": [
+            0.0011490840115584433,
+            0.0010416660079499707,
+            0.0015619579935446382,
+            0.0010157090000575408,
+            0.0010905829985858873
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 3.541994374245405e-06,
+          "minimum_seconds": 3.2079988159239292e-06,
+          "maximum_seconds": 5.083013093098998e-06,
+          "samples_seconds": [
+            5.083013093098998e-06,
+            3.875000402331352e-06,
+            3.541994374245405e-06,
+            3.4580007195472717e-06,
+            3.2079988159239292e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 6.542002665810287e-06,
+          "minimum_seconds": 6.1250029830262065e-06,
+          "maximum_seconds": 1.016599708236754e-05,
+          "samples_seconds": [
+            1.016599708236754e-05,
+            7.208000170066953e-06,
+            6.542002665810287e-06,
+            6.291986210271716e-06,
+            6.1250029830262065e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 8.33999365568161e-07,
+          "minimum_seconds": 8.329952834174037e-07,
+          "maximum_seconds": 9.999930625781417e-07,
+          "samples_seconds": [
+            9.999930625781417e-07,
+            8.749921107664704e-07,
+            8.33999365568161e-07,
+            8.329952834174037e-07,
+            8.330098353326321e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.0031477499869652092,
+          "minimum_seconds": 0.0026995829975930974,
+          "maximum_seconds": 0.0033847910090116784,
+          "samples_seconds": [
+            0.003157540995744057,
+            0.0033847910090116784,
+            0.00313933398865629,
+            0.0026995829975930974,
+            0.0031477499869652092
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 12664,
+          "peak_python_bytes": 420568
+        },
+        "state_dict": {
+          "retained_python_bytes": 11711,
+          "peak_python_bytes": 420664
+        }
+      },
+      "checkpoint_serialized_bytes": 11361,
+      "checkpoint_tensor_payload": {
+        "tensors": 3,
+        "elements": 3,
+        "bytes": 12
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "float",
+      "parameter_tensors": 10000,
+      "parameter_elements": 10000,
+      "parameter_payload_bytes": 40000,
+      "groups": 1,
+      "observations": 100000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.15704112499952316,
+          "minimum_seconds": 0.11054762499406934,
+          "maximum_seconds": 0.1873292499949457,
+          "samples_seconds": [
+            0.13975704200856853,
+            0.1873292499949457,
+            0.1705525829893304,
+            0.11054762499406934,
+            0.15704112499952316
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.0008398750069318339,
+          "minimum_seconds": 0.0008300410117954016,
+          "maximum_seconds": 0.00217162499029655,
+          "samples_seconds": [
+            0.0009173750004265457,
+            0.0008398750069318339,
+            0.0008310840057674795,
+            0.00217162499029655,
+            0.0008300410117954016
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 9.57996235229075e-07,
+          "minimum_seconds": 7.080088835209608e-07,
+          "maximum_seconds": 1.2090022210031748e-06,
+          "samples_seconds": [
+            1.2090022210031748e-06,
+            9.57996235229075e-07,
+            9.57996235229075e-07,
+            7.080088835209608e-07,
+            7.500057108700275e-07
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 4.49999060947448e-06,
+          "minimum_seconds": 4.1669991333037615e-06,
+          "maximum_seconds": 5.95799065195024e-06,
+          "samples_seconds": [
+            5.95799065195024e-06,
+            4.707995685748756e-06,
+            4.1669991333037615e-06,
+            4.16701368521899e-06,
+            4.49999060947448e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 7.079943316057324e-07,
+          "minimum_seconds": 6.660120561718941e-07,
+          "maximum_seconds": 8.749921107664704e-07,
+          "samples_seconds": [
+            8.749921107664704e-07,
+            6.660120561718941e-07,
+            7.079943316057324e-07,
+            7.500057108700275e-07,
+            7.079943316057324e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.042977749995770864,
+          "minimum_seconds": 0.03900541699840687,
+          "maximum_seconds": 0.05195799999637529,
+          "samples_seconds": [
+            0.04264487500768155,
+            0.04412274999776855,
+            0.05195799999637529,
+            0.042977749995770864,
+            0.03900541699840687
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 804528,
+          "peak_python_bytes": 4003792
+        },
+        "state_dict": {
+          "retained_python_bytes": 802280,
+          "peak_python_bytes": 803552
+        }
+      },
+      "checkpoint_serialized_bytes": 901805,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "tensor",
+      "parameter_tensors": 10000,
+      "parameter_elements": 10000,
+      "parameter_payload_bytes": 40000,
+      "groups": 1,
+      "observations": 100000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.12157033299445175,
+          "minimum_seconds": 0.09450304199708626,
+          "maximum_seconds": 0.1350990419887239,
+          "samples_seconds": [
+            0.13212020898936316,
+            0.09450304199708626,
+            0.0968723330006469,
+            0.12157033299445175,
+            0.1350990419887239
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.0014888750010868534,
+          "minimum_seconds": 0.0013564589899033308,
+          "maximum_seconds": 0.0018768750014714897,
+          "samples_seconds": [
+            0.0013564589899033308,
+            0.0018768750014714897,
+            0.0014751249982509762,
+            0.0014888750010868534,
+            0.0015087499923538417
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 3.1660019885748625e-06,
+          "minimum_seconds": 2.91600008495152e-06,
+          "maximum_seconds": 4.417001036927104e-06,
+          "samples_seconds": [
+            4.417001036927104e-06,
+            3.7080026231706142e-06,
+            3.1660019885748625e-06,
+            2.91600008495152e-06,
+            3.000008291564882e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 6.166999810375273e-06,
+          "minimum_seconds": 5.875001079402864e-06,
+          "maximum_seconds": 1.09999964479357e-05,
+          "samples_seconds": [
+            1.09999964479357e-05,
+            6.874994141981006e-06,
+            6.166999810375273e-06,
+            5.916997906751931e-06,
+            5.875001079402864e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 7.90998456068337e-07,
+          "minimum_seconds": 6.67001586407423e-07,
+          "maximum_seconds": 9.57996235229075e-07,
+          "samples_seconds": [
+            7.90998456068337e-07,
+            9.57996235229075e-07,
+            8.329952834174037e-07,
+            7.500057108700275e-07,
+            6.67001586407423e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.03908950000186451,
+          "minimum_seconds": 0.033995125006185845,
+          "maximum_seconds": 0.13365974999032915,
+          "samples_seconds": [
+            0.03690124998684041,
+            0.03908950000186451,
+            0.13365974999032915,
+            0.044024125003488734,
+            0.033995125006185845
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 804792,
+          "peak_python_bytes": 4004160
+        },
+        "state_dict": {
+          "retained_python_bytes": 803839,
+          "peak_python_bytes": 806687
+        }
+      },
+      "checkpoint_serialized_bytes": 902561,
+      "checkpoint_tensor_payload": {
+        "tensors": 3,
+        "elements": 3,
+        "bytes": 12
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "float",
+      "parameter_tensors": 10000,
+      "parameter_elements": 10000,
+      "parameter_payload_bytes": 40000,
+      "groups": 32,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.002491416991688311,
+          "minimum_seconds": 0.0019854579877573997,
+          "maximum_seconds": 0.01022154200472869,
+          "samples_seconds": [
+            0.0022552909940714017,
+            0.0019854579877573997,
+            0.002491416991688311,
+            0.01022154200472869,
+            0.005367042002035305
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.003104292001808062,
+          "minimum_seconds": 0.001243709004484117,
+          "maximum_seconds": 0.0059099159989273176,
+          "samples_seconds": [
+            0.001431250013411045,
+            0.003104292001808062,
+            0.001243709004484117,
+            0.0059099159989273176,
+            0.004693584007327445
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 8.540999260731041e-06,
+          "minimum_seconds": 8.458999218419194e-06,
+          "maximum_seconds": 1.0832998668774962e-05,
+          "samples_seconds": [
+            1.0832998668774962e-05,
+            8.458999218419194e-06,
+            8.540999260731041e-06,
+            8.499991963617504e-06,
+            8.874994819052517e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 7.850000110920519e-05,
+          "minimum_seconds": 1.8332997569814324e-05,
+          "maximum_seconds": 0.00010329099313821644,
+          "samples_seconds": [
+            7.850000110920519e-05,
+            0.00010329099313821644,
+            4.295799590181559e-05,
+            1.8332997569814324e-05,
+            9.783299174159765e-05
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 7.042006473056972e-06,
+          "minimum_seconds": 6.041998858563602e-06,
+          "maximum_seconds": 9.145800140686333e-05,
+          "samples_seconds": [
+            7.042006473056972e-06,
+            6.2920007621869445e-06,
+            6.041998858563602e-06,
+            9.145800140686333e-05,
+            3.654099418781698e-05
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.006614500001887791,
+          "minimum_seconds": 0.005422250003903173,
+          "maximum_seconds": 0.010883125010877848,
+          "samples_seconds": [
+            0.00726875000691507,
+            0.006614500001887791,
+            0.010883125010877848,
+            0.0063571249920642,
+            0.005422250003903173
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 14360,
+          "peak_python_bytes": 403336
+        },
+        "state_dict": {
+          "retained_python_bytes": 10776,
+          "peak_python_bytes": 403552
+        }
+      },
+      "checkpoint_serialized_bytes": 11437,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "tensor",
+      "parameter_tensors": 10000,
+      "parameter_elements": 10000,
+      "parameter_payload_bytes": 40000,
+      "groups": 32,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.004166957995039411,
+          "minimum_seconds": 0.0029771669942419976,
+          "maximum_seconds": 0.005220249993726611,
+          "samples_seconds": [
+            0.0029771669942419976,
+            0.0030355829949257895,
+            0.004766749989357777,
+            0.004166957995039411,
+            0.005220249993726611
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.0016720410058042035,
+          "minimum_seconds": 0.0016451249975943938,
+          "maximum_seconds": 0.006393542003934272,
+          "samples_seconds": [
+            0.006393542003934272,
+            0.0016720410058042035,
+            0.0016451249975943938,
+            0.0016541670047445223,
+            0.0020435000042198226
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 7.666699821129441e-05,
+          "minimum_seconds": 7.616699440404773e-05,
+          "maximum_seconds": 7.683300646021962e-05,
+          "samples_seconds": [
+            7.683300646021962e-05,
+            7.675000233575702e-05,
+            7.666699821129441e-05,
+            7.616699440404773e-05,
+            7.62089912313968e-05
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 6.762500561308116e-05,
+          "minimum_seconds": 6.683399260509759e-05,
+          "maximum_seconds": 0.0005455409991554916,
+          "samples_seconds": [
+            7.091699808370322e-05,
+            6.762500561308116e-05,
+            6.716699863318354e-05,
+            6.683399260509759e-05,
+            0.0005455409991554916
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 1.0624993592500687e-05,
+          "minimum_seconds": 1.0458010365255177e-05,
+          "maximum_seconds": 1.087499549612403e-05,
+          "samples_seconds": [
+            1.087499549612403e-05,
+            1.070801226887852e-05,
+            1.0624993592500687e-05,
+            1.0540999937802553e-05,
+            1.0458010365255177e-05
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.01678279199404642,
+          "minimum_seconds": 0.009879332996206358,
+          "maximum_seconds": 0.05047533400647808,
+          "samples_seconds": [
+            0.01638479200482834,
+            0.01793645799625665,
+            0.01678279199404642,
+            0.009879332996206358,
+            0.05047533400647808
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 21568,
+          "peak_python_bytes": 403336
+        },
+        "state_dict": {
+          "retained_python_bytes": 44965,
+          "peak_python_bytes": 406880
+        }
+      },
+      "checkpoint_serialized_bytes": 33603,
+      "checkpoint_tensor_payload": {
+        "tensors": 96,
+        "elements": 96,
+        "bytes": 384
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "float",
+      "parameter_tensors": 10000,
+      "parameter_elements": 10000,
+      "parameter_payload_bytes": 40000,
+      "groups": 32,
+      "observations": 100000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.10169291599595454,
+          "minimum_seconds": 0.07759920800162945,
+          "maximum_seconds": 0.1525136249983916,
+          "samples_seconds": [
+            0.10169291599595454,
+            0.1525136249983916,
+            0.12244875000033062,
+            0.08464429200103041,
+            0.07759920800162945
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.0007872080022934824,
+          "minimum_seconds": 0.0007737919950159267,
+          "maximum_seconds": 0.000802999988081865,
+          "samples_seconds": [
+            0.000802999988081865,
+            0.0007976670021889731,
+            0.0007757499988656491,
+            0.0007872080022934824,
+            0.0007737919950159267
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 6.833011866547167e-06,
+          "minimum_seconds": 6.749993190169334e-06,
+          "maximum_seconds": 6.9590023485943675e-06,
+          "samples_seconds": [
+            6.9590023485943675e-06,
+            6.874994141981006e-06,
+            6.749993190169334e-06,
+            6.833011866547167e-06,
+            6.832997314631939e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 1.3124998076818883e-05,
+          "minimum_seconds": 1.2874996173195541e-05,
+          "maximum_seconds": 1.3416996807791293e-05,
+          "samples_seconds": [
+            1.3416996807791293e-05,
+            1.3167009456083179e-05,
+            1.3124998076818883e-05,
+            1.2874996173195541e-05,
+            1.3042008504271507e-05
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 5.041991244070232e-06,
+          "minimum_seconds": 4.917004844173789e-06,
+          "maximum_seconds": 5.1249953685328364e-06,
+          "samples_seconds": [
+            5.1249953685328364e-06,
+            4.917004844173789e-06,
+            4.917004844173789e-06,
+            5.1249953685328364e-06,
+            5.041991244070232e-06
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.03961608299869113,
+          "minimum_seconds": 0.033441916006268,
+          "maximum_seconds": 0.05567212498863228,
+          "samples_seconds": [
+            0.033441916006268,
+            0.03468237500055693,
+            0.05567212498863228,
+            0.05113112500112038,
+            0.03961608299869113
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 806488,
+          "peak_python_bytes": 4007840
+        },
+        "state_dict": {
+          "retained_python_bytes": 802904,
+          "peak_python_bytes": 804648
+        }
+      },
+      "checkpoint_serialized_bytes": 902637,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "cpu",
+      "lr_kind": "tensor",
+      "parameter_tensors": 10000,
+      "parameter_elements": 10000,
+      "parameter_payload_bytes": 40000,
+      "groups": 32,
+      "observations": 100000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.08785550000902731,
+          "minimum_seconds": 0.07434745800856035,
+          "maximum_seconds": 0.1369505000038771,
+          "samples_seconds": [
+            0.1369505000038771,
+            0.08879716599767562,
+            0.07841400000324938,
+            0.07434745800856035,
+            0.08785550000902731
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.0009655419999035075,
+          "minimum_seconds": 0.0009489579970249906,
+          "maximum_seconds": 0.0010517500049900264,
+          "samples_seconds": [
+            0.0010517500049900264,
+            0.001036250003380701,
+            0.0009534999990137294,
+            0.0009655419999035075,
+            0.0009489579970249906
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 6.6250009695068e-05,
+          "minimum_seconds": 6.599999323952943e-05,
+          "maximum_seconds": 6.720799137838185e-05,
+          "samples_seconds": [
+            6.720799137838185e-05,
+            6.616600148845464e-05,
+            6.629199197050184e-05,
+            6.599999323952943e-05,
+            6.6250009695068e-05
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 6.504199700430036e-05,
+          "minimum_seconds": 6.29170099273324e-05,
+          "maximum_seconds": 0.0001402909983880818,
+          "samples_seconds": [
+            6.504199700430036e-05,
+            0.0001402909983880818,
+            6.725000275764614e-05,
+            6.36670010862872e-05,
+            6.29170099273324e-05
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 1.0124989785254002e-05,
+          "minimum_seconds": 1.0042000212706625e-05,
+          "maximum_seconds": 1.0666000889614224e-05,
+          "samples_seconds": [
+            1.0666000889614224e-05,
+            1.0166986612603068e-05,
+            1.0124989785254002e-05,
+            1.0082992957904935e-05,
+            1.0042000212706625e-05
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.03530816700367723,
+          "minimum_seconds": 0.03475095900648739,
+          "maximum_seconds": 0.03730974999780301,
+          "samples_seconds": [
+            0.03730974999780301,
+            0.03530816700367723,
+            0.034885041997767985,
+            0.03475095900648739,
+            0.03557120899495203
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 813696,
+          "peak_python_bytes": 4019744
+        },
+        "state_dict": {
+          "retained_python_bytes": 837547,
+          "peak_python_bytes": 877179
+        }
+      },
+      "checkpoint_serialized_bytes": 924803,
+      "checkpoint_tensor_payload": {
+        "tensors": 96,
+        "elements": 96,
+        "bytes": 384
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "mps",
+      "lr_kind": "float",
+      "parameter_tensors": 1,
+      "parameter_elements": 1,
+      "parameter_payload_bytes": 4,
+      "groups": 1,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.0009410420025233179,
+          "minimum_seconds": 0.0009193750011036173,
+          "maximum_seconds": 0.0010785409976961091,
+          "samples_seconds": [
+            0.0009598750039003789,
+            0.0010785409976961091,
+            0.0009319999953731894,
+            0.0009410420025233179,
+            0.0009193750011036173
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 3.4579861676320434e-06,
+          "minimum_seconds": 3.1660019885748625e-06,
+          "maximum_seconds": 4.083005478605628e-06,
+          "samples_seconds": [
+            4.083005478605628e-06,
+            3.541994374245405e-06,
+            3.4579861676320434e-06,
+            3.1660019885748625e-06,
+            3.2500101951882243e-06
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 1.0420044418424368e-06,
+          "minimum_seconds": 1.0419898899272084e-06,
+          "maximum_seconds": 1.3750104699283838e-06,
+          "samples_seconds": [
+            1.3750104699283838e-06,
+            1.0420044418424368e-06,
+            1.0420044418424368e-06,
+            1.0419898899272084e-06,
+            1.0420044418424368e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 4.250003257766366e-06,
+          "minimum_seconds": 4.124987754039466e-06,
+          "maximum_seconds": 4.750007065013051e-06,
+          "samples_seconds": [
+            4.750007065013051e-06,
+            4.3339969124644995e-06,
+            4.250003257766366e-06,
+            4.124987754039466e-06,
+            4.125002305954695e-06
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 9.170034900307655e-07,
+          "minimum_seconds": 8.750066626816988e-07,
+          "maximum_seconds": 1.00000761449337e-06,
+          "samples_seconds": [
+            1.00000761449337e-06,
+            9.170034900307655e-07,
+            9.159994078800082e-07,
+            8.750066626816988e-07,
+            9.170034900307655e-07
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.0003431249933782965,
+          "minimum_seconds": 0.0003394170053070411,
+          "maximum_seconds": 0.00034758300171233714,
+          "samples_seconds": [
+            0.00034758300171233714,
+            0.0003431249933782965,
+            0.0003394170053070411,
+            0.0003416250110603869,
+            0.0003439580032136291
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 12400,
+          "peak_python_bytes": 43536
+        },
+        "state_dict": {
+          "retained_python_bytes": 10248,
+          "peak_python_bytes": 11520
+        }
+      },
+      "checkpoint_serialized_bytes": 10605,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "mps",
+      "lr_kind": "tensor",
+      "parameter_tensors": 1,
+      "parameter_elements": 1,
+      "parameter_payload_bytes": 4,
+      "groups": 1,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.002394208000623621,
+          "minimum_seconds": 0.0020831250003539026,
+          "maximum_seconds": 0.004732375004095957,
+          "samples_seconds": [
+            0.0024676250031916425,
+            0.002226499986136332,
+            0.002394208000623621,
+            0.0020831250003539026,
+            0.004732375004095957
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.00039679199107922614,
+          "minimum_seconds": 0.00022937500034458935,
+          "maximum_seconds": 0.000934750001761131,
+          "samples_seconds": [
+            0.0002599580038804561,
+            0.00039679199107922614,
+            0.00043804199958685786,
+            0.000934750001761131,
+            0.00022937500034458935
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 0.00032945799466688186,
+          "minimum_seconds": 0.0003122500056633726,
+          "maximum_seconds": 0.00036662499769590795,
+          "samples_seconds": [
+            0.00036662499769590795,
+            0.00032945799466688186,
+            0.00032708300568629056,
+            0.0003297079965705052,
+            0.0003122500056633726
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 0.00027895800303667784,
+          "minimum_seconds": 0.0002697079908102751,
+          "maximum_seconds": 0.00032700000156182796,
+          "samples_seconds": [
+            0.00030395899375434965,
+            0.000277083003311418,
+            0.0002697079908102751,
+            0.00032700000156182796,
+            0.00027895800303667784
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 0.00027624999347608536,
+          "minimum_seconds": 0.0002320829953532666,
+          "maximum_seconds": 0.00027837499510496855,
+          "samples_seconds": [
+            0.00027633299760054797,
+            0.0002320829953532666,
+            0.00027837499510496855,
+            0.0002733750006882474,
+            0.00027624999347608536
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.0013964999961899593,
+          "minimum_seconds": 0.001320249997661449,
+          "maximum_seconds": 0.0018095420091412961,
+          "samples_seconds": [
+            0.001349041995126754,
+            0.0013964999961899593,
+            0.001320249997661449,
+            0.0018095420091412961,
+            0.0014550839987350628
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 12664,
+          "peak_python_bytes": 43906
+        },
+        "state_dict": {
+          "retained_python_bytes": 10944,
+          "peak_python_bytes": 13336
+        }
+      },
+      "checkpoint_serialized_bytes": 11361,
+      "checkpoint_tensor_payload": {
+        "tensors": 3,
+        "elements": 3,
+        "bytes": 12
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "mps",
+      "lr_kind": "float",
+      "parameter_tensors": 32,
+      "parameter_elements": 32,
+      "parameter_payload_bytes": 128,
+      "groups": 32,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.0011554579978110269,
+          "minimum_seconds": 0.0010872919956455007,
+          "maximum_seconds": 0.0012376660015434027,
+          "samples_seconds": [
+            0.0011554579978110269,
+            0.0012209170090500265,
+            0.001105916002416052,
+            0.0012376660015434027,
+            0.0010872919956455007
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 5.5665994295850396e-05,
+          "minimum_seconds": 5.51670091226697e-05,
+          "maximum_seconds": 5.633299588225782e-05,
+          "samples_seconds": [
+            5.562500155065209e-05,
+            5.633299588225782e-05,
+            5.587500345427543e-05,
+            5.5665994295850396e-05,
+            5.51670091226697e-05
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 8.125003660097718e-06,
+          "minimum_seconds": 7.95800588093698e-06,
+          "maximum_seconds": 8.750008419156075e-06,
+          "samples_seconds": [
+            8.750008419156075e-06,
+            8.416987839154899e-06,
+            8.125003660097718e-06,
+            8.040995453484356e-06,
+            7.95800588093698e-06
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 1.5458004781976342e-05,
+          "minimum_seconds": 1.5375000657513738e-05,
+          "maximum_seconds": 1.5999990864656866e-05,
+          "samples_seconds": [
+            1.5999990864656866e-05,
+            1.5458004781976342e-05,
+            1.566599530633539e-05,
+            1.5375000657513738e-05,
+            1.5375000657513738e-05
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 5.95799065195024e-06,
+          "minimum_seconds": 5.916997906751931e-06,
+          "maximum_seconds": 6.250003934837878e-06,
+          "samples_seconds": [
+            6.250003934837878e-06,
+            6.040994776412845e-06,
+            5.916997906751931e-06,
+            5.95799065195024e-06,
+            5.916997906751931e-06
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.0004935410106554627,
+          "minimum_seconds": 0.0004891660064458847,
+          "maximum_seconds": 0.0005040830001235008,
+          "samples_seconds": [
+            0.0005040830001235008,
+            0.0004917920014122501,
+            0.0004935410106554627,
+            0.0004954579926561564,
+            0.0004891660064458847
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 15800,
+          "peak_python_bytes": 49024
+        },
+        "state_dict": {
+          "retained_python_bytes": 13800,
+          "peak_python_bytes": 15544
+        }
+      },
+      "checkpoint_serialized_bytes": 11437,
+      "checkpoint_tensor_payload": {
+        "tensors": 0,
+        "elements": 0,
+        "bytes": 0
+      },
+      "parameter_values_unchanged": true
+    },
+    {
+      "device": "mps",
+      "lr_kind": "tensor",
+      "parameter_tensors": 32,
+      "parameter_elements": 32,
+      "parameter_payload_bytes": 128,
+      "groups": 32,
+      "observations": 1000,
+      "measurements": {
+        "full_step": {
+          "median_seconds": 0.01780375000089407,
+          "minimum_seconds": 0.015886207998846658,
+          "maximum_seconds": 0.02514420800434891,
+          "samples_seconds": [
+            0.01780375000089407,
+            0.023326875001657754,
+            0.016913999992539175,
+            0.015886207998846658,
+            0.02514420800434891
+          ]
+        },
+        "group_validation": {
+          "median_seconds": 0.0058276670024497434,
+          "minimum_seconds": 0.005292542002280243,
+          "maximum_seconds": 0.01940229100000579,
+          "samples_seconds": [
+            0.0058276670024497434,
+            0.01761741700465791,
+            0.005619082992780022,
+            0.005292542002280243,
+            0.01940229100000579
+          ]
+        },
+        "lr_preparation": {
+          "median_seconds": 0.006700708996504545,
+          "minimum_seconds": 0.006571124991751276,
+          "maximum_seconds": 0.02170079200004693,
+          "samples_seconds": [
+            0.006572667000000365,
+            0.02170079200004693,
+            0.006571124991751276,
+            0.006700708996504545,
+            0.01851508299296256
+          ]
+        },
+        "storage_validation_and_apply": {
+          "median_seconds": 0.00039224998909048736,
+          "minimum_seconds": 0.0003836249961750582,
+          "maximum_seconds": 0.00041575000796001405,
+          "samples_seconds": [
+            0.00040104200888890773,
+            0.00041575000796001405,
+            0.00039224998909048736,
+            0.00038475000474136323,
+            0.0003836249961750582
+          ]
+        },
+        "scalar_extraction": {
+          "median_seconds": 0.005327582999598235,
+          "minimum_seconds": 0.0048818749928614125,
+          "maximum_seconds": 0.009288749992265366,
+          "samples_seconds": [
+            0.0048818749928614125,
+            0.007012917005340569,
+            0.009288749992265366,
+            0.005327582999598235,
+            0.005264790990622714
+          ]
+        },
+        "state_dict": {
+          "median_seconds": 0.017079124998417683,
+          "minimum_seconds": 0.011924874997930601,
+          "maximum_seconds": 0.023363625005003996,
+          "samples_seconds": [
+            0.020167041991953738,
+            0.023363625005003996,
+            0.011924874997930601,
+            0.017079124998417683,
+            0.014449374997639097
+          ]
+        }
+      },
+      "allocations": {
+        "step": {
+          "retained_python_bytes": 23008,
+          "peak_python_bytes": 61040
+        },
+        "state_dict": {
+          "retained_python_bytes": 32600,
+          "peak_python_bytes": 57104
+        }
+      },
+      "checkpoint_serialized_bytes": 33603,
+      "checkpoint_tensor_payload": {
+        "tensors": 96,
+        "elements": 96,
+        "bytes": 384
+      },
+      "parameter_values_unchanged": true
+    }
+  ],
+  "history_retention": {
+    "epochs": 8,
+    "observations_per_epoch": 100000,
+    "retained_python_bytes_after_each_epoch": [
+      3200336,
+      3201264,
+      3201384,
+      3201448,
+      3201512,
+      3201640,
+      3201704,
+      3201768
+    ],
+    "peak_python_bytes_during_each_epoch": [
+      7202928,
+      10405288,
+      10406152,
+      10406272,
+      10406336,
+      10406464,
+      10406528,
+      10406592
+    ],
+    "final_retained_observations": 100000,
+    "checkpoint_serialized_bytes": 901805,
+    "plateau_updates": 1000,
+    "plateau_patience": 8,
+    "plateau_retained_metrics": 10,
+    "qualification": "DLRS retains one full supplied epoch; no fixed cap is enforced by the core scheduler."
+  }
+}

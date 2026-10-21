@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "dataset": "CIFAR10",
+  "phase": "tuning",
+  "seed": 0,
+  "policy": "CosineAnnealingLR",
+  "lr": 0.1,
+  "result": {
+    "scheduler": "CosineAnnealingLR",
+    "dataset": "CIFAR10",
+    "seed": 0,
+    "environment": {
+      "torch": "2.14.1",
+      "python": "3.11.12",
+      "device": "mps",
+      "platform": "macOS-26.6.2-arm64-arm-64bit"
+    },
+    "config": {
+      "epochs": 6,
+      "batch_size": 128,
+      "initial_lr": 0.1,
+      "validation_fraction": 0.1,
+      "num_workers": 0,
+      "split_seed": 42,
+      "max_lr": 0.5,
+      "train_examples": 45000,
+      "validation_examples": 5000,
+      "test_evaluated": false
+    },
+    "initial_model_sha256": "f38ee595c2b625bbcac09b63d27fd97a69ff8052c0b69df3e0619d5dee6c792a",
+    "split_sha256": "a237758c443f22ef12b7d47627ee0493992993457c915776ac1e5e6a4a69d49d",
+    "train_loss": [
+      1.9330975043190848,
+      1.6753008636686524,
+      1.5163594597498566,
+      1.3583319509718152,
+      1.17607798398336,
+      1.0644432046890273
+    ],
+    "validation_loss": [
+      1.6348598913192751,
+      1.4625999055862422,
+      1.3760448543548585,
+      1.142823749923706,
+      1.037194730758667,
+      0.9144798013687134
+    ],
+    "validation_accuracy": [
+      39.16,
+      47.44,
+      52.28,
+      59.3,
+      63.76,
+      67.84
+    ],
+    "learning_rates": [
+      0.1,
+      0.09330127018922195,
+      0.07500000000000001,
+      0.05,
+      0.025000000000000012,
+      0.006698729810778065
+    ],
+    "next_learning_rates": [
+      0.09330127018922195,
+      0.07500000000000001,
+      0.05,
+      0.025000000000000012,
+      0.006698729810778065,
+      0.0
+    ],
+    "epoch_times": [
+      20.941543416003697,
+      22.463164458007668,
+      22.96095462499943,
+      23.951333708988386,
+      23.132687165998504,
+      26.427862583994283
+    ],
+    "total_time": 139.8786202499905,
+    "best_validation_accuracy": 67.84
+  }
+}

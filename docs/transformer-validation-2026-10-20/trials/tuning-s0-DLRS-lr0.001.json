@@ -1,0 +1,40 @@
+{
+  "phase": "tuning",
+  "seed": 0,
+  "policy": "DLRS",
+  "rate": 0.001,
+  "manifest_sha256": "09fc3266d51745a95f514a849218a644b72b1630a91183abdb2d3acd34da7e69",
+  "status": "passed",
+  "result": {
+    "initial_model_sha256": "ae1722e2672eed2213ba7dfbbddd927becc9a00397ca3db6bfa555159648b108",
+    "training_index_stream_sha256": "1e1dc316f1f652467e4bf952fcbbcc4334b43414e31d6ea60d74a96b93a0175a",
+    "training_split_sha256": "8564bb90b6305620187b212d62ee40694e1b3639401878b3fdc4ec395016ec4a",
+    "validation_split_sha256": "ef3b6eb3897a96dde32bc0b42686ea22f84dbf93746e611936b431d2a9524fac",
+    "parameter_count": 103936,
+    "optimizer_updates": 384,
+    "training_target_bytes": 393216,
+    "window_train_nll": [
+      3.71877184137702,
+      2.727985180914402,
+      2.557584248483181,
+      2.503651261329651,
+      2.4592960365116596,
+      2.4093060195446014
+    ],
+    "window_learning_rates": [
+      0.001,
+      0.0010701529413645054,
+      0.0010841307347392445,
+      0.001086425331933589,
+      0.001088711288480226,
+      0.0010929307505705556
+    ],
+    "final_learning_rate": 0.0010983725349104163,
+    "validation": {
+      "nll": 2.400662852341689,
+      "target_bytes": 111538
+    },
+    "elapsed_seconds": 48.117920999997295
+  },
+  "elapsed_seconds": 48.11827837499732
+}

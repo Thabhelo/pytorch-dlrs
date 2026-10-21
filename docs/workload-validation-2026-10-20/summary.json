@@ -1,0 +1,158 @@
+[
+  {
+    "dataset": "MNIST",
+    "selected_lrs": {
+      "NoScheduler": 0.01,
+      "CosineAnnealingLR": 0.1,
+      "DLRS": 0.03
+    },
+    "metric": "final_accuracy",
+    "policies": {
+      "NoScheduler": {
+        "completed": 5,
+        "failed": 0,
+        "mean": 98.896,
+        "sample_sd": 0.0826438140455789
+      },
+      "CosineAnnealingLR": {
+        "completed": 5,
+        "failed": 0,
+        "mean": 99.14,
+        "sample_sd": 0.04527692569068592
+      },
+      "DLRS": {
+        "completed": 5,
+        "failed": 0,
+        "mean": 98.96600000000001,
+        "sample_sd": 0.08049844718999159
+      }
+    },
+    "comparisons": [
+      {
+        "baseline": "NoScheduler",
+        "paired_effect": 0.07000000000000739,
+        "bootstrap_95_interval": [
+          0.0060000000000087535,
+          0.13400000000000603
+        ],
+        "accepted": true,
+        "median_time_ratio": 0.9433411773097796
+      },
+      {
+        "baseline": "CosineAnnealingLR",
+        "paired_effect": -0.17399999999999807,
+        "bootstrap_95_interval": [
+          -0.24799999999999614,
+          -0.06799999999999784
+        ],
+        "accepted": true,
+        "median_time_ratio": 0.8969696534339026
+      }
+    ],
+    "accepted": true
+  },
+  {
+    "dataset": "CIFAR10",
+    "selected_lrs": {
+      "NoScheduler": 0.03,
+      "CosineAnnealingLR": 0.03,
+      "DLRS": 0.01
+    },
+    "metric": "final_accuracy",
+    "policies": {
+      "NoScheduler": {
+        "completed": 5,
+        "failed": 0,
+        "mean": 68.634,
+        "sample_sd": 1.1861197241425525
+      },
+      "CosineAnnealingLR": {
+        "completed": 5,
+        "failed": 0,
+        "mean": 72.348,
+        "sample_sd": 0.6061105509723466
+      },
+      "DLRS": {
+        "completed": 5,
+        "failed": 0,
+        "mean": 68.586,
+        "sample_sd": 0.8957845723163587
+      }
+    },
+    "comparisons": [
+      {
+        "baseline": "NoScheduler",
+        "paired_effect": -0.048000000000004664,
+        "bootstrap_95_interval": [
+          -1.366000000000011,
+          1.0599999999999965
+        ],
+        "accepted": false,
+        "median_time_ratio": 1.0060366903941673
+      },
+      {
+        "baseline": "CosineAnnealingLR",
+        "paired_effect": -3.7620000000000005,
+        "bootstrap_95_interval": [
+          -4.195999999999998,
+          -3.238000000000002
+        ],
+        "accepted": false,
+        "median_time_ratio": 1.0511986406644127
+      }
+    ],
+    "accepted": false
+  },
+  {
+    "dataset": "HelmholtzPINN",
+    "selected_lrs": {
+      "NoScheduler": 0.001,
+      "CosineAnnealingLR": 0.01,
+      "DLRS": 0.01
+    },
+    "metric": "relative_rmse",
+    "policies": {
+      "NoScheduler": {
+        "completed": 5,
+        "failed": 0,
+        "mean": 0.006239537335932255,
+        "sample_sd": 0.003883060531971292
+      },
+      "CosineAnnealingLR": {
+        "completed": 5,
+        "failed": 0,
+        "mean": 0.00019362761377124117,
+        "sample_sd": 8.761834943086125e-05
+      },
+      "DLRS": {
+        "completed": 5,
+        "failed": 0,
+        "mean": 0.0009620049910154194,
+        "sample_sd": 0.0010002845280798855
+      }
+    },
+    "comparisons": [
+      {
+        "baseline": "NoScheduler",
+        "paired_effect": 0.09953764613222724,
+        "bootstrap_95_interval": [
+          0.032608705075857954,
+          0.35748972441607674
+        ],
+        "accepted": true,
+        "median_time_ratio": 1.0163750929372108
+      },
+      {
+        "baseline": "CosineAnnealingLR",
+        "paired_effect": 3.113765629140508,
+        "bootstrap_95_interval": [
+          1.3498807463174882,
+          6.962376993179662
+        ],
+        "accepted": false,
+        "median_time_ratio": 1.0089723051190143
+      }
+    ],
+    "accepted": false
+  }
+]

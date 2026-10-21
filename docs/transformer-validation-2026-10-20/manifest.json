@@ -1,0 +1,124 @@
+{
+  "protocol": {
+    "protocol_version": 1,
+    "purpose": "Predeclared bounded CPU Transformer language-model comparison; not LLM-scale or universal non-regression certification",
+    "policies": [
+      "NoScheduler",
+      "CosineAnnealingLR",
+      "DLRS"
+    ],
+    "tuning_seed": 0,
+    "confirmation_seeds": [
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "initial_lr_grid": [
+      0.0003,
+      0.001,
+      0.003
+    ],
+    "selection": "Lowest final validation NLL for each policy; ties use declared LR-grid order; test data never tokenized or evaluated during tuning",
+    "corpus": {
+      "name": "Tiny Shakespeare, original public-domain Shakespeare text distributed by karpathy/char-rnn",
+      "repository_commit": "6f9487a6fe5b420b7ca9afb0d7c078e37c1d1b4e",
+      "url": "https://raw.githubusercontent.com/karpathy/char-rnn/6f9487a6fe5b420b7ca9afb0d7c078e37c1d1b4e/data/tinyshakespeare/input.txt",
+      "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+      "bytes": 1115394,
+      "filename": "tinyshakespeare-input.txt",
+      "split": "Contiguous byte ranges: train [0,floor(0.8*N)), validation [floor(0.8*N),floor(0.9*N)), test [floor(0.9*N),N); no cross-split context",
+      "tokenization": "Raw bytes, fixed vocabulary 0..255, no learned tokenizer, text cleanup, or held-out vocabulary discovery"
+    },
+    "model": {
+      "layers": 2,
+      "width": 64,
+      "heads": 4,
+      "feedforward_width": 128,
+      "context": 64,
+      "vocabulary": 256,
+      "dropout": 0.1,
+      "architecture": "Causal pre-LayerNorm TransformerEncoderLayer blocks with independently initialized layers, learned positions, final LayerNorm, untied output projection"
+    },
+    "training": {
+      "device": "cpu",
+      "dtype": "float32",
+      "threads": 2,
+      "batch_size": 16,
+      "scheduler_windows": 6,
+      "updates_per_window": 64,
+      "total_optimizer_updates": 384,
+      "training_target_bytes_per_trial": 393216,
+      "sampling": "Uniform independent contiguous training windows with replacement; separate CPU generator seeded seed+1000; identical index stream per paired seed",
+      "optimizer": "AdamW",
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "weight_decay": 0.01,
+      "epsilon": 1e-08,
+      "gradient_clip_norm": 1.0,
+      "dlrs_min_lr": 1e-06,
+      "dlrs_max_lr": 0.01,
+      "dlrs_factors": {
+        "delta_d": 0.5,
+        "delta_o": 1.0,
+        "delta_i": 0.1
+      },
+      "scheduler_clock": "One update after each 64-step window; DLRS consumes all 64 ordered unscaled minibatch mean losses; CosineAnnealingLR T_max=6, eta_min=0",
+      "initialization": "Same torch seed per paired trial; embeddings/linear weights normal std0.02, biases zero, independently drawn attention projections",
+      "trial_order": "Rotate policy order by LR-grid index for tuning and by confirmation-seed index for confirmation",
+      "wall_clock_budget_seconds": null,
+      "budget_behavior": "No default wall-clock cutoff; fixed384 optimizer updates per trial bound compute. Optional explicit resource interruption is incomplete evidence, never a shortened completed trial."
+    },
+    "evaluation": {
+      "batch_size": 32,
+      "metric": "Mean next-byte cross entropy in natural-log units (nats per target byte)",
+      "coverage": "All targets except the first byte of each held-out split, exactly once; consecutive context-length blocks with context reset, including the final partial block",
+      "mode": "eval/no_grad; final model only; validation once after training; held-out test only in confirmation",
+      "perplexity": "exp(mean NLL), supplementary descriptive metric"
+    },
+    "acceptance": {
+      "status": "PROVISIONAL research comparison criterion, not a production safety margin",
+      "nll_noninferiority_margin_nats_per_byte": 0.05,
+      "rule": "Require all 15 confirmation trials to complete with finite results and the paired 95% percentile-bootstrap upper bound for mean DLRS-minus-baseline test NLL to be <=0.05 against each tuned baseline",
+      "interval": "Enumerate all 5^5 ordered bootstrap resamples of paired seed differences; pointwise exploratory percentile intervals, not exact frequentist coverage or simultaneous confidence guarantees",
+      "margin_context": "0.05 nats corresponds to exp(0.05), about 1.0513 times perplexity; chosen before outcomes as a provisional bound, not justified by a downstream user risk budget",
+      "failures": "Retain failed tuning and confirmation trials; failed tuning candidates cannot be selected; any failed/missing confirmation or budget interruption prevents acceptance",
+      "timing": "Record wall times and paired ratios only as exploratory shared-laptop observations"
+    }
+  },
+  "protocol_sha256": "bb8eb48c26ed42d4b263fab58173987f0d27b6f79ab310d2563417546fe0cb4e",
+  "source_sha256": {
+    "dlrs/scheduler.py": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+    "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+    "benchmarks/validate_transformer_workload.py": "b6997e000189df06b563623e2d20e9d5a304039ab2bcbba067c4c5015183e35c"
+  },
+  "corpus_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+  "split_byte_ranges": {
+    "train": [
+      0,
+      892315
+    ],
+    "validation": [
+      892315,
+      1003854
+    ],
+    "test": [
+      1003854,
+      1115394
+    ]
+  },
+  "environment": {
+    "python": "3.11.12",
+    "torch": "2.14.1",
+    "numpy": "1.26.4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "device": "cpu",
+    "dtype": "float32",
+    "threads": 2,
+    "deterministic_algorithms": true
+  },
+  "created_utc": "2026-10-20T21:10:54.447810+00:00"
+}

@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "dataset": "MNIST",
+  "phase": "tuning",
+  "seed": 0,
+  "policy": "CosineAnnealingLR",
+  "lr": 0.01,
+  "result": {
+    "scheduler": "CosineAnnealingLR",
+    "dataset": "MNIST",
+    "seed": 0,
+    "environment": {
+      "torch": "2.14.1",
+      "python": "3.11.12",
+      "device": "mps",
+      "platform": "macOS-26.6.2-arm64-arm-64bit"
+    },
+    "config": {
+      "epochs": 6,
+      "batch_size": 128,
+      "initial_lr": 0.01,
+      "validation_fraction": 0.1,
+      "num_workers": 0,
+      "split_seed": 42,
+      "max_lr": 0.5,
+      "train_examples": 54000,
+      "validation_examples": 6000,
+      "test_evaluated": false
+    },
+    "initial_model_sha256": "2d2b94264c69af8598e330e30caea452ce3bcc7a01a0ab9e61c5a17118b1eb2c",
+    "split_sha256": "9b187f05edfca1a6972b199ba555e20935fbbb44b16000e5ea5b948ba393d040",
+    "train_loss": [
+      0.3966754880194307,
+      0.12437311121711032,
+      0.08814538711530201,
+      0.06965774711193862,
+      0.05932309834052021,
+      0.0560892570438209
+    ],
+    "validation_loss": [
+      0.10012599678834277,
+      0.0715604504744212,
+      0.0582289508183797,
+      0.05430359605948132,
+      0.047749454816182445,
+      0.04590268033742903
+    ],
+    "validation_accuracy": [
+      96.95,
+      97.7,
+      98.1,
+      98.31666666666666,
+      98.51666666666667,
+      98.6
+    ],
+    "learning_rates": [
+      0.01,
+      0.009330127018922194,
+      0.007500000000000001,
+      0.005,
+      0.0025000000000000014,
+      0.0006698729810778065
+    ],
+    "next_learning_rates": [
+      0.009330127018922194,
+      0.007500000000000001,
+      0.005,
+      0.0025000000000000014,
+      0.0006698729810778065,
+      0.0
+    ],
+    "epoch_times": [
+      24.165172082997742,
+      23.96066566700756,
+      20.169370417002938,
+      23.340660125002614,
+      25.263927708001575,
+      21.671289792007883
+    ],
+    "total_time": 138.57195862499066,
+    "best_validation_accuracy": 98.6
+  }
+}

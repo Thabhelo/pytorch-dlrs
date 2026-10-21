@@ -1,0 +1,40 @@
+{
+  "scope": "Synthetic uniformly random bytes, no real corpus access or quality metrics",
+  "protocol_sha256": "bb8eb48c26ed42d4b263fab58173987f0d27b6f79ab310d2563417546fe0cb4e",
+  "source_sha256": {
+    "dlrs/scheduler.py": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+    "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+    "benchmarks/validate_transformer_workload.py": "b6997e000189df06b563623e2d20e9d5a304039ab2bcbba067c4c5015183e35c"
+  },
+  "torch": "2.14.1",
+  "python": "3.11.12",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "threads": 2,
+  "parameter_count": 103936,
+  "warmup_updates": 4,
+  "timed_update_seconds": [
+    0.15197954200266395,
+    0.16080924999550916,
+    0.07667416598997079,
+    0.13104866600770038,
+    0.09266383400245104,
+    0.13154883300012443,
+    0.17205687500245403,
+    0.0789557079988299,
+    0.1884322499972768,
+    0.1667022920009913,
+    0.3178307080088416,
+    0.3431569579988718,
+    0.2693270830059191,
+    0.23572066699853167,
+    0.0930393749877112,
+    0.2211205829953542
+  ],
+  "median_update_seconds": 0.16375577099825023,
+  "evaluation_seconds": {
+    "validation": 3.5811357500060694,
+    "test": 4.863238000005367
+  },
+  "projected_24_trial_seconds": 1668.0690135201003,
+  "qualification": "Rough planning estimate under possible concurrent work; excludes startup and scheduler/IO costs, not a runtime guarantee."
+}

@@ -1,0 +1,85 @@
+{
+  "status": "passed",
+  "dataset": "MNIST",
+  "phase": "confirmation",
+  "seed": 14,
+  "policy": "NoScheduler",
+  "lr": 0.01,
+  "result": {
+    "scheduler": "NoScheduler",
+    "dataset": "MNIST",
+    "seed": 14,
+    "environment": {
+      "torch": "2.14.1",
+      "python": "3.11.12",
+      "device": "mps",
+      "platform": "macOS-26.6.2-arm64-arm-64bit"
+    },
+    "config": {
+      "epochs": 6,
+      "batch_size": 128,
+      "initial_lr": 0.01,
+      "validation_fraction": 0.1,
+      "num_workers": 0,
+      "split_seed": 42,
+      "max_lr": 0.5,
+      "train_examples": 54000,
+      "validation_examples": 6000,
+      "test_evaluated": true
+    },
+    "initial_model_sha256": "b5f14afc9440deb03c5e6a150f3257070dfed3649e6bf3615737eafe73e9347c",
+    "split_sha256": "9b187f05edfca1a6972b199ba555e20935fbbb44b16000e5ea5b948ba393d040",
+    "train_loss": [
+      0.40975136651816313,
+      0.12605636811697946,
+      0.09041023363117832,
+      0.07419321345841444,
+      0.06611372711592263,
+      0.0571249464248066
+    ],
+    "validation_loss": [
+      0.10045595947901409,
+      0.06482749958833058,
+      0.05756418720881142,
+      0.05606285482645034,
+      0.042345651725928,
+      0.03957349358002344
+    ],
+    "validation_accuracy": [
+      97.11666666666666,
+      98.01666666666667,
+      98.33333333333333,
+      98.28333333333333,
+      98.76666666666667,
+      98.76666666666667
+    ],
+    "learning_rates": [
+      0.01,
+      0.01,
+      0.01,
+      0.01,
+      0.01,
+      0.01
+    ],
+    "next_learning_rates": [
+      0.01,
+      0.01,
+      0.01,
+      0.01,
+      0.01,
+      0.01
+    ],
+    "epoch_times": [
+      26.456644332996802,
+      23.46822241701011,
+      26.22482158400817,
+      25.08542899999884,
+      22.166396540997084,
+      26.628072125007748
+    ],
+    "test_loss": 0.03225688167666085,
+    "final_accuracy": 98.91,
+    "total_time": 151.99111066600017,
+    "best_validation_accuracy": 98.76666666666667
+  }
+}

@@ -5,6 +5,38 @@ All notable changes to pytorch-dlrs will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0.dev0] - Unreleased
+
+This reliability revision remains experimental. It corrects implementation and
+integration defects; it does not certify large-scale readiness, convergence,
+performance superiority, or PyTorch acceptance. Intentional behavior changes are
+listed in [migration notes](docs/FAQ.md#migrating-from-021).
+
+### Fixed
+- Validate finite nonnegative observations and learning rates, finite positive
+  hyperparameters, and checkpoint shape/content before applying partial updates.
+- Preserve frozen zero-rate groups, scalar tensor LR identity, and tensor-valued
+  base-rate metadata when restoring checkpoints; keep tensor initial/base rates
+  independent from live LR storage on older PyTorch versions.
+- Compute slopes without the old near-zero cutoff or avoidable overflow.
+- Apply `DLRSOnPlateau(mode='max')` in the correct direction and bound its history.
+- Restore utility model modes and reject invalid recorded losses.
+- Correct the PINN example's forcing term and restrict callback examples to
+  explicitly supported lifecycles; disable the incomplete Transformers callback.
+- Remove incorrect rank-0-only DDP and scheduler-chaining instructions.
+- Centralize metadata in `pyproject.toml`; separate runtime, tests, and example
+  dependencies; include type markers and source documentation in distributions.
+
+### Changed
+- Clarify the metric wrapper's historical rolling-window meaning of `patience`;
+  it is not a `ReduceLROnPlateau` replacement.
+- Consolidate CI with explicit Python/PyTorch boundaries, isolated tooling,
+  interpreter-specific NumPy test dependencies, full test runs against
+  independently installed wheel/source archives, required
+  real Lightning integration checks, and release tag/version validation.
+- Replace unsupported universal compatibility, negligible-overhead, and
+  production-readiness claims with measured scope and validation requirements.
+
 ## [0.2.1] - 2025-10-10
 
 ### Fixed
@@ -14,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0] - 2025-10-09
 
-Production-ready release with comprehensive testing, type safety, and ecosystem integrations.
+Added testing, type annotations, and ecosystem examples. The original release described itself as production-ready; that claim was not supported by large-scale or broad integration evidence and is withdrawn. The package remains experimental.
 
 ### Added
 - **API Improvements**:

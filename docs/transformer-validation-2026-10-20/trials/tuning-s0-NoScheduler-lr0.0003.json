@@ -1,0 +1,40 @@
+{
+  "phase": "tuning",
+  "seed": 0,
+  "policy": "NoScheduler",
+  "rate": 0.0003,
+  "manifest_sha256": "09fc3266d51745a95f514a849218a644b72b1630a91183abdb2d3acd34da7e69",
+  "status": "passed",
+  "result": {
+    "initial_model_sha256": "ae1722e2672eed2213ba7dfbbddd927becc9a00397ca3db6bfa555159648b108",
+    "training_index_stream_sha256": "1e1dc316f1f652467e4bf952fcbbcc4334b43414e31d6ea60d74a96b93a0175a",
+    "training_split_sha256": "8564bb90b6305620187b212d62ee40694e1b3639401878b3fdc4ec395016ec4a",
+    "validation_split_sha256": "ef3b6eb3897a96dde32bc0b42686ea22f84dbf93746e611936b431d2a9524fac",
+    "parameter_count": 103936,
+    "optimizer_updates": 384,
+    "training_target_bytes": 393216,
+    "window_train_nll": [
+      4.578279133886099,
+      3.4677349478006363,
+      3.036993592977524,
+      2.8290754966437817,
+      2.700746089220047,
+      2.6244222559034824
+    ],
+    "window_learning_rates": [
+      0.0003,
+      0.0003,
+      0.0003,
+      0.0003,
+      0.0003,
+      0.0003
+    ],
+    "final_learning_rate": 0.0003,
+    "validation": {
+      "nll": 2.6009747984461957,
+      "target_bytes": 111538
+    },
+    "elapsed_seconds": 29.898228792008013
+  },
+  "elapsed_seconds": 29.899101875009364
+}

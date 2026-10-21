@@ -1,0 +1,78 @@
+{
+  "protocol": {
+    "protocol_version": 1,
+    "purpose": "Bounded-budget, full-dataset paired comparisons; not a large-model or universal non-regression certification",
+    "policies": [
+      "NoScheduler",
+      "CosineAnnealingLR",
+      "DLRS"
+    ],
+    "tuning_seed": 0,
+    "confirmation_seeds": [
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "split_seed": 42,
+    "validation_fraction": 0.1,
+    "selection_metric": "final validation loss only; test data never opened during tuning",
+    "vision": {
+      "datasets": [
+        "MNIST",
+        "CIFAR10"
+      ],
+      "epochs": 6,
+      "batch_size": 128,
+      "initial_lr_grid": [
+        0.01,
+        0.03,
+        0.1
+      ],
+      "optimizer": "SGD(momentum=0.9, weight_decay=0.0005)",
+      "dlrs_max_lr": 0.5,
+      "models": "Unchanged repository MNISTCNN and SimpleCNN",
+      "training_data": "All training examples after fixed 10% validation split; no dataset subsampling"
+    },
+    "pinn": {
+      "epochs": 400,
+      "batches_per_epoch": 4,
+      "interior_points_per_batch": 64,
+      "initial_lr_grid": [
+        0.0001,
+        0.001,
+        0.01
+      ],
+      "optimizer": "Adam",
+      "dlrs_max_lr": 0.01,
+      "model": "HelmholtzPINN(hidden_layers=3, hidden_dim=32), float32 CPU",
+      "validation_points": 257,
+      "test_points": 1024,
+      "test_grid": "Midpoints of 1024 equal cells; validation grid includes endpoints",
+      "forcing": "(1-pi^2)*sin(pi*x); k=1; zero boundary values"
+    },
+    "acceptance": {
+      "numeric": "No failed confirmation trial or nonfinite loss/gradient/rate/model output",
+      "vision": "Paired exact-bootstrap 95% lower bound for DLRS minus each tuned baseline test accuracy must be >= -1.0 percentage point",
+      "pinn": "Paired exact-bootstrap 95% upper bound for geometric mean DLRS/baseline relative-RMSE ratio must be <= 1.10 against each tuned baseline",
+      "timing": "Record paired median wall-time ratios; exploratory on a shared thermally constrained laptop, not a deployment SLO",
+      "scope": "A pass applies only to these fixed horizons/models/data/hyperparameter search budgets; it does not close CUDA, multi-node, or large-model gaps",
+      "vision_noninferiority_pp": 1.0,
+      "pinn_ratio_limit": 1.1
+    }
+  },
+  "code_sha256": {
+    "dlrs/scheduler.py": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+    "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+    "benchmarks/run_benchmarks.py": "ca5f0edc166fab7f6d0bc77ff5b5a532582e72b62e84d816a95e7d01659c6432",
+    "benchmarks/validate_workloads.py": "de5d10e9866b7dd43657902759bc1615701109638f777bb3aa7f690424da0f40",
+    "examples/pinns_helmholtz.py": "c297a3c175a475af0c823d4ffec03de1f2b15927aebc62f4dfeb45ec8828c5e0"
+  },
+  "device": "mps",
+  "python": "3.11.12",
+  "torch": "2.14.1",
+  "torchvision": "0.29.1",
+  "numpy": "1.26.4",
+  "platform": "macOS-26.6.2-arm64-arm-64bit"
+}

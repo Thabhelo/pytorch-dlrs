@@ -1,56 +1,91 @@
-"""
-Dynamic Learning Rate Scheduler (DLRS) for PyTorch
+"""Loss-driven learning-rate updates from arXiv:2507.21749v1.
 
-Implementation of the DLRS algorithm from:
-"Improving Neural Network Training using Dynamic Learning Rate Schedule for
-PINNs and Image Classification" (arXiv:2507.21749v1)
+DLRS is an opt-in training policy, not a convergence or non-regression guarantee.
 """
 
 import math
+import sys
 import warnings
-from typing import List, Optional
+from copy import deepcopy
+from decimal import Decimal, localcontext
+from fractions import Fraction
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import torch
 from torch.optim.lr_scheduler import LRScheduler
 
+from dlrs.utils import _validate_scalar
+
+
+def _nonnegative_int(value, name: str, minimum: int = 0) -> int:
+    if isinstance(value, bool) or not isinstance(value, int) or value < minimum:
+        raise ValueError(f"{name} must be an integer >= {minimum}")
+    return int(value)
+
+
+def _losses(values) -> List[float]:
+    if isinstance(values, (str, bytes, dict)):
+        raise ValueError("losses must be an iterable of finite nonnegative real scalars")
+    try:
+        return [_validate_scalar(value, "loss", nonnegative=True) for value in values]
+    except TypeError as exc:
+        raise ValueError("losses must be an iterable of finite nonnegative real scalars") from exc
+
+
+def _hyperparameters(delta_d, delta_o, delta_i, min_lr, max_lr) -> dict:
+    values: Dict[str, Any] = {}
+    for name, value in (("delta_d", delta_d), ("delta_o", delta_o),
+                        ("delta_i", delta_i), ("min_lr", min_lr), ("max_lr", max_lr)):
+        if name == "max_lr" and value is None:
+            values[name] = None
+            continue
+        number = _validate_scalar(value, name)
+        if number <= 0:
+            raise ValueError(f"{name} must be positive, got {number}")
+        values[name] = number
+    if max_lr is not None and values['max_lr'] <= values['min_lr']:
+        raise ValueError("max_lr must be greater than min_lr")
+    return values
+
+
+def _lr_value(value, name: str) -> float:
+    if isinstance(value, torch.Tensor):
+        if (value.ndim != 0 or not value.is_floating_point() or value.requires_grad
+                or value.is_inference()):
+            raise ValueError(f"{name} must be a writable floating scalar tensor without gradients")
+    return _validate_scalar(value, name, nonnegative=True)
+
+
+def _clone_lr(value) -> Union[float, torch.Tensor]:
+    return value.detach().clone() if isinstance(value, torch.Tensor) else float(value)
+
 
 class DLRSScheduler(LRScheduler):
+    """Adjust learning rates using an epoch's ordered, nonnegative batch losses.
+
+    For slope ``s = (last - first) / mean`` and current rate ``a > 0``, use
+    ``a - 10**floor(log10(a)) * delta * s``, clamped to ``min_lr`` and optional
+    ``max_lr``. ``delta_d`` applies to ``s > 1``, ``delta_o`` to ``0 <= s <= 1``,
+    and ``delta_i`` to ``s < 0``. A decreasing loss therefore increases the rate.
+    The paper's piecewise equation includes ``s == 1`` in the middle case.
+
+    Inputs must be finite real scalars; losses and optimizer rates must be
+    nonnegative. A zero optimizer rate stays frozen, exempt from ``min_lr``.
+    All-zero loss sequences and fewer than two losses warn and skip adjustment.
+    ``step(None)`` also leaves rates unchanged. Every successful call advances
+    ``last_epoch``; construction performs PyTorch's initial no-op step.
+
+    Floating scalar tensor rates are updated in place. Parameter groups must
+    retain their count and order after construction. This scheduler consumes
+    observations explicitly and is not automatically driven by ChainedScheduler
+    or SequentialLR. It is not intended for differentiable or captured stepping.
     """
-    Dynamic Learning Rate Scheduler that adjusts learning rate based on loss dynamics.
 
-    The scheduler analyzes the trend of batch losses within an epoch to determine
-    whether the model is converging, diverging, or stagnating, and adjusts the
-    learning rate accordingly.
-
-    Algorithm:
-        1. Collect batch losses during an epoch
-        2. Compute normalized loss slope: ΔL_j = (L_last - L_first) / L_mean
-        3. Compute adjustment granularity: n = floor(log10(α_j))
-        4. Calculate adjustment: α_δ_j = 10^n × δ_case × ΔL_j
-        5. Update learning rate: α_{j+1} = α_j - α_δ_j
-
-    When ΔL_j < 0 (loss decreasing), the subtraction becomes addition (LR increases).
-
-    Parameters:
-        optimizer (torch.optim.Optimizer): Optimizer to adjust learning rate for
-        delta_d (float): Decremental factor for divergence (ΔL_j > 1). Default: 0.5
-        delta_o (float): Stagnation factor for flat regions (0 <= ΔL_j < 1). Default: 1.0
-        delta_i (float): Incremental factor for convergence (ΔL_j < 0). Default: 0.1
-        min_lr (float): Minimum learning rate bound. Default: 1e-8
-        last_epoch (int): The index of last epoch. Default: -1
-        verbose (bool): If True, prints a message to stdout for each update. Default: False
-
-    Example:
-        >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
-        >>> scheduler = DLRSScheduler(optimizer, delta_d=0.5, delta_o=1.0, delta_i=0.1)
-        >>>
-        >>> for epoch in range(100):
-        >>>     batch_losses = []
-        >>>     for batch in dataloader:
-        >>>         loss = train_step(batch)
-        >>>         batch_losses.append(loss.item())
-        >>>     scheduler.step(batch_losses)
-    """
+    delta_d: float
+    delta_o: float
+    delta_i: float
+    min_lr: float
+    max_lr: Optional[float]
 
     def __init__(
         self,
@@ -61,192 +96,283 @@ class DLRSScheduler(LRScheduler):
         min_lr: float = 1e-8,
         max_lr: Optional[float] = None,
         last_epoch: int = -1,
-        verbose: bool = False
+        verbose: bool = False,
     ):
-        self.delta_d = delta_d
-        self.delta_o = delta_o
-        self.delta_i = delta_i
-        self.min_lr = min_lr
-        self.max_lr = max_lr
+        if not isinstance(optimizer, torch.optim.Optimizer):
+            raise TypeError("optimizer must be a torch.optim.Optimizer")
+        self.__dict__.update(_hyperparameters(delta_d, delta_o, delta_i, min_lr, max_lr))
+        _nonnegative_int(last_epoch, "last_epoch", -1)
+        if not isinstance(verbose, bool):
+            raise ValueError("verbose must be a bool")
         self.verbose = verbose
-
-        self._validate_hyperparameters()
-
+        for name, low, high in (("delta_d", 0.1, 1.0), ("delta_o", 0.5, 2.0),
+                                ("delta_i", 0.01, 0.5)):
+            value = getattr(self, name)
+            if not low <= value <= high:
+                warnings.warn(f"{name}={value} is outside typical range [{low}, {high}]",
+                              stacklevel=2)
+        for index, group in enumerate(optimizer.param_groups):
+            _lr_value(group['lr'], f"param group {index} lr")
+            if 'initial_lr' in group:
+                _lr_value(group['initial_lr'], f"param group {index} initial_lr")
+        self._param_group_ids = tuple(tuple(id(parameter) for parameter in group['params'])
+                                      for group in optimizer.param_groups)
         self.batch_losses: List[float] = []
-        self.loss_slope: float = 0.0
-        self.adjustment: float = 0.0
-
+        self.loss_slope = 0.0
+        self.adjustment = 0.0
         super().__init__(optimizer, last_epoch)
+        # Older PyTorch versions alias tensor initial_lr/base_lrs to the live LR.
+        # Metadata must stay fixed while DLRS updates that live tensor in place.
+        for group in optimizer.param_groups:
+            if isinstance(group['initial_lr'], torch.Tensor):
+                group['initial_lr'] = _clone_lr(group['initial_lr'])
+        self.base_lrs = [_clone_lr(value) if isinstance(value, torch.Tensor) else value
+                         for value in self.base_lrs]
 
-    def _validate_hyperparameters(self) -> None:
-        """Validate hyperparameter values."""
-        if not isinstance(self.delta_d, (int, float)) or self.delta_d <= 0:
-            raise ValueError(f"delta_d must be positive, got {self.delta_d}")
-        if not isinstance(self.delta_o, (int, float)) or self.delta_o <= 0:
-            raise ValueError(f"delta_o must be positive, got {self.delta_o}")
-        if not isinstance(self.delta_i, (int, float)) or self.delta_i <= 0:
-            raise ValueError(f"delta_i must be positive, got {self.delta_i}")
-        if not isinstance(self.min_lr, (int, float)) or self.min_lr <= 0:
-            raise ValueError(f"min_lr must be positive, got {self.min_lr}")
+    def _validate_groups(self) -> List[float]:
+        if tuple(tuple(id(parameter) for parameter in group['params'])
+                 for group in self.optimizer.param_groups) != self._param_group_ids:
+            raise ValueError("optimizer parameter groups changed; create a new DLRS scheduler")
+        return [_lr_value(group['lr'], f"param group {index} lr")
+                for index, group in enumerate(self.optimizer.param_groups)]
 
-        if self.max_lr is not None:
-            if not isinstance(self.max_lr, (int, float)) or self.max_lr <= 0:
-                raise ValueError(f"max_lr must be positive or None, got {self.max_lr}")
-            if self.max_lr <= self.min_lr:
-                raise ValueError(f"max_lr ({self.max_lr}) must be greater than min_lr ({self.min_lr})")
+    @staticmethod
+    def _candidate(current: float, slope: float, delta: float, min_lr: float,
+                   max_lr: Optional[float]):
+        if current == 0:
+            return 0.0, 0.0
+        exponent = math.floor(math.log10(current))
+        granularity = 10.0 ** exponent
+        # log10 may round a value immediately below a decade onto that decade.
+        if current < sys.float_info.min:
+            # A rounded subnormal power of ten can equal a value mathematically
+            # below that decade; compare the exact binary64 value instead.
+            exponent = Decimal.from_float(current).adjusted()
+            granularity = 10.0 ** exponent
+        elif granularity > current:
+            exponent -= 1
+            granularity = 10.0 ** exponent
+        elif exponent < 308 and 10.0 ** (exponent + 1) <= current:
+            exponent += 1
+            granularity = 10.0 ** exponent
+        if (granularity < sys.float_info.min
+                or granularity * delta < sys.float_info.min
+                or not math.isfinite(granularity * delta)):
+            # 10**-324 is smaller than a binary64 float, but its product need not be.
+            with localcontext() as context:
+                context.prec = 50
+                exact_adjustment = Decimal(10) ** exponent * Decimal(str(delta)) * Decimal(str(slope))
+                adjustment = float(exact_adjustment)
+                proposed = float(Decimal.from_float(current) - exact_adjustment)
+        else:
+            adjustment = granularity * delta * slope
+            proposed = current - adjustment
+        if not math.isfinite(adjustment) or not math.isfinite(proposed):
+            raise ValueError("learning-rate update overflowed; choose smaller factors or rates")
+        result = max(proposed, min_lr)
+        if max_lr is not None:
+            result = min(result, max_lr)
+        return result, adjustment
 
-        if self.delta_d < 0.1 or self.delta_d > 1.0:
-            warnings.warn(f"delta_d={self.delta_d} is outside typical range [0.1, 1.0]", stacklevel=2)
-        if self.delta_o < 0.5 or self.delta_o > 2.0:
-            warnings.warn(f"delta_o={self.delta_o} is outside typical range [0.5, 2.0]", stacklevel=2)
-        if self.delta_i < 0.01 or self.delta_i > 0.5:
-            warnings.warn(f"delta_i={self.delta_i} is outside typical range [0.01, 0.5]", stacklevel=2)
+    @staticmethod
+    def _prepare_lr(value: float, target, min_lr: Optional[float] = None,
+                    max_lr: Optional[float] = None):
+        if not isinstance(target, torch.Tensor):
+            return value
+        try:
+            prepared = torch.full_like(target, value, requires_grad=False)
+        except (RuntimeError, OverflowError) as exc:
+            raise ValueError("learning rate is not representable in optimizer tensor dtype") from exc
+        actual = float(prepared.item())
+        if not math.isfinite(actual) or (value > 0 and actual <= 0):
+            raise ValueError("learning rate is not representable in optimizer tensor dtype")
+        # Round bounds inward so the stored tensor value also satisfies them.
+        if value > 0 and min_lr is not None and actual < min_lr:
+            prepared = torch.nextafter(prepared, torch.full_like(prepared, math.inf))
+            actual = float(prepared.item())
+        if value > 0 and max_lr is not None and actual > max_lr:
+            prepared = torch.nextafter(prepared, torch.full_like(prepared, -math.inf))
+            actual = float(prepared.item())
+        if (not math.isfinite(actual) or (value > 0 and actual <= 0)
+                or (value > 0 and min_lr is not None and actual < min_lr)
+                or (value > 0 and max_lr is not None and actual > max_lr)):
+            raise ValueError("learning-rate bounds have no representable tensor value")
+        return prepared
 
-    def step(self, batch_losses: Optional[List[float]] = None) -> None:  # type: ignore[override]
-        """
-        Update learning rate based on batch losses from the current epoch.
+    def _apply_lrs(self, rates) -> None:
+        # Optimizers can share one tensor LR across groups. Conflicting restored
+        # values (or overlapping views of different dtypes) cannot be applied.
+        targets: List[Tuple[str, int, int, torch.dtype, Union[float, torch.Tensor]]] = []
+        for group, value in zip(self.optimizer.param_groups, rates):
+            target = group['lr']
+            if isinstance(target, torch.Tensor):
+                start = target.data_ptr()
+                targets.append((str(target.device), start, start + target.element_size(), target.dtype, value))
+        targets.sort(key=lambda entry: (entry[0], entry[1], entry[2]))
+        for previous, current in zip(targets, targets[1:]):
+            device, start, end, dtype, value = current
+            old_device, old_start, old_end, old_dtype, old_value = previous
+            if device == old_device and start < old_end:
+                if (start != old_start or end != old_end or dtype != old_dtype
+                        or float(value) != float(old_value)):
+                    raise ValueError("conflicting learning rates share tensor storage")
+        with torch.no_grad():
+            for group, value in zip(self.optimizer.param_groups, rates):
+                if isinstance(group['lr'], torch.Tensor):
+                    group['lr'].copy_(value)
+                else:
+                    group['lr'] = value
 
-        Parameters:
-            batch_losses (List[float]): List of loss values from each batch in the epoch.
-                                       If None, performs standard step without adjustment.
-        """
-        if batch_losses is None:
-            super().step()
-            return
+    def step(self, batch_losses: Optional[Iterable[float]] = None) -> None:  # type: ignore[override]
+        """Validate an epoch completely, then update every parameter group together."""
+        self._step_with_direction(batch_losses, 1.0)
 
-        if len(batch_losses) < 2:
-            warnings.warn("Need at least 2 batch losses to compute slope, skipping update", stacklevel=2)
-            super().step()
-            return
-
-        self.batch_losses = batch_losses
-        self._update_learning_rate()
-
-        self.last_epoch += 1
-        self._last_lr = [group['lr'] for group in self.optimizer.param_groups]
-
-    def _update_learning_rate(self) -> None:
-        """Compute and apply learning rate adjustment based on loss dynamics."""
-        first_loss = self.batch_losses[0]
-        last_loss = self.batch_losses[-1]
-        mean_loss = sum(self.batch_losses) / len(self.batch_losses)
-
-        if abs(mean_loss) < 1e-10:
-            warnings.warn("Mean loss is near zero, skipping learning rate update", stacklevel=2)
-            return
-
-        self.loss_slope = (last_loss - first_loss) / mean_loss
-
-        for group in self.optimizer.param_groups:
-            current_lr = group['lr']
-
-            n = math.floor(math.log10(current_lr)) if current_lr > 0 else -8
-            granularity = 10 ** n
-
-            if self.loss_slope > 1.0:
-                delta = self.delta_d
-            elif 0 <= self.loss_slope <= 1.0:
-                delta = self.delta_o
+    def _step_with_direction(self, batch_losses, direction: float) -> None:
+        current_rates = self._validate_groups()
+        config = _hyperparameters(self.delta_d, self.delta_o, self.delta_i,
+                                  self.min_lr, self.max_lr)
+        losses = [] if batch_losses is None else _losses(batch_losses)
+        slope = 0.0
+        adjustment = 0.0
+        prepared = None
+        if batch_losses is not None and len(losses) < 2:
+            warnings.warn("Need at least 2 batch losses to compute slope, skipping update", stacklevel=3)
+        elif losses:
+            scale = max(losses)
+            if scale == 0:
+                warnings.warn("Mean loss is zero, skipping learning rate update", stacklevel=3)
             else:
-                delta = self.delta_i
+                # Scale before subtracting and summing: avoids overflow and underflow.
+                exponent = math.frexp(scale)[1]
+                normalized = [math.ldexp(value, -exponent) for value in losses]
+                slope = direction * (normalized[-1] - normalized[0]) / (math.fsum(normalized) / len(losses))
+                diverging = slope > 1
+                if abs(slope - 1.0) <= 1e-15:
+                    # The discontinuous delta switch requires an exact comparison:
+                    # a rounded mean may hide a true slope immediately above 1.
+                    exact_sum = sum((Fraction(value) for value in losses), Fraction())
+                    exact_slope = (Fraction(direction) * (Fraction(losses[-1]) - Fraction(losses[0]))
+                                   * len(losses) / exact_sum)
+                    slope = float(exact_slope)
+                    diverging = exact_slope > 1
+                delta = config['delta_d'] if diverging else config['delta_o'] if slope >= 0 else config['delta_i']
+                candidates = [self._candidate(rate, slope, delta, config['min_lr'], config['max_lr'])
+                              for rate in current_rates]
+                prepared = [self._prepare_lr(candidate[0], group['lr'], config['min_lr'], config['max_lr'])
+                            for candidate, group in zip(candidates, self.optimizer.param_groups)]
+                adjustment = candidates[-1][1]
+        if prepared is not None:
+            self._apply_lrs(prepared)
+        self.batch_losses = losses
+        self.loss_slope = slope
+        self.adjustment = adjustment
+        self.last_epoch += 1
+        self._step_count += 1
+        self._last_lr = [_clone_lr(group['lr']) for group in self.optimizer.param_groups]
+        if self.verbose and prepared is not None:
+            print(f"Epoch {self.last_epoch}: loss_slope={slope:.6f}, lr={self.get_last_lr()}")
 
-            self.adjustment = granularity * delta * self.loss_slope
-            new_lr = current_lr - self.adjustment
+    def get_lr(self) -> List[Union[float, torch.Tensor]]:  # type: ignore[override]
+        """Return independent snapshots of the current optimizer rates."""
+        self._validate_groups()
+        return [_clone_lr(group['lr']) for group in self.optimizer.param_groups]
 
-            new_lr = max(new_lr, self.min_lr)
-            if self.max_lr is not None:
-                new_lr = min(new_lr, self.max_lr)
-
-            group['lr'] = new_lr
-
-            if self.verbose:
-                print(f"Epoch {self.last_epoch + 1}: "
-                      f"loss_slope={self.loss_slope:.6f}, "
-                      f"adjustment={self.adjustment:.6e}, "
-                      f"lr: {current_lr:.6e} -> {new_lr:.6e}")
-
-    def get_lr(self) -> List[float]:  # type: ignore[override]
-        """
-        Compute learning rates for each parameter group.
-        Required by LRScheduler base class.
-        """
-        return [group['lr'] for group in self.optimizer.param_groups]
-
-    def get_last_lr(self) -> List[float]:
-        """Return last computed learning rate."""
-        return self._last_lr if hasattr(self, '_last_lr') else [group['lr'] for group in self.optimizer.param_groups]
+    def get_last_lr(self) -> List[Union[float, torch.Tensor]]:
+        """Return independent snapshots of the rates from the last successful step."""
+        return [_clone_lr(value) for value in self._last_lr]
 
     def state_dict(self) -> dict:
-        """Return scheduler state for checkpointing."""
-        state = {
-            'delta_d': self.delta_d,
-            'delta_o': self.delta_o,
-            'delta_i': self.delta_i,
-            'min_lr': self.min_lr,
-            'max_lr': self.max_lr,
-            'last_epoch': self.last_epoch,
-            'loss_slope': self.loss_slope,
-            'adjustment': self.adjustment,
-            '_last_lr': self._last_lr if hasattr(self, '_last_lr') else None,
-            'param_group_lrs': [group['lr'] for group in self.optimizer.param_groups]
-        }
-        return state
+        """Return a detached checkpoint, including optimizer rates for legacy compatibility."""
+        self._validate_groups()
+        return deepcopy({
+            'state_version': 1,
+            'delta_d': self.delta_d, 'delta_o': self.delta_o, 'delta_i': self.delta_i,
+            'min_lr': self.min_lr, 'max_lr': self.max_lr, 'verbose': self.verbose,
+            'last_epoch': self.last_epoch, '_step_count': self._step_count,
+            'base_lrs': self.base_lrs, 'batch_losses': self.batch_losses,
+            'loss_slope': self.loss_slope, 'adjustment': self.adjustment,
+            '_last_lr': self.get_last_lr(), 'param_group_lrs': self.get_lr(),
+        })
 
     def load_state_dict(self, state_dict: dict) -> None:
-        """Load scheduler state from checkpoint."""
-        self.delta_d = state_dict['delta_d']
-        self.delta_o = state_dict['delta_o']
-        self.delta_i = state_dict['delta_i']
-        self.min_lr = state_dict['min_lr']
-        self.max_lr = state_dict.get('max_lr', None)
-        self.last_epoch = state_dict['last_epoch']
-        self.loss_slope = state_dict.get('loss_slope', 0.0)
-        self.adjustment = state_dict.get('adjustment', 0.0)
-        if state_dict.get('_last_lr') is not None:
-            self._last_lr = state_dict['_last_lr']
+        """Validate the whole checkpoint before changing scheduler or optimizer state.
 
-        if 'param_group_lrs' in state_dict:
-            for group, lr in zip(self.optimizer.param_groups, state_dict['param_group_lrs']):
-                group['lr'] = lr
+        Checkpoints from earlier DLRS versions without ``state_version`` remain
+        accepted when their values and parameter-group counts are valid. Construct
+        this scheduler before loading optimizer state; then load scheduler state.
+        """
+        self._validate_groups()
+        if not isinstance(state_dict, dict):
+            raise ValueError("scheduler state must be a dictionary")
+        version = state_dict.get('state_version', 0)
+        if isinstance(version, bool) or not isinstance(version, int) or version not in (0, 1):
+            raise ValueError("unsupported scheduler state_version")
+        if version == 1:
+            required = {'delta_d', 'delta_o', 'delta_i', 'min_lr', 'max_lr', 'verbose',
+                        'last_epoch', '_step_count', 'base_lrs', 'batch_losses',
+                        'loss_slope', 'adjustment', '_last_lr', 'param_group_lrs'}
+            missing = required - state_dict.keys()
+            if missing:
+                raise ValueError(f"scheduler checkpoint is missing {sorted(missing)}")
+        try:
+            values = _hyperparameters(state_dict['delta_d'], state_dict['delta_o'],
+                                     state_dict['delta_i'], state_dict['min_lr'],
+                                     state_dict.get('max_lr'))
+            values['last_epoch'] = _nonnegative_int(state_dict['last_epoch'], 'last_epoch', -1)
+        except KeyError as exc:
+            raise ValueError(f"scheduler checkpoint is missing {exc.args[0]}") from exc
+        values['_step_count'] = _nonnegative_int(state_dict.get('_step_count', values['last_epoch'] + 1), '_step_count')
+        values['loss_slope'] = _validate_scalar(state_dict.get('loss_slope', 0.0), 'loss_slope')
+        values['adjustment'] = _validate_scalar(state_dict.get('adjustment', 0.0), 'adjustment')
+        values['batch_losses'] = _losses(state_dict.get('batch_losses', []))
+        values['verbose'] = state_dict.get('verbose', self.verbose)
+        if not isinstance(values['verbose'], bool):
+            raise ValueError("verbose must be a bool")
+        count = len(self.optimizer.param_groups)
+
+        def rates(name, fallback):
+            items = state_dict.get(name, fallback)
+            if not isinstance(items, (list, tuple)) or len(items) != count:
+                raise ValueError(f"{name} must contain exactly {count} parameter-group rates")
+            return [_lr_value(item, name) for item in items]
+
+        current = rates('param_group_lrs', self.get_lr())
+        # Legacy checkpoints may use None for _last_lr.
+        if version == 1 and state_dict['_last_lr'] is None:
+            raise ValueError("_last_lr must contain parameter-group rates")
+        last_fallback = current if state_dict.get('_last_lr') is None else state_dict['_last_lr']
+        if not isinstance(last_fallback, (list, tuple)) or len(last_fallback) != count:
+            raise ValueError(f"_last_lr must contain exactly {count} parameter-group rates")
+        last = [_lr_value(item, '_last_lr') for item in last_fallback]
+        rates('base_lrs', self.base_lrs)
+        # Preserve checkpoint metadata types as well as values. Tensor base rates
+        # remain independent snapshots on every supported PyTorch version.
+        values['base_lrs'] = [_clone_lr(item) for item in state_dict.get('base_lrs', self.base_lrs)]
+        prepared = [self._prepare_lr(value, group['lr'])
+                    for value, group in zip(current, self.optimizer.param_groups)]
+        values['_last_lr'] = [self._prepare_lr(value, group['lr'])
+                              for value, group in zip(last, self.optimizer.param_groups)]
+        # Loading an older optimizer checkpoint can reintroduce an initial_lr
+        # alias after construction. Stage copies before any live LR mutation.
+        initial_lrs = [(group, _clone_lr(group['initial_lr']))
+                       for group in self.optimizer.param_groups
+                       if isinstance(group.get('initial_lr'), torch.Tensor)]
+        self._apply_lrs(prepared)
+        for group, initial_lr in initial_lrs:
+            group['initial_lr'] = initial_lr
+        self.__dict__.update(values)
 
 
 class DLRSOnPlateau:
-    """
-    ReduceLROnPlateau-style wrapper around DLRSScheduler for drop-in compatibility.
+    """Apply DLRS to a rolling window of nonnegative epoch metrics.
 
-    This variant provides a metric-based API similar to ReduceLROnPlateau, where you
-    call step(metric) once per epoch with a single scalar metric. Under the hood, it
-    uses a LossRecorder to collect per-batch losses and applies DLRS updates.
-
-    Use this when you want standard scheduler API compatibility. For fine-grained
-    control over batch-level metrics, use DLRSScheduler directly.
-
-    Parameters:
-        optimizer (torch.optim.Optimizer): Optimizer to adjust learning rate for
-        mode (str): One of 'min' or 'max'. In 'min' mode, lr will be reduced when
-                   the metric has stopped decreasing. Default: 'min'
-        delta_d (float): Decremental factor for divergence (ΔL_j > 1). Default: 0.5
-        delta_o (float): Stagnation factor for flat regions (0 <= ΔL_j < 1). Default: 1.0
-        delta_i (float): Incremental factor for convergence (ΔL_j < 0). Default: 0.1
-        min_lr (float): Minimum learning rate bound. Default: 1e-8
-        max_lr (float): Maximum learning rate bound. Default: None
-        patience (int): Number of epochs to wait before applying DLRS after metric stops
-                       improving. Default: 0 (immediate)
-        verbose (bool): If True, prints a message to stdout for each update. Default: False
-
-    Example:
-        >>> optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-        >>> scheduler = DLRSOnPlateau(optimizer, mode='min', patience=2)
-        >>>
-        >>> for epoch in range(100):
-        >>>     train_loss = train_one_epoch(model, dataloader, optimizer)
-        >>>     val_loss = validate(model, val_loader)
-        >>>     scheduler.step(val_loss)
-
-    Note:
-        Unlike ReduceLROnPlateau which only reacts to metric plateaus, DLRSOnPlateau
-        applies the DLRS algorithm's loss-slope-based updates. The 'patience' parameter
-        controls how many epochs to wait before considering the metric history.
+    This is a scalar-metric interface, not a ReduceLROnPlateau replacement:
+    improving metrics can increase the learning rate. ``patience`` preserves the
+    historical DLRS meaning: collect ``patience + 2`` metrics, then update each
+    epoch using the latest window. It does not count non-improving epochs.
+    ``mode='max'`` reverses the normalized slope before selecting the DLRS factor.
+    Signed metrics are unsupported in either mode. History is bounded to the
+    window size, and rejected input leaves history and optimizer unchanged.
     """
 
     def __init__(
@@ -259,66 +385,57 @@ class DLRSOnPlateau:
         min_lr: float = 1e-8,
         max_lr: Optional[float] = None,
         patience: int = 0,
-        verbose: bool = False
+        verbose: bool = False,
     ):
-        if mode not in ('min', 'max'):
-            raise ValueError(f"mode must be 'min' or 'max', got {mode}")
-
+        self._validate_options(mode, patience)
         self.optimizer = optimizer
         self.mode = mode
         self.patience = patience
         self.verbose = verbose
-
-        self._scheduler = DLRSScheduler(
-            optimizer=optimizer,
-            delta_d=delta_d,
-            delta_o=delta_o,
-            delta_i=delta_i,
-            min_lr=min_lr,
-            max_lr=max_lr,
-            verbose=verbose
-        )
-
+        self._scheduler = DLRSScheduler(optimizer, delta_d, delta_o, delta_i,
+                                        min_lr, max_lr, verbose=verbose)
         self._metric_history: List[float] = []
-        self._wait_count: int = 0
+        self._wait_count = 0  # Kept only for legacy checkpoint compatibility.
+
+    @staticmethod
+    def _validate_options(mode, patience) -> None:
+        if not isinstance(mode, str) or mode not in ('min', 'max'):
+            raise ValueError(f"mode must be 'min' or 'max', got {mode}")
+        _nonnegative_int(patience, 'patience')
 
     def step(self, metric: float) -> None:
-        """
-        Update learning rate based on a single metric value.
-
-        Parameters:
-            metric (float): Metric to monitor (e.g., validation loss or accuracy)
-        """
-        if not isinstance(metric, (int, float)):
-            raise TypeError(f"metric must be numeric, got {type(metric)}")
-
-        self._metric_history.append(float(metric))
-
-        if len(self._metric_history) < 2:
-            return
-
-        if len(self._metric_history) > self.patience + 1:
-            metrics_to_use = self._metric_history[-(self.patience + 2):]
-            self._scheduler.step(metrics_to_use)
+        """Add a finite nonnegative metric and update after the window is full."""
+        self._validate_options(self.mode, self.patience)
+        self._scheduler._validate_groups()
+        value = _validate_scalar(metric, 'metric', nonnegative=True)
+        history = (self._metric_history + [value])[-(self.patience + 2):]
+        if len(history) == self.patience + 2:
+            self._scheduler._step_with_direction(history, 1.0 if self.mode == 'min' else -1.0)
+        self._metric_history = history
 
     def state_dict(self) -> dict:
-        """Return scheduler state for checkpointing."""
-        return {
-            'scheduler_state': self._scheduler.state_dict(),
-            'mode': self.mode,
-            'patience': self.patience,
-            'metric_history': self._metric_history,
-            'wait_count': self._wait_count
-        }
+        """Return an independent checkpoint of the wrapper and underlying scheduler."""
+        return {'scheduler_state': self._scheduler.state_dict(), 'mode': self.mode,
+                'patience': self.patience, 'metric_history': self._metric_history.copy(),
+                'wait_count': self._wait_count}
 
     def load_state_dict(self, state_dict: dict) -> None:
-        """Load scheduler state from checkpoint."""
-        self._scheduler.load_state_dict(state_dict['scheduler_state'])
-        self.mode = state_dict['mode']
-        self.patience = state_dict['patience']
-        self._metric_history = state_dict.get('metric_history', [])
-        self._wait_count = state_dict.get('wait_count', 0)
+        """Validate wrapper state before loading either scheduler or optimizer."""
+        if not isinstance(state_dict, dict):
+            raise ValueError("wrapper state must be a dictionary")
+        try:
+            mode, patience = state_dict['mode'], state_dict['patience']
+            scheduler_state = state_dict['scheduler_state']
+        except KeyError as exc:
+            raise ValueError(f"wrapper checkpoint is missing {exc.args[0]}") from exc
+        self._validate_options(mode, patience)
+        history = _losses(state_dict.get('metric_history', []))[-(patience + 2):]
+        wait_count = _nonnegative_int(state_dict.get('wait_count', 0), 'wait_count')
+        self._scheduler.load_state_dict(scheduler_state)
+        self.mode, self.patience = mode, patience
+        self._metric_history, self._wait_count = history, wait_count
+        self.verbose = self._scheduler.verbose
 
-    def get_last_lr(self) -> List[float]:
-        """Return last computed learning rate."""
+    def get_last_lr(self) -> List[Union[float, torch.Tensor]]:
+        """Return the most recently computed learning rates."""
         return self._scheduler.get_last_lr()

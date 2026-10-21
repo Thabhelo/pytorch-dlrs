@@ -1,0 +1,9 @@
+{
+  "manifest_sha256": "09fc3266d51745a95f514a849218a644b72b1630a91183abdb2d3acd34da7e69",
+  "rates": {
+    "NoScheduler": 0.003,
+    "CosineAnnealingLR": 0.003,
+    "DLRS": 0.003
+  },
+  "selection_metric": "final validation NLL"
+}

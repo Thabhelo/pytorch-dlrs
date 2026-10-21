@@ -1,250 +1,109 @@
-# FAQ and Troubleshooting
+# FAQ and migration notes
 
-## Frequently Asked Questions
+## Is DLRS ready for critical or large-scale training?
 
-### General
+There is no such assurance from this repository. The package remains experimental. The [audit](RELIABILITY_AUDIT.md) records corrected implementation behavior, the measured distributed/accelerator/scale/quality scope, and remaining deployment gaps. Use the current scheduler as a control, validate on representative runs, and retain a tested rollback/checkpoint path. The original paper's reported results are not measurements of this implementation on your workload.
 
-**Q: When should I use DLRS instead of standard schedulers?**
+## Which class should I use?
 
-A: Use DLRS when:
-- You want adaptive learning rate adjustment without manual tuning
-- Your loss dynamics are non-monotonic (common in PINNs)
-- You need a scheduler that reacts to within-epoch loss trends
-- Standard fixed schedules (StepLR, ExponentialLR) don't work well for your problem
+`DLRSScheduler.step(batch_losses)` implements the within-epoch loss rule. `DLRSOnPlateau.step(metric)` instead observes a rolling sequence of epoch metrics. Both may increase the learning rate.
 
-**Q: How does DLRS differ from ReduceLROnPlateau?**
+For `DLRSOnPlateau`, `patience=0` means a two-metric window; `patience=2` means four metrics are required, after which each call uses the most recent four. It does not wait for a number of bad epochs. In `mode='max'`, increasing metrics produce the improvement direction. Metrics must still be finite and nonnegative. Use PyTorch's `ReduceLROnPlateau` when its patience, threshold, cooldown, and decrease-only behavior are intended.
 
-A: Key differences:
-- **DLRS** analyzes loss slope within each epoch using all batch losses
-- **ReduceLROnPlateau** only looks at scalar metrics between epochs
-- **DLRS** can increase or decrease LR based on convergence/divergence
-- **ReduceLROnPlateau** only decreases LR when metric plateaus
+## Distributed training
 
-**Q: Can I use DLRS with any optimizer?**
+DDP processes have separate optimizers. PyTorch synchronizes gradients and expects identical optimizer updates across ranks; it does not automatically synchronize this scheduler's state or learning rates. See [PyTorch's DDP documentation](https://docs.pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html).
 
-A: Yes. DLRS works with all PyTorch optimizers (SGD, Adam, AdamW, etc.) because it only adjusts the learning rate parameter.
+Every rank must supply the same observations and call the scheduler in the same order. The [distributed validation report](DISTRIBUTED_VALIDATION.md) documents the tested two-process CPU/Gloo policy, unequal local batch sizes, complete epoch-checkpoint restart, coordinated input rejection, and bounded rank-failure probes.
 
-**Q: Should I use DLRSScheduler or DLRSOnPlateau?**
+The repository's [illustrative CPU/Gloo helper](../examples/distributed_policy.py) validates observations collectively before backward or optimizer updates. For a per-example mean, it computes a sample-weighted global observation and scales the local backward pass by `world_size * local_count / global_count`. This correction matters when local batch sizes differ: ordinary DDP averages gradients across ranks, not across individual examples.
 
-A:
-- **DLRSScheduler**: Use when you can collect per-batch losses during training (more accurate)
-- **DLRSOnPlateau**: Use for drop-in compatibility with training loops that call `scheduler.step(metric)`
-
-### Multi-GPU and Distributed Training
-
-**Q: Does DLRS work with DataParallel or DistributedDataParallel?**
-
-A: Yes. DLRS operates on the optimizer, which is shared across replicas. Ensure:
-- Batch losses are collected on the main process
-- `scheduler.step()` is called only on rank 0 in distributed settings
-
-Example for DDP:
 ```python
-if rank == 0:
-    scheduler.step(batch_losses)
+# EVERY rank: initialized CPU/Gloo group with an explicit operation timeout,
+# ordinary DDP, identical optimizer/scheduler configuration, no accumulation.
+# This helper is an example in the checkout, not an installed dlrs export.
+from examples.distributed_policy import require_equal_iterations, reduce_sample_mean
+
+require_equal_iterations(len(train_loader))
+batch_losses = []
+for inputs, targets in train_loader:
+    optimizer.zero_grad(set_to_none=True)
+    local_mean = criterion(model(inputs), targets)  # Mean over local examples.
+    observation = reduce_sample_mean(local_mean, inputs.shape[0])
+    (local_mean * observation.backward_scale).backward()
+    optimizer.step()
+    batch_losses.append(observation.mean)
+
+scheduler.step(batch_losses)  # EVERY rank
 ```
 
-**Q: How do I handle multi-param-group optimizers?**
+Use `DistributedSampler.set_epoch(epoch)` when using that sampler. Token losses, masks, weights, gradient accumulation, empty local batches, uneven iteration counts, `join()`, custom communication hooks, and sharded optimizers need their own denominator and synchronization contracts. The helper deliberately rejects unsupported CPU/Gloo input contracts and does not establish CUDA/NCCL or multi-node support. DLRS's mean across the sequence of batch observations remains the existing algorithm; it is not automatically a sample-weighted epoch mean.
 
-A: DLRS computes one loss slope per epoch and applies the same adjustment factor to all parameter groups. If you need per-group behavior, subclass DLRSScheduler and override `_update_learning_rate()`.
+A coordinated validation error prevents the subsequent backward/optimizer/scheduler updates in this calling order, but the preceding forward pass may already have consumed RNG or changed buffers. A rank that exits cannot participate in validation. Stop the attempt and restore a complete agreed checkpoint after failures; use process-group timeouts and a launcher that cleans up failed peers. Exact epoch-boundary restart and failures immediately before observation validation have been tested separately; automatic elastic recovery and arbitrary failure locations have not.
 
-### Hyperparameter Tuning
+Another policy can broadcast one rank's observations to everyone, but that represents that rank's data rather than a global mean. Updating only rank 0 without synchronizing all rates and scheduler state is incorrect. Restore matching complete checkpoints on every rank before continuing.
 
-**Q: What are good starting values for delta_d, delta_o, delta_i?**
+## Checkpointing
 
-A: The defaults work well for most tasks:
-- `delta_d=0.5`: Decrease LR by 50% of the granularity when diverging
-- `delta_o=1.0`: Make standard adjustments when stagnating
-- `delta_i=0.1`: Increase LR by 10% of the granularity when converging
-
-Start with these and adjust if needed:
-- Increase `delta_d` (→ 0.7) if training is too unstable
-- Decrease `delta_i` (→ 0.05) if LR grows too fast
-- Adjust `delta_o` (→ 0.5 or 1.5) if stagnation handling is too aggressive/conservative
-
-**Q: How do I choose min_lr and max_lr?**
-
-A:
-- `min_lr`: Set to 1e-8 or 1e-7. Prevents LR from becoming zero.
-- `max_lr`: Optional upper bound. Use if you know a safe maximum (e.g., 1.0 for SGD). Leave as `None` for unbounded growth.
-
-**Q: My learning rate keeps growing. What should I do?**
-
-A:
-1. Set a `max_lr` bound: `DLRSScheduler(optimizer, max_lr=0.1)`
-2. Reduce `delta_i` to slow down LR increases
-3. Check if your loss is actually converging (decreasing within epochs)
-
-### Troubleshooting
-
-**Q: I get a warning "Mean loss is near zero"**
-
-A: This happens when all batch losses are ~0.0. The scheduler skips the update because normalized slope is undefined. Solutions:
-- Check if your model has collapsed (outputting zeros)
-- Verify loss function is computing non-zero values
-- Ensure you're logging loss correctly (use `.item()` on tensors)
-
-**Q: My learning rate became negative or NaN**
-
-A: This shouldn't happen with proper guards. Possible causes:
-- Very large loss values causing overflow
-- Incorrect `min_lr` setting (must be > 0)
-- Bug in custom subclass overriding `_update_learning_rate()`
-
-If this occurs, please file an issue with a reproducible example.
-
-**Q: Learning rate explodes even with max_lr set**
-
-A: Check:
-- `max_lr` is properly passed to the scheduler constructor
-- You're not manually modifying `optimizer.param_groups[0]['lr']` elsewhere
-- Your loss isn't decreasing extremely fast (causing very negative slopes)
-
-**Q: Scheduler doesn't adjust the learning rate at all**
-
-A: Common causes:
-- Passing `None` to `step()` → performs no adjustment
-- Passing a list with < 2 elements → cannot compute slope
-- All batch losses are identical → slope is zero, no adjustment needed
-
-**Q: Training is unstable with DLRS**
-
-A: Try:
-1. Set a `max_lr` bound to prevent excessive growth
-2. Increase `delta_d` to react more strongly to divergence
-3. Use a smaller initial learning rate
-4. Combine DLRS with gradient clipping: `torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)`
-
-### State Management and Checkpointing
-
-**Q: How do I save and resume training with DLRS?**
-
-A: Use `state_dict()` and `load_state_dict()`:
+Save the model, optimizer, and scheduler together. Restore after constructing the model, optimizer, and scheduler; constructing a scheduler after restoring the optimizer can change the scheduler's view of initial rates. PyTorch documents this ordering in [Optimizer.load_state_dict](https://docs.pytorch.org/docs/stable/generated/torch.optim.Optimizer.load_state_dict.html).
 
 ```python
+# Saving an epoch-boundary checkpoint:
 checkpoint = {
     'model': model.state_dict(),
     'optimizer': optimizer.state_dict(),
     'scheduler': scheduler.state_dict(),
-    'epoch': epoch
 }
-torch.save(checkpoint, 'checkpoint.pth')
+torch.save(checkpoint, 'checkpoint.pt')
 
-checkpoint = torch.load('checkpoint.pth')
+# Recreate model, optimizer, and scheduler with matching parameter groups first.
+checkpoint = torch.load('checkpoint.pt', map_location='cpu', weights_only=True)
 model.load_state_dict(checkpoint['model'])
 optimizer.load_state_dict(checkpoint['optimizer'])
 scheduler.load_state_dict(checkpoint['scheduler'])
 ```
 
-**Q: What information is stored in state_dict()?**
+Serialize scheduler, optimizer, checkpoint, and external learning-rate mutations at an agreed training boundary; the scheduler does not provide thread synchronization. If storing snapshots in memory while training continues, deep-copy the whole checkpoint; model and optimizer state can contain live tensor references. For complete reproducibility, also save epoch/data position, random states, scaler state, and framework state. A mid-epoch checkpoint must preserve the pending loss observations. Scheduler loading checks group count and saved values; it cannot identify a semantically different model that happens to have the same number of groups.
 
-A: DLRS stores:
-- Hyperparameters: `delta_d`, `delta_o`, `delta_i`, `min_lr`, `max_lr`
-- Epoch tracking: `last_epoch`
-- Diagnostic info: `loss_slope`, `adjustment`, `_last_lr`
-- **New in v0.1.1**: Per-param-group learning rates (`param_group_lrs`)
+## Can I combine DLRS with another scheduler?
 
-### Integration with Training Frameworks
+`ChainedScheduler` invokes each child's `step()` without losses, so DLRS would only perform a no-op counter step. `SequentialLR` also does not forward batch losses and expects a different step contract. Neither is supported for DLRS. See [ChainedScheduler's API](https://docs.pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ChainedScheduler.html).
 
-**Q: Can I use DLRS with PyTorch Lightning?**
+An explicit training-loop policy could call DLRS with losses and then a second scheduler, but order changes the result and may violate DLRS's intended bounds. Checkpoint and test the combined policy; it has no guarantee of preserving either algorithm's standalone behavior.
 
-A: Yes. See `examples/lightning_callback.py` for a ready-to-use callback:
+## Optimizers, AMP, and frameworks
 
-```python
-from examples.lightning_callback import DLRSLightningCallback
+Normal eager optimizers with finite scalar rates are the intended scope. Multiple parameter groups share a slope but need not maintain their LR ratios. Zero-rate groups stay frozen. Writable scalar floating-point tensor rates without gradients are supported with in-place updates; this does not certify compiled, capturable, differentiable, fused, sharded, or custom optimizer modes.
 
-trainer = pl.Trainer(callbacks=[DLRSLightningCallback(delta_d=0.5)])
-```
+With AMP, collect the unscaled loss. `GradScaler.step()` may skip an optimizer update, so define what an epoch observation means when that occurs and avoid treating a skipped optimizer step as completed. Gradient accumulation changes observation frequency and, sometimes, returned loss normalization. The core scheduler cannot infer these choices.
 
-**Q: Can I use DLRS with Hugging Face Transformers?**
+The [Lightning callback example](../examples/lightning_callback.py) is restricted to one process, one optimizer, automatic optimization, full precision (`32-true` or `64-true`), no gradient accumulation, and no other configured scheduler. It rejects unsupported settings. Callback contract tests are not a substitute for running the exact installed Lightning version through train/save/resume.
 
-A: Yes. See `examples/huggingface_callback.py` for a TrainerCallback:
+The [Transformers callback](../examples/huggingface_callback.py) is disabled because standard callback logs do not expose every raw batch loss and Trainer owns its own scheduler. A correct Trainer integration must obtain the intended losses, manage scheduler ownership, and restore state before it can be advertised.
 
-```python
-from examples.huggingface_callback import DLRSTrainerCallback
+## Troubleshooting
 
-trainer = Trainer(
-    model=model,
-    callbacks=[DLRSTrainerCallback(delta_d=0.5)]
-)
-```
+**The rate does not change.** Check for a zero initial rate, missing losses, fewer than two observations, all-zero losses, a zero endpoint slope, or a reached bound. `step()` with no argument does not infer previously recorded losses.
 
-**Q: Does DLRS work with mixed precision training (AMP)?**
+**The rate grows too much.** A decreasing within-epoch loss causes increases by design. `max_lr=None` has no upper cap. Choose a measured cap and reconsider `delta_i`, data ordering, and whether the statistic is useful for this workload. A smaller cap can still perform worse than your baseline.
 
-A: Yes. DLRS is agnostic to gradient scaling. Example:
+**A loss/rate/checkpoint is rejected.** Inspect for NaN, infinity, negatives, booleans, nonscalar values, mismatched groups, or corrupted state. Do not silently drop observations or retry only some ranks: doing so can change the training policy or desynchronize distributed state.
 
-```python
-from torch.cuda.amp import autocast, GradScaler
+**How much overhead is there?** No universal percentage has been established. The calculation scans the observations, stores a list, and updates parameter groups; `.item()` can synchronize accelerators and distributed aggregation costs communication. Measure end-to-end throughput and memory at your actual scale.
 
-scaler = GradScaler()
-for epoch in range(epochs):
-    batch_losses = []
-    for data, target in dataloader:
-        optimizer.zero_grad()
-        with autocast():
-            output = model(data)
-            loss = criterion(output, target)
-        scaler.scale(loss).backward()
-        scaler.step(optimizer)
-        scaler.update()
-        batch_losses.append(loss.item())
-    scheduler.step(batch_losses)
-```
+## Migrating from 0.2.1
 
-### Performance
+These changes are unreleased until a new version is published:
 
-**Q: Does DLRS slow down training?**
+- Invalid/nonfinite/negative losses, metrics, hyperparameters, and rates now fail before a partial update. Previously some corrupted values could propagate. Fix the source instead of relying on silent clamping or skipped errors.
+- Positive losses below the previous `1e-10` mean threshold now produce a scale-invariant update. All-zero loss sequences still skip. Very small positive losses can therefore change the LR trajectory on resume.
+- Zero-rate groups remain zero instead of being raised to `min_lr`. Set a positive rate explicitly if a group should resume learning.
+- `DLRSOnPlateau(mode='max')` now reverses the slope direction; the old implementation ignored `mode`. Runs using that mode will change. History is bounded; `patience` retains its rolling-window meaning.
+- Checkpoint validation rejects malformed states and mismatched group counts instead of silently accepting partial restoration. Restore optimizer and scheduler together with matching groups.
+- Adding, removing or reordering live parameter groups or their parameters is rejected. Create a new scheduler and migrate state explicitly when topology changes.
+- Tensor learning-rate storage is preserved, while initial/base metadata is copied independently. Unsupported representations fail explicitly. Previously overwritten initial metadata cannot be reconstructed from an old checkpoint.
+- Corrected floating-point boundary handling can change adjustment choices at thresholds, decades and extreme magnitudes. See the [complete breaking-change notes](RELIABILITY_AUDIT.md#breaking-changes-requiring-review).
+- The framework examples have a narrower, enforced scope. Transformers construction now fails rather than silently appearing to schedule correctly.
+- Runtime installation no longer pulls in torchvision, NumPy, or test tools. Install `.[examples]` or `.[dev]` when needed, using compatible PyTorch/torchvision versions.
 
-A: No. The overhead is negligible:
-- Computes one slope per epoch (3 operations on a short list)
-- No expensive operations like validation during training
-- Benchmark overhead: < 0.1% of epoch time
-
-**Q: Can I use DLRS with very large batch sizes?**
-
-A: Yes. DLRS only needs 2+ batch losses per epoch. With very large batches:
-- You have fewer batches per epoch → less fine-grained slope estimation
-- Consider using smaller batches if training dynamics allow
-
-### Advanced Usage
-
-**Q: Can I apply different delta values to different parameter groups?**
-
-A: Not directly. The current implementation uses a single slope for all groups. To customize:
-
-```python
-class MultiGroupDLRS(DLRSScheduler):
-    def _update_learning_rate(self):
-        # Custom logic per param group
-        for i, group in enumerate(self.optimizer.param_groups):
-            # Compute group-specific adjustment
-            pass
-```
-
-**Q: Can I log the loss slope for analysis?**
-
-A: Yes. Access `scheduler.loss_slope` after each `step()`:
-
-```python
-scheduler.step(batch_losses)
-print(f"Loss slope: {scheduler.loss_slope:.6f}")
-```
-
-**Q: How do I combine DLRS with another scheduler?**
-
-A: Chain them using `torch.optim.lr_scheduler.ChainedScheduler` (PyTorch 1.4+):
-
-```python
-scheduler1 = DLRSScheduler(optimizer)
-scheduler2 = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
-scheduler = torch.optim.lr_scheduler.ChainedScheduler([scheduler1, scheduler2])
-```
-
-Note: Chaining may lead to unexpected behavior if both schedulers aggressively modify LR.
-
-## Still having issues?
-
-If your question isn't answered here:
-1. Check the [examples/](../examples) directory for code patterns
-2. Read the [API documentation](API.md)
-3. Open an issue: https://github.com/Thabhelo/pytorch-dlrs/issues
+Review these intentional corrections before resuming a long-running experiment. An old experiment's exact behavior requires its original package/environment; a corrected implementation cannot promise an identical trajectory.

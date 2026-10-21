@@ -1,0 +1,21 @@
+{
+  "observation": "macOS sleep/wake occurred during these shared-host studies; training processes resumed without restarting completed trials.",
+  "evidence_source": "Read-only pmset system sleep log inspected locally on 2026-10-20",
+  "observed_examples_utc": [
+    {
+      "sleep_started": "2026-10-20T21:32:52Z",
+      "reported_duration_seconds": 321
+    },
+    {
+      "sleep_started": "2026-10-20T21:38:18Z",
+      "reported_duration_seconds": 51
+    },
+    {
+      "sleep_started": "2026-10-20T21:39:28Z",
+      "reported_duration_seconds": 2187
+    }
+  ],
+  "completeness": "Examples from the recent system log, not a complete accounting of every suspension.",
+  "timing_interpretation": "Reported perf_counter/monotonic durations are not evidence of uninterrupted elapsed wall time; no speedup, latency SLO or throughput conclusion is supported.",
+  "idle_sleep_control": "Temporary caffeinate -i assertions were attached to the two remaining vision/PINN processes after observing the pause; assertions end with each process and do not override user-requested lid sleep."
+}

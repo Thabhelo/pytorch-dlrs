@@ -96,7 +96,7 @@ class TestCollectBatchLosses:
         assert all(isinstance(loss, float) for loss in losses)
 
     def test_model_in_eval_mode(self):
-        """Test that model is set to eval mode."""
+        """Evaluation must not leave a training model in eval mode."""
         model = nn.Sequential(nn.Linear(10, 2), nn.Dropout(0.5))
         loss_fn = nn.CrossEntropyLoss()
 
@@ -109,7 +109,7 @@ class TestCollectBatchLosses:
         model.train()
         collect_batch_losses(dataloader, model, loss_fn)
 
-        assert model.training is False
+        assert model.training is True
 
 
 class TestLossRecorder:
@@ -216,3 +216,121 @@ class TestLossRecorder:
         repr_str = repr(recorder)
         assert "n=2" in repr_str
         assert "mean=" in repr_str
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), -float("inf"), True, 1j])
+@pytest.mark.parametrize("position", range(3))
+def test_hyperparameters_reject_nonfinite_and_nonreal_values(bad, position):
+    values = [0.5, 1.0, 0.1]
+    values[position] = bad
+    with pytest.raises(InvalidHyperparameter):
+        validate_hyperparameters(*values)
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), -1.0, True, 1j, torch.ones(1)])
+def test_recorder_rejects_invalid_loss_without_changing_history(bad):
+    recorder = LossRecorder()
+    recorder.add(1.0)
+    with pytest.raises(ValueError):
+        recorder.add(bad)
+    assert recorder.get_losses() == [1.0]
+
+
+@pytest.mark.parametrize("scale", [1.0, 1e-300, 1e300])
+def test_normalized_slope_is_invariant_to_positive_scale(scale):
+    assert calculate_normalized_loss_slope(scale, 0.5 * scale, 0.75 * scale) == pytest.approx(-2 / 3)
+
+
+@pytest.mark.parametrize("position", range(3))
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), -1.0, True])
+def test_slope_rejects_invalid_inputs(position, bad):
+    values = [1.0, 0.5, 0.75]
+    values[position] = bad
+    with pytest.raises(ValueError):
+        calculate_normalized_loss_slope(*values)
+
+
+def test_recorder_large_losses_have_finite_mean_and_std():
+    recorder = LossRecorder()
+    recorder.add(1e308)
+    recorder.add(0)
+    recorder.add(1e308)
+    assert recorder.get_mean() == pytest.approx(1e308 * (2 / 3))
+    assert recorder.get_std() == pytest.approx(1e308 * (2 / 9) ** 0.5)
+
+
+def test_recorder_subnormal_losses_keep_slope_and_tensor_is_detached():
+    recorder = LossRecorder()
+    recorder.add(torch.tensor(5e-324, dtype=torch.float64, requires_grad=True))
+    recorder.add(0.0)
+    assert recorder.get_losses() == [5e-324, 0.0]
+    assert recorder.get_loss_slope() == -2.0
+
+
+def test_recorder_explicit_limit_never_drops_first_loss():
+    recorder = LossRecorder(max_losses=2)
+    recorder.add(2.0)
+    recorder.add(1.0)
+    with pytest.raises(ValueError, match="max_losses"):
+        recorder.add(0.0)
+    assert recorder.get_losses() == [2.0, 1.0]
+    recorder.reset()
+    recorder.add(4.0)
+    assert recorder.get_losses() == [4.0]
+
+
+@pytest.mark.parametrize("limit", [0, -1, True, 2.5])
+def test_recorder_rejects_invalid_limit(limit):
+    with pytest.raises(ValueError, match="max_losses"):
+        LossRecorder(max_losses=limit)
+
+
+@pytest.mark.parametrize("failure", [False, True])
+def test_collect_restores_mixed_module_modes_and_preserves_gradients(failure):
+    model = nn.Sequential(nn.Linear(2, 2), nn.Dropout(), nn.BatchNorm1d(2))
+    model.train()
+    model[2].eval()
+    original_modes = [module.training for module in model.modules()]
+    for parameter in model.parameters():
+        parameter.grad = torch.ones_like(parameter)
+    original_grads = [parameter.grad.clone() for parameter in model.parameters()]
+    original_buffers = {name: buffer.clone() for name, buffer in model.named_buffers()}
+    loader = [(torch.ones(3, 2), torch.zeros(3, dtype=torch.long))]
+
+    def loss_fn(outputs, targets):
+        assert not any(module.training for module in model.modules())
+        assert not torch.is_grad_enabled()
+        if failure:
+            raise RuntimeError("evaluation failed")
+        return nn.functional.cross_entropy(outputs, targets)
+
+    if failure:
+        with pytest.raises(RuntimeError, match="evaluation failed"):
+            collect_batch_losses(loader, model, loss_fn)
+    else:
+        assert len(collect_batch_losses(loader, model, loss_fn)) == 1
+    assert [module.training for module in model.modules()] == original_modes
+    assert all(torch.equal(p.grad, grad) for p, grad in zip(model.parameters(), original_grads))
+    assert all(torch.equal(buffer, original_buffers[name]) for name, buffer in model.named_buffers())
+
+
+def test_collect_invalid_loss_restores_mode():
+    model = nn.Linear(2, 1)
+    with pytest.raises(ValueError, match="finite"):
+        collect_batch_losses([(torch.ones(1, 2), torch.zeros(1))], model, lambda *_: float("nan"))
+    assert model.training
+
+
+def test_recorder_unavailable_tensor_value_raises_clear_error():
+    recorder = LossRecorder()
+    with pytest.raises(ValueError, match="accessible"):
+        recorder.add(torch.empty((), device="meta"))
+    assert len(recorder) == 0
+
+
+def test_recorder_accepts_numpy_real_scalar():
+    import numpy as np
+
+    recorder = LossRecorder()
+    recorder.add(np.float32(1.0))
+    assert recorder.get_losses() == [1.0]

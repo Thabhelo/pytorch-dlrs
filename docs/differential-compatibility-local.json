@@ -1,0 +1,73 @@
+{
+  "scope": "Ordinary positive finite float learning rates and well-scaled positive losses; scheduler-only behavior, not training quality or universal compatibility.",
+  "baseline_commit": "c0ea1d159e4caa4950358282506e9358ae9a67ea",
+  "baseline_source_sha256": {
+    "scheduler.py": "6636ac1c19c0ec52ed5521542870ce03212566efb912df093442af209a003bdd",
+    "utils.py": "4c1d0d7c08736b0beb72b85f1284b97949e47a3336bde795dda4a9851ec46c36"
+  },
+  "current_scheduler_sha256": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+  "current_utils_sha256": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+  "probe_sha256": "2052aa5a01ccd7967b8de28229738f2153b48ccae1751fe74ed3e01940d5bf95",
+  "seed": 20261020,
+  "tolerance": {
+    "relative": 1e-12,
+    "absolute": 1e-15
+  },
+  "environment": {
+    "python": "3.11.12",
+    "torch": "2.14.1",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_threads": 1,
+    "interop_threads": 1
+  },
+  "results": {
+    "trajectories": 1000,
+    "default_configuration_trajectories": 500,
+    "custom_typical_factor_trajectories": 500,
+    "epochs_per_trajectory": 8,
+    "parameter_groups_per_trajectory": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "loss_sequences": 8000,
+    "rate_comparisons": 20000,
+    "bitwise_equal_float_rate_comparisons": 15176,
+    "branch_counts": {
+      "convergence": 2667,
+      "stagnation": 2667,
+      "divergence": 2666
+    },
+    "maximum_differences": {
+      "lr_absolute": 2.220446049250313e-16,
+      "lr_relative": 2.2039815680629813e-15,
+      "slope_absolute": 1.1102230246251565e-15,
+      "adjustment_absolute": 4.163336342344337e-17
+    },
+    "maximum_last_epoch_difference": 0,
+    "minimum_log10_distance_from_integer_decade": 4.726506451113721e-06,
+    "all_comparisons_within_tolerance": true
+  },
+  "elapsed_seconds_including_source_fetch": 5.67904666600225,
+  "excluded_intentional_changes": [
+    "zero rates remain frozen; tiny positive losses no longer trigger the old near-zero skip",
+    "nonfinite, negative, boolean, malformed inputs/checkpoints are rejected atomically",
+    "exact slope/decade boundaries and overflow/subnormal arithmetic have corrected handling",
+    "tensor LR identity, initial/base metadata ownership, and checkpoint copying/schema are hardened",
+    "parameter-group topology changes are rejected",
+    "mode=max reverses scalar-wrapper direction and wrapper history is bounded",
+    "step(None)/short/zero observations clear stale diagnostics; internal step counters are maintained",
+    "verbose formatting and checkpoint fields intentionally differ"
+  ],
+  "not_tested": [
+    "optimizer training quality",
+    "actual parameter updates",
+    "tensor LR behavior",
+    "invalid or extreme numeric inputs",
+    "checkpoint schema compatibility",
+    "wrapper behavior",
+    "compiler/framework integrations",
+    "other Torch versions"
+  ]
+}

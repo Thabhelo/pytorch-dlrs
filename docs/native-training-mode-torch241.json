@@ -1,0 +1,104 @@
+{
+  "python": "3.9.6",
+  "torch": "2.4.1",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "hooks": [
+    {
+      "optimizer": "SGD",
+      "hook_calls": 1,
+      "parameter_changed": true,
+      "phase": "before_model_compile"
+    },
+    {
+      "optimizer": "AdamW",
+      "hook_calls": 1,
+      "parameter_changed": true,
+      "phase": "before_model_compile"
+    },
+    {
+      "optimizer": "SGD",
+      "hook_calls": 1,
+      "parameter_changed": true,
+      "phase": "existing_optimizer_after_model_compile"
+    },
+    {
+      "optimizer": "SGD",
+      "hook_calls": 1,
+      "parameter_changed": true,
+      "phase": "new_optimizer_after_model_compile"
+    },
+    {
+      "optimizer": "AdamW",
+      "hook_calls": 1,
+      "parameter_changed": true,
+      "phase": "existing_optimizer_after_model_compile"
+    },
+    {
+      "optimizer": "AdamW",
+      "hook_calls": 1,
+      "parameter_changed": true,
+      "phase": "new_optimizer_after_model_compile"
+    }
+  ],
+  "mps_rng": {
+    "available": true,
+    "results": [
+      {
+        "operation": "rand",
+        "synchronize_before_checkpoint": false,
+        "state_bytes": 36,
+        "generator_state_advanced": true,
+        "reported_state_restored": true,
+        "outputs_equal": [
+          false,
+          false,
+          false
+        ],
+        "maximum_absolute_difference": 0.959525465965271
+      },
+      {
+        "operation": "rand",
+        "synchronize_before_checkpoint": true,
+        "state_bytes": 36,
+        "generator_state_advanced": true,
+        "reported_state_restored": true,
+        "outputs_equal": [
+          false,
+          false,
+          false
+        ],
+        "maximum_absolute_difference": 0.959525465965271
+      },
+      {
+        "operation": "dropout",
+        "synchronize_before_checkpoint": false,
+        "state_bytes": 36,
+        "generator_state_advanced": true,
+        "reported_state_restored": true,
+        "outputs_equal": [
+          false,
+          false,
+          false
+        ],
+        "maximum_absolute_difference": 1.3333333730697632
+      },
+      {
+        "operation": "dropout",
+        "synchronize_before_checkpoint": true,
+        "state_bytes": 36,
+        "generator_state_advanced": true,
+        "reported_state_restored": true,
+        "outputs_equal": [
+          false,
+          false,
+          false
+        ],
+        "maximum_absolute_difference": 1.3333333730697632
+      }
+    ]
+  },
+  "dlrs_imported": false,
+  "source_sha256": "7e606ed3e1371cf5e587075ef106f541ffe3d90c017c0066a46e4602022ad524",
+  "completed_utc": "2026-10-20T21:04:17.740143+00:00",
+  "mps_fallback_environment": null
+}
