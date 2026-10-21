@@ -182,7 +182,7 @@ jobs:
           import tomllib
           from pathlib import Path
           version = tomllib.loads(Path('pyproject.toml').read_text())['project']['version']
-          assert os.environ['RELEASE_TAG'] in (version, f'v{version}'), 'Release tag/version mismatch'
+          assert os.environ['RELEASE_TAG'] == f'v{version}', 'Release tag must be v<package version>'
           PY
       - name: Test both installed distributions outside the checkout
         shell: bash
@@ -211,11 +211,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name == 'release' && github.event.action == 'published'
+    environment: pypi
+    permissions:
+      id-token: write
     steps:
       - uses: actions/download-artifact@v4
         with:
           name: dist-packages
           path: dist/
       - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}

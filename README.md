@@ -8,19 +8,19 @@ The [correctness contract](docs/CORRECTNESS_CONTRACT.md) defines supported behav
 
 The [single-GPU CUDA validation](docs/CUDA_VALIDATION.md) records 18 required installed-wheel checks on a free Colab T4; two native-BF16 cases were unsupported and skipped. Each run qualifies its recorded source revision only. A [pinned notebook](notebooks/free_colab_cuda_validation.ipynb) reproduces the bounded check. The [readiness ledger](docs/UPSTREAM_READINESS.md) separates completed checks from remaining deployment and upstream requirements.
 
-The local revision completed 96 planned trials across MNIST, CIFAR-10, a manufactured PINN, and a small Transformer. MNIST and Transformer met their provisional comparison margins; CIFAR-10 and the PINN failed against cosine. CIFAR-10 also failed to establish the required tolerance against fixed LR. These results block a general replacement recommendation; see the [workload results](docs/WORKLOAD_VALIDATION.md) and [Transformer results](docs/TRANSFORMER_VALIDATION.md).
+An earlier revision completed 96 planned trials across MNIST, CIFAR-10, a manufactured PINN, and a small Transformer. MNIST and Transformer met their provisional comparison margins; CIFAR-10 and the PINN failed against cosine. CIFAR-10 also failed to establish the required tolerance against fixed LR. These results block a general replacement recommendation; see the [workload results](docs/WORKLOAD_VALIDATION.md) and [Transformer results](docs/TRANSFORMER_VALIDATION.md). The subsequent numerical corrections need a new declared training-quality study.
 
 ## Installation
 
-Install an appropriate PyTorch build for your platform first using the [official instructions](https://pytorch.org/get-started/locally/), then:
+Install an appropriate PyTorch build for your platform first using the [official instructions](https://pytorch.org/get-started/locally/), then explicitly select this experimental prerelease:
 
 ```bash
-python -m pip install pytorch-dlrs
+python -m pip install --pre "pytorch-dlrs==0.3.0.dev0"
 ```
 
 The package declares Python 3.8+ and PyTorch 2.0+; available combinations depend on PyTorch's wheels. These lower bounds are compatibility targets, not a claim that every newer release or platform has been tested. The [compatibility report](docs/COMPATIBILITY_VALIDATION.md) records executed local checks; the [CI matrix](.github/workflows/ci.yml) and [contribution guide](CONTRIBUTING.md) define the ongoing checks. NumPy, torchvision, plotting tools, and test tools are optional, not runtime dependencies of `dlrs`.
 
-For the unreleased `0.3.0.dev0` source revision:
+For development from source:
 
 ```bash
 git clone https://github.com/Thabhelo/pytorch-dlrs.git
@@ -28,7 +28,7 @@ cd pytorch-dlrs
 python -m pip install -e '.[dev]'
 ```
 
-The published PyPI package and this development revision differ in behavior; read the [migration notes](docs/FAQ.md#migrating-from-021) before replacing 0.2.1 in an existing run. For release history, consult [CHANGELOG.md](CHANGELOG.md).
+Version `0.3.0.dev0` intentionally changes behavior from `0.2.1`; read the [migration notes](docs/FAQ.md#migrating-from-021) before replacing an existing installation or resuming a run. For release history, consult [CHANGELOG.md](CHANGELOG.md).
 
 ## Quick start
 
