@@ -129,6 +129,61 @@ def test_previous_evidence_is_never_overwritten(tmp_path):
         runner.main(["--output", str(tmp_path)])
 
 
+def test_existing_archive_blocks_run_before_output_directory_creation(tmp_path):
+    output = tmp_path / "prior-run"
+    archive = tmp_path / "prior-run.tar.gz"
+    prior_bytes = b"Prior evidence must survive a reused output name"
+    archive.write_bytes(prior_bytes)
+    with pytest.raises(FileExistsError, match="existing evidence archive"):
+        runner.main(["--output", str(output)])
+    assert archive.read_bytes() == prior_bytes
+    assert not output.exists()
+
+
+def test_late_archive_collision_preserves_original_bytes(tmp_path):
+    output = tmp_path / "late-collision"
+    output.mkdir()
+    (output / "summary.json").write_text('{"status": "unavailable"}')
+    # Simulate another writer creating the archive after main's preflight.
+    archive = tmp_path / "late-collision.tar.gz"
+    prior_bytes = b"Another writer completed first"
+    archive.write_bytes(prior_bytes)
+    with pytest.raises(FileExistsError):
+        runner.make_archive(output)
+    assert archive.read_bytes() == prior_bytes
+    assert (output / "summary.json").read_text() == '{"status": "unavailable"}'
+
+
+@pytest.mark.parametrize("installed_package", [False, True], ids=["source_only", "installed"])
+def test_missing_distribution_metadata_is_allowed_only_for_source_probe(tmp_path, monkeypatch,
+                                                                       installed_package):
+    import torch
+
+    version = runner.importlib.metadata.version
+
+    def no_dlrs_metadata(name):
+        if name == "pytorch-dlrs":
+            raise runner.importlib.metadata.PackageNotFoundError(name)
+        return version(name)
+
+    monkeypatch.setattr(runner.importlib.metadata, "version", no_dlrs_metadata)
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: False)
+    monkeypatch.setattr(torch.cuda, "device_count", lambda: 0)
+    monkeypatch.setattr(sys, "path", sys.path.copy())
+    destination = tmp_path / "environment.json"
+    if installed_package:
+        with pytest.raises(runner.importlib.metadata.PackageNotFoundError):
+            runner.probe_environment(destination, installed_package=True)
+        assert not destination.exists()
+    else:
+        runner.probe_environment(destination)
+        environment = json.loads(destination.read_text())
+        assert environment["distribution_version"] is None
+        assert environment["dlrs_version"]
+        assert set(environment["imported_source"]) == {"dlrs/__init__.py", "dlrs/scheduler.py", "dlrs/utils.py"}
+        assert environment["cuda_available"] is False
+
+
 def test_source_mutation_cannot_receive_a_stale_passing_fingerprint(tmp_path, monkeypatch):
     source = tmp_path / "source.py"
     source.write_text("before")

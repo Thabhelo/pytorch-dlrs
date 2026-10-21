@@ -88,6 +88,12 @@ def probe_environment(destination, installed_package=False):
     import dlrs.scheduler
     import dlrs.utils
 
+    try:
+        distribution_version = importlib.metadata.version("pytorch-dlrs")
+    except importlib.metadata.PackageNotFoundError:
+        if installed_package:
+            raise
+        distribution_version = None  # A source checkout need not be installed.
     available = torch.cuda.is_available()
     result = {
         "recorded_at_utc": timestamp(), "python": sys.version,
@@ -101,7 +107,7 @@ def probe_environment(destination, installed_package=False):
         "cublas_workspace_config": os.environ.get("CUBLAS_WORKSPACE_CONFIG"),
         "bf16_supported": False, "selected_device": None,
         "dlrs_version": dlrs.__version__,
-        "distribution_version": importlib.metadata.version("pytorch-dlrs"),
+        "distribution_version": distribution_version,
         "installed_in_site_packages": Path(dlrs.__file__).resolve().parent.parent in {
             Path(sysconfig.get_path(key)).resolve() for key in ("purelib", "platlib")},
         "imported_source": {name: {"path": str(Path(module.__file__).resolve()),
@@ -231,7 +237,8 @@ def make_archive(output):
                    if path.is_file() and path.name != "evidence-sha256.json")
     write_json(output / "evidence-sha256.json", {path.name: sha256(path) for path in files})
     archive_path = output.with_name(output.name + ".tar.gz")
-    with tarfile.open(archive_path, "w:gz") as archive:
+    # Exclusive creation also protects against a file appearing after preflight.
+    with archive_path.open("xb") as stream, tarfile.open(fileobj=stream, mode="w:gz") as archive:
         for path in sorted(output.iterdir()):
             if path.is_file():
                 archive.add(path, arcname=output.name + "/" + path.name, recursive=False)
@@ -287,6 +294,9 @@ def main(argv=None):
     if args.installed_package != (args.wheel is not None):
         parser.error("--installed-package and --wheel must be supplied together")
     output = (args.output or ROOT / ".audit" / ("cuda-" + uuid.uuid4().hex[:12])).resolve()
+    archive_path = output.with_name(output.name + ".tar.gz")
+    if archive_path.exists() or archive_path.is_symlink():
+        raise FileExistsError("Refusing to overwrite existing evidence archive: " + str(archive_path))
     output.mkdir(parents=True, exist_ok=False)
     environment = os.environ.copy()
     for key in ("PYTHONPATH", "PYTHONHOME", "PYTEST_ADDOPTS"):
