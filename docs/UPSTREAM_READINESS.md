@@ -59,7 +59,7 @@ The separate [CUDA validation report](CUDA_VALIDATION.md) records an actual
 installed-wheel execution at `8358f1b` on a free Colab NVIDIA T4, compute
 capability 7.5. Python 3.13.15 / Torch 2.11.0+cu130 / CUDA 13.0 / driver
 580.82.07 executed **18 required passes and two native-BF16 unsupported skips**
-in 5.07 seconds of pytest time. This is a separate 20-case targeted run, not a
+in 10.25 seconds of pytest time. This is a separate 20-case targeted run, not a
 rerun of the 409-case CPU/platform suite or a training-throughput benchmark.
 
 The required cases cover eager SGD and AdamW (`foreach=False`), float and CUDA
@@ -75,8 +75,8 @@ in [the free Colab instructions](FREE_COLAB_VALIDATION.md).
 
 | Retained CUDA artifact | SHA-256 |
 |---|---|
-| Tested `pytorch_dlrs-0.3.0.dev0-py3-none-any.whl` | `6fc56b91067b0a2f7603ebe77c567feae969cd07155766d03a42d53df3547408` |
-| Raw evidence archive | `8e26f00ab97b60969625e5e8e2d3a30194bb92aa630730d69f69283bc9852eb4` |
+| Tested `pytorch_dlrs-0.3.0.dev0-py3-none-any.whl` | `29da11de500cf3ac00a49e7a4ff7c48e8fd7e4f35113552d1e3e88ba05d9347a` |
+| Raw evidence archive | `4e2a3f663f00dec3316505b49759f1db21634ed8dcb7f4f78533abab190ec14a` |
 
 This wheel belongs to the subsequent CUDA run and is distinct from the earlier
 PR #2 build. Native BF16 was not validated: emulated BF16 does not satisfy that

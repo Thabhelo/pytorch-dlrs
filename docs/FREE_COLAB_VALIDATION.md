@@ -135,7 +135,7 @@ checks cannot establish that DLRS will improve or preserve every user's model
 quality; see [workload validation](WORKLOAD_VALIDATION.md) and the
 [reliability audit](RELIABILITY_AUDIT.md).
 
-Local preparation tested 21 CPU-safe runner regressions and confirmed that both
+Initial local preparation tested 21 CPU-safe runner regressions and confirmed that both
 source and installed-wheel execution on the CUDA-free Mac produce exit 2,
 `unavailable`, a false CUDA gate, and retained archives. Those are validation of
 the runner's refusal behavior, not GPU results. Actual CUDA acceptance requires
