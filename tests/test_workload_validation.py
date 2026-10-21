@@ -1,7 +1,9 @@
 """Protect held-out evaluation, paired acceptance, and finite-update guards."""
 
 import copy
+import hashlib
 import json
+import shutil
 import sys
 import types
 
@@ -160,8 +162,197 @@ def test_failed_trial_is_recorded_and_resume_does_not_hide_it(monkeypatch, tmp_p
         raise ValueError("intentional failure")
 
     monkeypatch.setattr(validation, "run_pinn", fail)
-    arguments = (tmp_path, "HelmholtzPINN", "tuning", 0, "DLRS", 0.01, protocol(), "cpu", tmp_path)
+    arguments = (tmp_path, "HelmholtzPINN", "tuning", 0, "DLRS", 0.01, protocol(), "cpu", tmp_path, {})
     first = validation.trial(*arguments)
     assert first["status"] == "failed" and "intentional failure" in first["error"]
     assert validation.trial(*arguments) == first
     assert len(calls) == 1
+
+
+@pytest.fixture
+def vision_inputs(monkeypatch, tmp_path):
+    """Tiny loader-shaped files; no download, deserialization, or training."""
+    calls = []
+
+    class FakeMNIST:
+        resources = [(name + ".gz", "unused") for name in (
+            "train-images-idx3-ubyte", "train-labels-idx1-ubyte",
+            "t10k-images-idx3-ubyte", "t10k-labels-idx1-ubyte",
+        )]
+        training_file = "training.pt"
+        test_file = "test.pt"
+
+        def __init__(self, root, train, download):
+            assert train, "Fingerprinting must never construct the held-out dataset"
+            calls.append(("MNIST", download))
+
+    class FakeCIFAR10:
+        base_folder = "cifar-10-batches-py"
+        filename = "cifar-10-python.tar.gz"
+        train_list = [(f"data_batch_{index}", "unused") for index in range(1, 6)]
+        test_list = [("test_batch", "unused")]
+        meta = {"filename": "batches.meta"}
+
+        def __init__(self, root, train, download):
+            assert train, "Fingerprinting must never construct the held-out dataset"
+            calls.append(("CIFAR10", download))
+
+    monkeypatch.setitem(sys.modules, "torchvision", types.SimpleNamespace(
+        datasets=types.SimpleNamespace(MNIST=FakeMNIST, CIFAR10=FakeCIFAR10),
+    ))
+    monkeypatch.setattr(validation, "code_fingerprint", lambda: {"runner": "fixed"})
+    monkeypatch.setattr(validation, "version", lambda name: "test-version")
+    root = tmp_path / "data"
+    names = ["MNIST/raw/" + resource for resource, _ in FakeMNIST.resources]
+    names += [name[:-3] for name in names]
+    names += ["cifar-10-batches-py/" + name for name, _ in
+              [*FakeCIFAR10.train_list, *FakeCIFAR10.test_list]]
+    names += ["cifar-10-batches-py/batches.meta", FakeCIFAR10.filename]
+    for name in names:
+        path = root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(name.encode())
+    return root, calls, names
+
+
+def test_manifest_binds_loader_inputs_and_unchanged_resume_never_downloads(vision_inputs, tmp_path):
+    root, calls, names = vision_inputs
+    output = tmp_path / "results"
+    first = validation.prepare_manifest(output, protocol(), "cpu", root)
+    files = {name: value for dataset in first["dataset_fingerprints"].values()
+             for name, value in dataset["files"].items()}
+    assert set(files) == set(names)
+    for name, value in files.items():
+        assert value == {"bytes": len(name.encode()),
+                         "sha256": hashlib.sha256(name.encode()).hexdigest()}
+    original = (output / "manifest.json").read_bytes()
+    moved = tmp_path / "same-data-new-location"
+    shutil.copytree(root, moved)
+    assert validation.prepare_manifest(output, protocol(), "cpu", moved) == first
+    assert calls == [("MNIST", True), ("CIFAR10", True)]
+    assert (output / "manifest.json").read_bytes() == original
+
+
+@pytest.mark.parametrize("name", [
+    "MNIST/raw/train-images-idx3-ubyte", "MNIST/raw/train-labels-idx1-ubyte",
+    "MNIST/raw/t10k-images-idx3-ubyte", "MNIST/raw/t10k-labels-idx1-ubyte",
+    "MNIST/processed/training.pt", "MNIST/processed/test.pt",
+    "cifar-10-batches-py/data_batch_1", "cifar-10-batches-py/test_batch",
+    "cifar-10-batches-py/batches.meta", "cifar-10-python.tar.gz",
+])
+def test_changed_data_aborts_subset_resume_before_cache_or_new_trial(
+    vision_inputs, tmp_path, monkeypatch, name,
+):
+    root, calls, _ = vision_inputs
+    if "/processed/" in name:
+        for legacy in ("training.pt", "test.pt"):
+            path = root / "MNIST/processed" / legacy
+            path.parent.mkdir(exist_ok=True)
+            path.write_bytes(legacy.encode())
+    output = tmp_path / "results"
+    validation.prepare_manifest(output, protocol(), "cpu", root)
+    cached = output / "trials/cached.json"
+    validation.atomic_json(cached, {"old": "evidence"})
+    before = {path: path.read_bytes() for path in output.rglob("*.json")}
+    changed = root / name
+    # Preserve file length: the guard must hash contents, not just size or paths.
+    changed.write_bytes(b"!" + changed.read_bytes()[1:])
+    config_path = tmp_path / "protocol.json"
+    validation.atomic_json(config_path, protocol())
+    monkeypatch.setattr(sys, "argv", [
+        "validate_workloads", "--protocol", str(config_path), "--output", str(output),
+        "--data-root", str(root), "--datasets", "HelmholtzPINN",
+    ])
+    monkeypatch.setattr(validation, "trial", lambda *a, **k: pytest.fail("Reached a trial"))
+    with pytest.raises(ValueError, match="Dataset contents changed"):
+        validation.main()
+    assert {path: path.read_bytes() for path in output.rglob("*.json")} == before
+    assert calls == [("MNIST", True), ("CIFAR10", True)]
+
+
+@pytest.mark.parametrize("change", ["add_legacy", "remove_legacy", "remove_raw"])
+def test_loader_source_changes_or_missing_inputs_fail_closed(vision_inputs, tmp_path, change):
+    root, _, _ = vision_inputs
+    legacy = root / "MNIST/processed"
+    if change == "remove_legacy":
+        legacy.mkdir()
+        for name in ("training.pt", "test.pt"):
+            (legacy / name).write_bytes(name.encode())
+    output = tmp_path / "results"
+    validation.prepare_manifest(output, protocol(), "cpu", root)
+    if change == "add_legacy":
+        legacy.mkdir()
+        for name in ("training.pt", "test.pt"):
+            (legacy / name).write_bytes(name.encode())
+    elif change == "remove_legacy":
+        (legacy / "training.pt").unlink()
+    else:
+        (root / "MNIST/raw/train-images-idx3-ubyte").unlink()
+    before = (output / "manifest.json").read_bytes()
+    with pytest.raises(ValueError, match="Dataset contents changed|Cannot fingerprint"):
+        validation.prepare_manifest(output, protocol(), "cpu", root)
+    assert (output / "manifest.json").read_bytes() == before
+
+
+@pytest.mark.parametrize("cached", [False, True])
+def test_trial_rechecks_dataset_before_new_or_cached_work(vision_inputs, tmp_path, monkeypatch, cached):
+    root, _, _ = vision_inputs
+    output = tmp_path / "results"
+    saved = validation.prepare_manifest(output, protocol(), "cpu", root)
+    path = output / "trials/MNIST-tuning-s0-DLRS-lr0.01.json"
+    if cached:
+        validation.atomic_json(path, {"dataset": "MNIST", "phase": "tuning", "seed": 0,
+                                      "policy": "DLRS", "lr": 0.01, "status": "passed"})
+    before = path.read_bytes() if cached else None
+    (root / "MNIST/raw/train-labels-idx1-ubyte").write_bytes(b"changed between trials")
+    monkeypatch.setattr(validation, "run_experiment", lambda *a, **k: pytest.fail("Started training"))
+    with pytest.raises(ValueError, match="Dataset contents changed"):
+        validation.trial(output, "MNIST", "tuning", 0, "DLRS", 0.01, protocol(), "cpu", root,
+                         saved["dataset_fingerprints"])
+    assert (path.read_bytes() if path.exists() else None) == before
+
+
+@pytest.mark.parametrize("mutate", [False, True])
+def test_new_trial_disables_download_and_rechecks_inputs_after_execution(
+    vision_inputs, tmp_path, monkeypatch, mutate,
+):
+    root, _, _ = vision_inputs
+    output = tmp_path / "results"
+    saved = validation.prepare_manifest(output, protocol(), "cpu", root)
+
+    def synthetic_trial(*args, **kwargs):
+        assert kwargs["download"] is False
+        assert kwargs["evaluate_test"] is False
+        if mutate:
+            (root / "MNIST/raw/train-images-idx3-ubyte").write_bytes(b"changed during trial")
+        return {}
+
+    monkeypatch.setattr(validation, "run_experiment", synthetic_trial)
+    arguments = (output, "MNIST", "tuning", 0, "DLRS", 0.01, protocol(), "cpu", root,
+                 saved["dataset_fingerprints"])
+    if mutate:
+        with pytest.raises(ValueError, match="Dataset contents changed"):
+            validation.trial(*arguments)
+        assert not list((output / "trials").glob("*.json"))
+    else:
+        assert validation.trial(*arguments)["status"] == "passed"
+
+
+@pytest.mark.parametrize("legacy", ["manifest_without_hashes", "trials_without_manifest"])
+def test_unbound_existing_evidence_is_not_blessed_or_overwritten(vision_inputs, tmp_path, legacy):
+    root, calls, _ = vision_inputs
+    output = tmp_path / "results"
+    saved = validation.prepare_manifest(output, protocol(), "cpu", root)
+    if legacy == "manifest_without_hashes":
+        saved.pop("dataset_fingerprints")
+        validation.atomic_json(output / "manifest.json", saved)
+        message = "no dataset fingerprints"
+    else:
+        (output / "manifest.json").unlink()
+        validation.atomic_json(output / "trials/cached.json", {"old": "evidence"})
+        message = "no manifest"
+    before = {path: path.read_bytes() for path in output.rglob("*.json")}
+    with pytest.raises(ValueError, match=message):
+        validation.prepare_manifest(output, protocol(), "cpu", root)
+    assert {path: path.read_bytes() for path in output.rglob("*.json")} == before
+    assert calls == [("MNIST", True), ("CIFAR10", True)]

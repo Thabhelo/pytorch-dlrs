@@ -180,6 +180,7 @@ def run_experiment(
     split_seed: int = None,
     evaluate_test: bool = True,
     max_lr: float = None,
+    download: bool = True,
 ) -> Dict:
     """Run one paired-seed trial; the test set never controls the scheduler."""
     from torchvision import datasets, transforms
@@ -202,7 +203,7 @@ def run_experiment(
         transform = transforms.Compose(
             [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
         )
-        train_dataset = datasets.MNIST(dataset_root, train=True, download=True, transform=transform)
+        train_dataset = datasets.MNIST(dataset_root, train=True, download=download, transform=transform)
         validation_dataset = datasets.MNIST(dataset_root, train=True, transform=transform)
         test_dataset = (
             datasets.MNIST(dataset_root, train=False, transform=transform)
@@ -227,7 +228,7 @@ def run_experiment(
             ]
         )
         train_dataset = datasets.CIFAR10(
-            dataset_root, train=True, download=True, transform=transform_train
+            dataset_root, train=True, download=download, transform=transform_train
         )
         validation_dataset = datasets.CIFAR10(dataset_root, train=True, transform=transform_test)
         test_dataset = (

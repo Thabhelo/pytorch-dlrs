@@ -42,6 +42,97 @@ def code_fingerprint():
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in paths}
 
 
+def dataset_fingerprint(data_root, dataset_names):
+    """Hash loader inputs, including held-out bytes without evaluating them."""
+    if not dataset_names:
+        return {}
+    from torchvision import datasets
+
+    fingerprints = {}
+    for name in sorted(dataset_names):
+        if name == "MNIST":
+            cls = datasets.MNIST
+            raw = data_root / "MNIST" / "raw"
+            processed = data_root / "MNIST" / "processed"
+            legacy = [processed / cls.training_file, processed / cls.test_file]
+            archives = [raw / Path(resource).name for resource, _ in cls.resources]
+            extracted = [path.with_suffix("") for path in archives]
+            # Torchvision prefers the legacy pair whenever both files exist.
+            use_legacy = all(path.is_file() for path in legacy)
+            required = legacy if use_legacy else extracted
+            optional = [*legacy, *extracted, *archives]
+            loader_format = "legacy-processed" if use_legacy else "raw-idx"
+        elif name == "CIFAR10":
+            cls = datasets.CIFAR10
+            folder = data_root / cls.base_folder
+            required = [folder / item[0] for item in [*cls.train_list, *cls.test_list]]
+            required.append(folder / cls.meta["filename"])
+            optional = [data_root / cls.filename]
+            loader_format = "python-batches"
+        else:
+            raise ValueError(f"Unsupported dataset fingerprint: {name}")
+        paths = set(required) | {path for path in optional if path.is_file()}
+        files = {}
+        for path in sorted(paths):
+            digest = hashlib.sha256()
+            size = 0
+            try:
+                with path.open("rb") as stream:
+                    for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                        digest.update(chunk)
+                        size += len(chunk)
+            except OSError as exc:
+                raise ValueError(f"Cannot fingerprint dataset input: {path}") from exc
+            files[path.relative_to(data_root).as_posix()] = {
+                "bytes": size, "sha256": digest.hexdigest(),
+            }
+        fingerprints[name] = {"loader_format": loader_format, "files": files}
+    return fingerprints
+
+
+def require_dataset_fingerprint(data_root, expected):
+    if dataset_fingerprint(data_root, expected) != expected:
+        raise ValueError("Dataset contents changed; use a new output directory")
+
+
+def prepare_manifest(output, protocol, device, data_root):
+    """Reject incompatible evidence before reading trials or modifying outputs."""
+    manifest = {
+        "protocol": protocol,
+        "code_sha256": code_fingerprint(),
+        "device": device,
+        "python": platform.python_version(),
+        "torch": str(torch.__version__),
+        "torchvision": version("torchvision"),
+        "numpy": version("numpy"),
+        "platform": platform.platform(),
+    }
+    path = output / "manifest.json"
+    if path.exists():
+        saved = json.loads(path.read_text())
+        if {key: value for key, value in saved.items() if key != "dataset_fingerprints"} != manifest:
+            raise ValueError("Protocol/code/environment changed; use a new output directory")
+        if "dataset_fingerprints" not in saved:
+            raise ValueError("Saved manifest has no dataset fingerprints; use a new output directory")
+        if set(saved["dataset_fingerprints"]) != set(protocol["vision"]["datasets"]):
+            raise ValueError("Saved manifest dataset set changed; use a new output directory")
+        require_dataset_fingerprint(data_root, saved["dataset_fingerprints"])
+        return saved
+    if any((output / "trials").glob("*.json")):
+        raise ValueError("Saved trials have no manifest; use a new output directory")
+    from torchvision import datasets
+
+    # Bind every protocol dataset so subset runs can safely share/merge evidence.
+    # Only fresh studies may download; test examples are never evaluated here.
+    for name in protocol["vision"]["datasets"]:
+        getattr(datasets, name)(str(data_root), train=True, download=True)
+    manifest["dataset_fingerprints"] = dataset_fingerprint(
+        data_root, protocol["vision"]["datasets"]
+    )
+    atomic_json(path, manifest)
+    return manifest
+
+
 def paired_interval(values):
     """Percentile interval from every n^n ordered bootstrap resample (n=5)."""
     if not values or len(values) > 6:
@@ -125,7 +216,9 @@ def run_pinn(policy, lr, seed, config, evaluate_test):
     return result
 
 
-def trial(output, dataset, phase, seed, policy, lr, protocol, device, data_root):
+def trial(output, dataset, phase, seed, policy, lr, protocol, device, data_root,
+          dataset_fingerprints):
+    require_dataset_fingerprint(data_root, dataset_fingerprints)
     path = output / "trials" / f"{dataset}-{phase}-s{seed}-{policy}-lr{lr!r}.json"
     if path.exists():
         cached = json.loads(path.read_text())
@@ -154,6 +247,7 @@ def trial(output, dataset, phase, seed, policy, lr, protocol, device, data_root)
                 split_seed=protocol["split_seed"],
                 evaluate_test=phase == "confirmation",
                 max_lr=cfg["dlrs_max_lr"],
+                download=False,
             )
         record = {
             "status": "passed",
@@ -175,6 +269,9 @@ def trial(output, dataset, phase, seed, policy, lr, protocol, device, data_root)
             "error": f"{type(exc).__name__}: {exc}",
             "elapsed_seconds": time.perf_counter() - start,
         }
+    # A mutation during execution invalidates the observation, even if the
+    # training call failed. Do not save a trial against different dataset bytes.
+    require_dataset_fingerprint(data_root, dataset_fingerprints)
     atomic_json(path, record)
     print(
         f"END {dataset} {phase} seed={seed} policy={policy} status={record['status']} "
@@ -280,20 +377,7 @@ def main():
     args = parser.parse_args()
     torch.set_num_threads(2)
     protocol = json.loads(args.protocol.read_text())
-    manifest = {
-        "protocol": protocol,
-        "code_sha256": code_fingerprint(),
-        "device": args.device,
-        "python": platform.python_version(),
-        "torch": str(torch.__version__),
-        "torchvision": version("torchvision"),
-        "numpy": version("numpy"),
-        "platform": platform.platform(),
-    }
-    manifest_path = args.output / "manifest.json"
-    if manifest_path.exists() and json.loads(manifest_path.read_text()) != manifest:
-        raise SystemExit("Protocol/code/environment changed; use a new output directory")
-    atomic_json(manifest_path, manifest)
+    manifest = prepare_manifest(args.output, protocol, args.device, args.data_root)
     records = [
         json.loads(path.read_text()) for path in sorted((args.output / "trials").glob("*.json"))
     ]
@@ -318,6 +402,7 @@ def main():
                         protocol,
                         args.device,
                         args.data_root,
+                        manifest["dataset_fingerprints"],
                     )
                 )
         records = [r for r in records if r["dataset"] != dataset]
@@ -349,6 +434,7 @@ def main():
                         protocol,
                         args.device,
                         args.data_root,
+                        manifest["dataset_fingerprints"],
                     )
                 )
         summary = summarize(records, selections, protocol)

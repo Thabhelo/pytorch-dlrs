@@ -8,14 +8,40 @@ or large-scale replacement claim.
 ## Frozen design
 
 The [protocol](../benchmarks/validation_protocol.json) was written before training.
-The [runner](../benchmarks/validate_workloads.py) fingerprints production and
-benchmark source, the protocol, Torch, torchvision, NumPy, Python, and platform.
-Resuming with changed evidence inputs fails. Raw completed and failed trials are
+The as-run runner fingerprints production and benchmark source, the protocol,
+Torch, torchvision, NumPy, Python, and platform. Resuming with changed source,
+settings, or software fails. Raw completed and failed trials are
 saved atomically under [workload-validation-2026-10-20](workload-validation-2026-10-20/).
 A failed trial is retained and is not silently retried or dropped. The
 [dataset integrity record](workload-validation-2026-10-20/dataset-integrity.json)
 adds SHA-256 hashes of the actual local MNIST and CIFAR-10 files, alongside
 torchvision's own download-integrity checks.
+
+Post-study review found that the runner did not itself bind dataset contents to
+its resume manifest: split hashes cover row indices, not images or labels.
+The historical study's separate integrity snapshot and final check agreed on
+the 16 dataset files; those checks, all 72 records, and their original manifest and
+source hashes are preserved unchanged. The exact as-run
+[validation runner](https://github.com/Thabhelo/pytorch-dlrs/blob/11def2388473e488cf8111d919aa1073524a2aa9/benchmarks/validate_workloads.py)
+and [training runner](https://github.com/Thabhelo/pytorch-dlrs/blob/11def2388473e488cf8111d919aa1073524a2aa9/benchmarks/run_benchmarks.py)
+remain available; this correction does not rerun or revise the results.
+
+For new studies, the current runner records SHA-256 and byte counts for the
+actual MNIST/CIFAR-10 loader inputs and existing download archives in the
+manifest. This includes MNIST's legacy processed-file override, image/label
+files, and CIFAR batch/metadata files. It verifies them before reading cached
+trials, before each new trial, and after execution before saving a result.
+Existing archives and alternate MNIST inputs are conservatively bound too;
+adding, removing, or changing them invalidates resume even when unused by the loader.
+Changed or missing data aborts without overwriting cached evidence. Only a
+fresh study may download inputs; trial execution and resumed preparation never
+download or repair them. Hashing held-out bytes does not evaluate test examples.
+All protocol vision datasets are bound even for a `--datasets` subset so cached
+results from other workloads remain protected and subset manifests can match.
+Keep these inputs immutable during a run: boundary checks do not lock files
+against concurrent edits. Old manifests without dataset fingerprints require a
+new output directory. Synthetic regression tests verify these guards without
+downloading data or repeating the scientific study.
 
 A preliminary execution was stopped after seven completed MNIST tuning trials
 when concurrent floor-version testing exposed a tensor initial-rate metadata
@@ -201,17 +227,17 @@ support replacing a working production scheduler by default.
 
 ## Reproduction
 
-With the exact recorded compatible Torch/torchvision/NumPy versions, from the
-checkout:
+To execute a new study with the current runner and compatible
+Torch/torchvision/NumPy versions, from the checkout:
 
 ```bash
 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 python -m benchmarks.validate_workloads \
   --device mps --data-root /tmp/dlrs-validation-data \
-  --output docs/workload-validation-2026-10-20
+  --output docs/workload-validation-new
 ```
 
 Vision executes on MPS; the PINN executes on CPU. A new device, dependency,
-protocol, or fingerprinted source requires a new output directory. The
+protocol, dataset contents, or fingerprinted source requires a new output directory. The
 `--datasets` option can continue a subset while preserving other completed
 results. Reproducing on CUDA or CPU provides new environment-specific evidence;
 it does not promise bitwise equality across hardware.
