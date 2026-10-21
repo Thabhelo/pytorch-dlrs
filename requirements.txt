@@ -1,5 +1,4 @@
-torch>=2.0.0
-torchvision>=0.15.0
-numpy>=1.21.0
-pytest>=7.0.0
-pytest-cov>=4.0.0
+# Install the package and its runtime dependencies from the canonical metadata.
+# For development use: python -m pip install -e '.[dev]'
+# For datasets/plots use: python -m pip install -e '.[examples]'
+.

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pytorch-dlrs"
-version = "0.2.1"
+version = "0.3.0.dev0"
 description = "Dynamic Learning Rate Scheduler for PyTorch"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -38,15 +38,29 @@ classifiers = [
 ]
 dependencies = [
     "torch>=2.0.0",
-    "numpy>=1.21.0",
 ]
 
 [project.optional-dependencies]
+test = [
+    "numpy>=1.21.0,<2; python_version < '3.13'",
+    "numpy>=2.1.0; python_version >= '3.13'",
+    "pytest>=7.0.0,<9",
+    "pytest-cov>=4.0.0,<7",
+]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
+    "numpy>=1.21.0,<2; python_version < '3.13'",
+    "numpy>=2.1.0; python_version >= '3.13'",
+    "pytest>=7.0.0,<9",
+    "pytest-cov>=4.0.0,<7",
     "ruff>=0.1.0",
     "mypy>=1.0.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
+]
+examples = [
+    "numpy>=1.21.0",
+    "torchvision>=0.15.0",
+    "matplotlib>=3.5.0",
 ]
 
 [project.urls]
@@ -82,7 +96,9 @@ ignore = [
 known-first-party = ["dlrs"]
 
 [tool.mypy]
-python_version = "3.9"
+# Type-check against the tooling interpreter; old-Python syntax/runtime support
+# is checked by the actual Python 3.8/3.9 jobs in CI, not modern torch's stubs.
+python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false

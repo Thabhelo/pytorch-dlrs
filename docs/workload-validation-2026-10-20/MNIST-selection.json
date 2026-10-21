@@ -1,0 +1,5 @@
+{
+  "NoScheduler": 0.01,
+  "CosineAnnealingLR": 0.1,
+  "DLRS": 0.03
+}

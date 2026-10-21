@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "environment": {
+    "python": "3.11.12",
+    "torch": "2.14.1",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "backend": "gloo",
+    "device": "cpu",
+    "world_size": 2,
+    "torch_intraop_threads_per_worker": 1,
+    "torch_interop_threads_per_worker": 1
+  },
+  "command": "python -m pytest tests/test_distributed_recovery.py -q --junitxml=.audit/distributed-validation-junit.xml --basetemp=/tmp/dlrs-distributed-evidence-20261020",
+  "results": {
+    "tests": 11,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "elapsed_seconds": 65.052
+  },
+  "test_cases": [
+    {
+      "name": "test_weighted_observations_and_gradients_match_global_batch",
+      "elapsed_seconds": 2.992,
+      "passed": true
+    },
+    {
+      "name": "test_epoch_restart_in_fresh_processes_matches_uninterrupted[sgd]",
+      "elapsed_seconds": 11.137,
+      "passed": true
+    },
+    {
+      "name": "test_epoch_restart_in_fresh_processes_matches_uninterrupted[adamw_tensor]",
+      "elapsed_seconds": 12.282,
+      "passed": true
+    },
+    {
+      "name": "test_invalid_observation_is_rejected_on_every_rank[nan]",
+      "elapsed_seconds": 3.831,
+      "passed": true
+    },
+    {
+      "name": "test_invalid_observation_is_rejected_on_every_rank[negative]",
+      "elapsed_seconds": 3.555,
+      "passed": true
+    },
+    {
+      "name": "test_invalid_observation_is_rejected_on_every_rank[zero_count]",
+      "elapsed_seconds": 3.416,
+      "passed": true
+    },
+    {
+      "name": "test_invalid_observation_is_rejected_on_every_rank[nonscalar]",
+      "elapsed_seconds": 3.276,
+      "passed": true
+    },
+    {
+      "name": "test_invalid_observation_is_rejected_on_every_rank[global_overflow]",
+      "elapsed_seconds": 2.954,
+      "passed": true
+    },
+    {
+      "name": "test_unequal_iteration_counts_fail_collectively_before_training",
+      "elapsed_seconds": 1.794,
+      "passed": true
+    },
+    {
+      "name": "test_rank_failure_or_stall_is_bounded_without_scheduler_mutation[exit]",
+      "elapsed_seconds": 6.925,
+      "passed": true
+    },
+    {
+      "name": "test_rank_failure_or_stall_is_bounded_without_scheduler_mutation[stall]",
+      "elapsed_seconds": 11.241,
+      "passed": true
+    }
+  ],
+  "source_sha256": {
+    "dlrs/scheduler.py": "7dbb75c149b20d479410f7abba19103123ea1969bd43023cdbbaf04fc92b4fd7",
+    "examples/distributed_policy.py": "2a6942171bd6231cd9d0363c288f6e68ab0275c59a41e567cb60ed51ef47940d",
+    "tests/test_distributed_recovery.py": "aeff13e6bd044601c21b05b68822447a54eef0efcd88b3e43628f1a13d3bcba0"
+  },
+  "failure_probes": [
+    {
+      "injection": "exit",
+      "communication_failed": true,
+      "error_type": "RuntimeError",
+      "error": "[/Users/runner/work/pytorch/pytorch/third_party/gloo/gloo/transport/uv/unbound_buffer.cc:65] Timed out waiting 4000ms for recv operation to complete",
+      "elapsed_seconds": 4.012336042011157,
+      "state_unchanged": true
+    },
+    {
+      "injection": "stall",
+      "communication_failed": true,
+      "error_type": "RuntimeError",
+      "error": "[/Users/runner/work/pytorch/pytorch/third_party/gloo/gloo/transport/uv/unbound_buffer.cc:65] Timed out waiting 4000ms for recv operation to complete",
+      "elapsed_seconds": 4.006772082997486,
+      "state_unchanged": true
+    }
+  ],
+  "checkpoint_restart": [
+    {
+      "optimizer": "SGD(momentum=0.9)",
+      "tensor_learning_rates": false,
+      "parameter_groups": 2,
+      "full_epochs": 4,
+      "checkpoint_after_epochs": 2,
+      "batches_per_epoch": 4,
+      "dropout": 0.2,
+      "fresh_worker_processes": 6,
+      "max_model_absolute_difference_rank0": 0.0,
+      "complete_state_exact_match_both_ranks": true
+    },
+    {
+      "optimizer": "AdamW",
+      "tensor_learning_rates": true,
+      "parameter_groups": 2,
+      "full_epochs": 4,
+      "checkpoint_after_epochs": 2,
+      "batches_per_epoch": 4,
+      "dropout": 0.2,
+      "fresh_worker_processes": 6,
+      "max_model_absolute_difference_rank0": 0.0,
+      "complete_state_exact_match_both_ranks": true
+    }
+  ],
+  "scope_limits": [
+    "single macOS arm64 host",
+    "two CPU/Gloo ranks",
+    "full-precision eager DDP",
+    "epoch-boundary complete local checkpoints",
+    "faults injected immediately before observation validation",
+    "no multi-node/CUDA/NCCL/FSDP/ZeRO/elastic recovery certification"
+  ],
+  "core_defect_fixed": "load_state_dict converted tensor base_lrs metadata to float; preserving cloned metadata restored exact tensor-LR scheduler state roundtrip"
+}

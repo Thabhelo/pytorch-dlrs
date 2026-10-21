@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "dataset": "CIFAR10",
+  "phase": "tuning",
+  "seed": 0,
+  "policy": "CosineAnnealingLR",
+  "lr": 0.03,
+  "result": {
+    "scheduler": "CosineAnnealingLR",
+    "dataset": "CIFAR10",
+    "seed": 0,
+    "environment": {
+      "torch": "2.14.1",
+      "python": "3.11.12",
+      "device": "mps",
+      "platform": "macOS-26.6.2-arm64-arm-64bit"
+    },
+    "config": {
+      "epochs": 6,
+      "batch_size": 128,
+      "initial_lr": 0.03,
+      "validation_fraction": 0.1,
+      "num_workers": 0,
+      "split_seed": 42,
+      "max_lr": 0.5,
+      "train_examples": 45000,
+      "validation_examples": 5000,
+      "test_evaluated": false
+    },
+    "initial_model_sha256": "f38ee595c2b625bbcac09b63d27fd97a69ff8052c0b69df3e0619d5dee6c792a",
+    "split_sha256": "a237758c443f22ef12b7d47627ee0493992993457c915776ac1e5e6a4a69d49d",
+    "train_loss": [
+      1.7151400224261806,
+      1.3569786407258786,
+      1.1861661008411002,
+      1.072628169695536,
+      0.9767380138927033,
+      0.9165672985712684
+    ],
+    "validation_loss": [
+      1.348500141143799,
+      1.152128058052063,
+      1.0088950012207032,
+      0.8975540715217587,
+      0.8409430964469908,
+      0.7998261340141295
+    ],
+    "validation_accuracy": [
+      51.38,
+      59.92,
+      64.88,
+      68.76,
+      71.22,
+      72.38
+    ],
+    "learning_rates": [
+      0.03,
+      0.027990381056766583,
+      0.022500000000000003,
+      0.015000000000000001,
+      0.007500000000000004,
+      0.0020096189432334197
+    ],
+    "next_learning_rates": [
+      0.027990381056766583,
+      0.022500000000000003,
+      0.015000000000000001,
+      0.007500000000000004,
+      0.0020096189432334197,
+      0.0
+    ],
+    "epoch_times": [
+      32.78663129200868,
+      61.55931412499922,
+      48.50127095800417,
+      41.10741425000015,
+      46.704026749997865,
+      52.05308124999283
+    ],
+    "total_time": 282.7128746669914,
+    "best_validation_accuracy": 72.38
+  }
+}

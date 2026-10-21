@@ -1,6 +1,16 @@
 include README.md
 include LICENSE
 include requirements.txt
+include CHANGELOG.md
+include CONTRIBUTING.md
+include pyproject.toml
 recursive-include dlrs *.py
+include dlrs/py.typed
 recursive-include tests *.py
 recursive-include examples *.py
+recursive-include benchmarks *.py
+recursive-include benchmarks *.json
+recursive-include docs *.md
+recursive-include docs *.json
+recursive-include .github/workflows *.yml
+recursive-include .github/scripts *.py

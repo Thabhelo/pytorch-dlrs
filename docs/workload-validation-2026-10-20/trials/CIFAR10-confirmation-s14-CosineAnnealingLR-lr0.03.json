@@ -1,0 +1,85 @@
+{
+  "status": "passed",
+  "dataset": "CIFAR10",
+  "phase": "confirmation",
+  "seed": 14,
+  "policy": "CosineAnnealingLR",
+  "lr": 0.03,
+  "result": {
+    "scheduler": "CosineAnnealingLR",
+    "dataset": "CIFAR10",
+    "seed": 14,
+    "environment": {
+      "torch": "2.14.1",
+      "python": "3.11.12",
+      "device": "mps",
+      "platform": "macOS-26.6.2-arm64-arm-64bit"
+    },
+    "config": {
+      "epochs": 6,
+      "batch_size": 128,
+      "initial_lr": 0.03,
+      "validation_fraction": 0.1,
+      "num_workers": 0,
+      "split_seed": 42,
+      "max_lr": 0.5,
+      "train_examples": 45000,
+      "validation_examples": 5000,
+      "test_evaluated": true
+    },
+    "initial_model_sha256": "e0d2db7f2aa1286911ca00cce73c7df6d2b91d9a56445091b4cecd4c71af5688",
+    "split_sha256": "a237758c443f22ef12b7d47627ee0493992993457c915776ac1e5e6a4a69d49d",
+    "train_loss": [
+      1.6993672625223806,
+      1.3563372175428599,
+      1.201577900653417,
+      1.0797829750061028,
+      0.9856860761536502,
+      0.916031576156616
+    ],
+    "validation_loss": [
+      1.3507084835052487,
+      1.0752064502716066,
+      1.0178501884460445,
+      0.9005348487854002,
+      0.8351437010765072,
+      0.7938288258552549
+    ],
+    "validation_accuracy": [
+      51.2,
+      62.48,
+      63.94,
+      68.86,
+      70.64,
+      72.74
+    ],
+    "learning_rates": [
+      0.03,
+      0.027990381056766583,
+      0.022500000000000003,
+      0.015000000000000001,
+      0.007500000000000004,
+      0.0020096189432334197
+    ],
+    "next_learning_rates": [
+      0.027990381056766583,
+      0.022500000000000003,
+      0.015000000000000001,
+      0.007500000000000004,
+      0.0020096189432334197,
+      0.0
+    ],
+    "epoch_times": [
+      11.826422750003985,
+      10.979731166997226,
+      11.668499207997229,
+      12.456879958001082,
+      13.6204787910101,
+      13.648084915999789
+    ],
+    "test_loss": 0.8081222444534303,
+    "final_accuracy": 71.86,
+    "total_time": 75.28282337500423,
+    "best_validation_accuracy": 72.74
+  }
+}

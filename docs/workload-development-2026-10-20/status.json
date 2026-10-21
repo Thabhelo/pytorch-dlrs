@@ -1,0 +1,11 @@
+{
+  "status": "stopped_for_production_fix",
+  "timestamp": "2026-10-20T20:48:50.493671+00:00",
+  "reason": "Actual PyTorch 2.0 initial_lr/base_lrs tensor alias defect found during floor validation; final workload evidence will restart with corrected code fingerprint. Protocol and model/tuning choices unchanged.",
+  "completed_trials": 7,
+  "recorded_trial_failures": 0,
+  "in_progress_trial": "MNIST tuning seed=0 NoScheduler lr=0.1",
+  "in_progress_trial_status": "interrupted_by_audit_not_a_numerical_failure",
+  "protocol_complete": false,
+  "quality_accepted": false
+}

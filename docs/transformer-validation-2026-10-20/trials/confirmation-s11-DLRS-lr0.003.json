@@ -1,0 +1,46 @@
+{
+  "phase": "confirmation",
+  "seed": 11,
+  "policy": "DLRS",
+  "rate": 0.003,
+  "manifest_sha256": "09fc3266d51745a95f514a849218a644b72b1630a91183abdb2d3acd34da7e69",
+  "status": "passed",
+  "result": {
+    "initial_model_sha256": "6c695b327cc959e9bfc730abc199a6d563c512ac588a5f460886ec0c222308fe",
+    "training_index_stream_sha256": "c3545865932e6b1bd88c67f061646603bedc9385cf8e375129cfbfb94ded3e04",
+    "training_split_sha256": "8564bb90b6305620187b212d62ee40694e1b3639401878b3fdc4ec395016ec4a",
+    "validation_split_sha256": "ef3b6eb3897a96dde32bc0b42686ea22f84dbf93746e611936b431d2a9524fac",
+    "parameter_count": 103936,
+    "optimizer_updates": 384,
+    "training_target_bytes": 393216,
+    "window_train_nll": [
+      3.1632826775312424,
+      2.565650261938572,
+      2.499334290623665,
+      2.45941112190485,
+      2.3951481878757477,
+      2.325310628861189
+    ],
+    "window_learning_rates": [
+      0.003,
+      0.0030909660382950495,
+      0.0030854674456172776,
+      0.003067542846080118,
+      0.0030711371105985805,
+      0.0030773107544158204
+    ],
+    "final_learning_rate": 0.003079387569352,
+    "validation": {
+      "nll": 2.3070626720818423,
+      "target_bytes": 111538
+    },
+    "test": {
+      "nll": 2.300739649385485,
+      "target_bytes": 111539,
+      "perplexity": 9.981562581754858
+    },
+    "test_split_sha256": "c54f3753a4e6e3c3d1759212815a7caf826e68a33021b25312984400bed40a1f",
+    "elapsed_seconds": 43.805105541992816
+  },
+  "elapsed_seconds": 43.805494040992926
+}

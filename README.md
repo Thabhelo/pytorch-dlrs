@@ -1,167 +1,130 @@
 # DLRS: Dynamic Learning Rate Scheduler for PyTorch
 
-A PyTorch implementation of the Dynamic Learning Rate Scheduler (DLRS) algorithm from the paper ["Improving Neural Network Training using Dynamic Learning Rate Schedule for PINNs and Image Classification"](https://arxiv.org/abs/2507.21749) by Veerababu Dharanalakota, Ashwin Arvind Raikar, and Prasanta Kumar Ghosh (arXiv:2507.21749v1, July 2025).
+DLRS is an independent implementation of the loss-driven learning rate rule in [Improving neural network training using dynamic learning rate schedule for PINNs and image classification](https://arxiv.org/abs/2507.21749) by Veerababu Dharanalakota, Ashwin Arvind Raikar, and Prasanta Kumar Ghosh. It changes an optimizer's learning rates using the first, last, and mean batch loss of an epoch.
 
-DLRS automatically adjusts learning rates based on loss dynamics during training, eliminating the need for manual learning rate tuning and schedules.
+**Status: experimental / Alpha.** This package is not part of PyTorch. Correct implementation of the update rule does not guarantee convergence, better accuracy, or unchanged training quality. Large-scale production readiness, broad accelerator coverage, and upstream acceptance have not been established. See the [reliability audit](docs/RELIABILITY_AUDIT.md) for measured evidence and remaining gaps.
 
-## Key Features
-
-- Adaptive learning rate adjustment based on loss slope analysis
-- Compatible with any PyTorch optimizer (SGD, Adam, AdamW, etc.)
-- Can be used alongside standard PyTorch schedulers
-- Minimal configuration required
-- Suitable for both image classification and PINNs
-
-**Note:** This is an independent implementation based on the research paper. It is not part of the official PyTorch library yet.
-
-## Links
-
-- **GitHub**: https://github.com/Thabhelo/pytorch-dlrs
-- **PyPI**: https://pypi.org/project/pytorch-dlrs/
-- **Paper**: https://arxiv.org/abs/2507.21749
+The local revision completed 96 planned trials across MNIST, CIFAR-10, a manufactured PINN, and a small Transformer. MNIST and Transformer met their provisional comparison margins; CIFAR-10 and the PINN failed against cosine. CIFAR-10 also failed to establish the required tolerance against fixed LR. These results block a general replacement recommendation; see the [workload results](docs/WORKLOAD_VALIDATION.md) and [Transformer results](docs/TRANSFORMER_VALIDATION.md).
 
 ## Installation
 
-### From PyPI
+Install an appropriate PyTorch build for your platform first using the [official instructions](https://pytorch.org/get-started/locally/), then:
 
 ```bash
-pip install pytorch-dlrs
+python -m pip install pytorch-dlrs
 ```
 
-### From Source
+The package declares Python 3.8+ and PyTorch 2.0+; available combinations depend on PyTorch's wheels. These lower bounds are compatibility targets, not a claim that every newer release or platform has been tested. The [compatibility report](docs/COMPATIBILITY_VALIDATION.md) records executed local checks; the [CI matrix](.github/workflows/ci.yml) and [contribution guide](CONTRIBUTING.md) define the ongoing checks. NumPy, torchvision, plotting tools, and test tools are optional, not runtime dependencies of `dlrs`.
+
+For the unreleased `0.3.0.dev0` source revision:
 
 ```bash
 git clone https://github.com/Thabhelo/pytorch-dlrs.git
 cd pytorch-dlrs
-pip install -e .
+python -m pip install -e '.[dev]'
 ```
 
-### Requirements
+The published PyPI package and this development revision differ in behavior; read the [migration notes](docs/FAQ.md#migrating-from-021) before replacing 0.2.1 in an existing run. For release history, consult [CHANGELOG.md](CHANGELOG.md).
 
-- Python 3.8+
-- PyTorch 2.0+
-- NumPy 1.21+
+## Quick start
 
-## Quick Start
+Run `scheduler.step(batch_losses)` once at the end of an epoch, after optimizer updates. Losses must be finite, nonnegative scalar values in batch order. The following example is self-contained:
 
 ```python
 import torch
-import torch.nn as nn
 from dlrs import DLRSScheduler
 
-# Create your model, optimizer, and scheduler
-model = nn.Sequential(nn.Linear(10, 2))  # Replace with your model
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-scheduler = DLRSScheduler(optimizer)
-criterion = nn.CrossEntropyLoss()
+torch.manual_seed(0)
+model = torch.nn.Linear(4, 1)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+scheduler = DLRSScheduler(optimizer, min_lr=1e-6, max_lr=0.1)
+inputs = torch.randn(32, 4)
+targets = torch.randn(32, 1)
 
-for epoch in range(num_epochs):
+for epoch in range(3):
     batch_losses = []
-
-    for data, target in train_loader:
-        # Forward pass
+    for data, target in zip(inputs.split(8), targets.split(8)):
         optimizer.zero_grad()
-        output = model(data)
-        loss = criterion(output, target)
-
-        # Backward pass
+        loss = torch.nn.functional.mse_loss(model(data), target)
         loss.backward()
         optimizer.step()
-
-        # Record loss for DLRS
-        batch_losses.append(loss.item())
-
-    # Update learning rate based on epoch's batch losses
+        batch_losses.append(loss.detach().item())
     scheduler.step(batch_losses)
+    print(epoch, scheduler.get_last_lr())
 ```
 
-## How It Works
+`max_lr=0.1` is illustrative; determine useful bounds with a controlled comparison on your workload. A bound limits a rate, not training risk. With mixed precision, use the unscaled loss and account for optimizer steps skipped by the scaler. With gradient accumulation, explicitly define whether each observation represents a microbatch or a completed optimizer update.
 
-DLRS analyzes the trend of batch losses within each epoch to determine whether the model is:
+## Update rule
 
-- **Converging** (ΔL < 0): Increases learning rate to accelerate training
-- **Diverging** (ΔL > 1): Decreases learning rate to stabilize training
-- **Stagnating** (0 ≤ ΔL ≤ 1): Makes minimal adjustments
+For at least two losses, DLRS computes `slope = (last - first) / mean` and, independently for each positive learning rate `lr`:
 
-The algorithm computes:
+```text
+scale = 10 ** floor(log10(lr))
+delta = delta_i if slope < 0 else delta_o if slope <= 1 else delta_d
+new_lr = clamp(lr - scale * delta * slope, min_lr, max_lr)
+```
 
-1. Normalized loss slope: ΔL = (L_last - L_first) / L_mean
-2. Adjustment granularity: n = floor(log10(α))
-3. Learning rate update: α_new = α - (10^n × δ × ΔL)
+A negative slope increases the rate; a positive slope decreases it. These names describe a heuristic observation, not a proof that the model is converging or diverging. The rule uses the endpoints and mean, so batch ordering, uneven batch sizes, and noisy losses matter. [Design notes](docs/DESIGN.md) describe numerical behavior and limitations.
 
-## Parameters
+| Parameter | Default | Meaning |
+| --- | --- | --- |
+| `delta_d` | `0.5` | Factor for slope greater than 1 |
+| `delta_o` | `1.0` | Factor for slope from 0 through 1 |
+| `delta_i` | `0.1` | Factor for negative slope |
+| `min_lr` | `1e-8` | Floor applied during positive-rate updates |
+| `max_lr` | `None` | Optional cap; `None` permits unbounded growth |
+| `last_epoch` | `-1` | Initial epoch index, following PyTorch scheduler initialization |
+| `verbose` | `False` | Print update diagnostics |
 
-- `delta_d` (float, default=0.5): Decremental factor for divergence
-- `delta_o` (float, default=1.0): Adjustment factor for stagnation
-- `delta_i` (float, default=0.1): Incremental factor for convergence
-- `min_lr` (float, default=1e-8): Minimum learning rate bound
+Bounds apply during loss-driven updates; construction and skipped/no-loss steps do not rewrite initial or externally changed rates. Zero-rate groups remain zero. Invalid values are rejected before applying a partial update. Empty/single-observation and all-zero loss sequences warn and leave rates unchanged. `step()` without losses advances the scheduler counter but does not perform a DLRS adjustment.
 
-## Examples
+## Integration contract
 
-### MNIST Classification
+- Use a normal eager PyTorch optimizer with scalar real learning rates. Tensor rates must be writable scalar floating-point values without gradients; their identity is preserved. Graph capture, compiled or differentiable optimizers, sharded optimizers, and arbitrary custom optimizers are not certified.
+- Serialize optimizer updates, scheduler steps, and checkpoint operations for each optimizer. The scheduler provides no thread synchronization.
+- Keep optimizer parameter groups fixed after constructing the scheduler. Adding, removing, or reordering groups requires a new scheduler and an explicit state migration.
+- For distributed training, every rank needs identical scheduler observations, state, and resulting learning rates. DLRS performs no collectives. Calling `step()` only on rank 0 leaves other optimizers out of sync; see [the DDP example](docs/FAQ.md#distributed-training).
+- `ChainedScheduler` and `SequentialLR` do not forward batch losses. They must not be used to orchestrate DLRS. Multiple schedulers also change each other's behavior; use an explicitly tested training-loop policy if combining them.
+- `DLRSOnPlateau` uses a rolling window of epoch metrics, not within-epoch losses. Its historical `patience` argument sets the window length (`patience + 2`), not bad-epoch patience. `mode='max'` reverses the slope direction. It is **not** a drop-in replacement for `ReduceLROnPlateau`.
+- The Lightning example supports a deliberately narrow single-process training loop; the Transformers callback is disabled pending a correct integration. Examples are not universal framework compatibility guarantees.
 
-Clone the repository to access the examples:
+Save and restore both optimizer and scheduler state. Construct the scheduler before loading either state, load the optimizer, then load the matching scheduler state. See [checkpointing and migration](docs/FAQ.md#checkpointing).
+
+## Validation and examples
+
+The local validation reports separate [training modes](docs/TRAINING_MODES_VALIDATION.md),
+[distributed recovery](docs/DISTRIBUTED_VALIDATION.md),
+[version compatibility](docs/COMPATIBILITY_VALIDATION.md),
+[vision/PINN workload quality](docs/WORKLOAD_VALIDATION.md),
+[Transformer workload quality](docs/TRANSFORMER_VALIDATION.md),
+[ordinary-use behavior against the previous release](docs/DIFFERENTIAL_COMPATIBILITY.md), and
+[scheduler scaling](docs/SCALABILITY_VALIDATION.md). A successful functional test
+is not evidence that an alternative learning-rate policy preserves your model
+quality. Use the workload acceptance results and their stated limits.
 
 ```bash
-git clone https://github.com/Thabhelo/pytorch-dlrs.git
-cd pytorch-dlrs
-python examples/mnist_example.py --epochs 10 --device cpu
+python -m pytest tests --cov=dlrs --cov-report=term-missing
+ruff check dlrs tests examples benchmarks setup.py .github/scripts
+mypy dlrs
+python -m build
+python -m twine check dist/*
 ```
 
-View the example code on GitHub: [examples/mnist_example.py](https://github.com/Thabhelo/pytorch-dlrs/tree/main/examples)
+To run dataset/plot examples from a checkout, install `python -m pip install -e '.[examples]'` with compatible torch/torchvision versions. The [MNIST example](examples/mnist_example.py), [PINN example](examples/pinns_helmholtz.py), and [benchmark runner](benchmarks/run_benchmarks.py) illustrate usage. They do not establish performance superiority or a safe default for an unrelated workload. Benchmark reports must record seeds, software/hardware, tuning budgets, failures, and held-out evaluation. Retain the existing scheduler as a baseline and compare quality as well as runtime before adopting DLRS.
 
-## Results
-
-According to the original paper, DLRS demonstrates:
-
-- Accelerated training and improved stability for neural networks
-- Effective performance on Physics-Informed Neural Networks (PINNs)
-- Strong results on image classification tasks (MNIST, CIFAR-10)
-- Adaptive learning rate adjustment based on loss dynamics
-
-## Testing
-
-Run the test suite:
-
-```bash
-pytest tests/ -v
-```
-
-With coverage:
-
-```bash
-pytest tests/ --cov=dlrs --cov-report=html
-```
-
-## Citation
-
-If you use DLRS in your research, please cite the original paper:
+## Citation and attribution
 
 ```bibtex
 @article{DHARANALAKOTA2025100697,
-  title   = {Improving neural network training using dynamic learning rate schedule for PINNs and image classification},
-  author  = {Veerababu Dharanalakota and Ashwin Arvind Raikar and Prasanta Kumar Ghosh},
+  title = {Improving neural network training using dynamic learning rate schedule for PINNs and image classification},
+  author = {Dharanalakota, Veerababu and Raikar, Ashwin Arvind and Ghosh, Prasanta Kumar},
   journal = {Machine Learning with Applications},
-  volume  = {21},
-  pages   = {100697},
-  year    = {2025},
-  issn    = {2666-8270},
-  doi     = {https://doi.org/10.1016/j.mlwa.2025.100697},
-  url     = {https://www.sciencedirect.com/science/article/pii/S2666827025000805},
-  keywords = {Adaptive learning, Multilayer perceptron, CNN, MNIST, CIFAR-10}
+  volume = {21},
+  pages = {100697},
+  year = {2025},
+  doi = {10.1016/j.mlwa.2025.100697}
 }
 ```
 
-## Code Author
-
-Implementation by Thabhelo (thabhelo@deepubuntu.com)
-
-Based on the research paper by Veerababu Dharanalakota, Ashwin Arvind Raikar, and Prasanta Kumar Ghosh.
-
-## License
-
-MIT License. See [LICENSE](LICENSE) for details.
-
-## Contributing
-
-Contributions are welcome. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Implementation by Thabhelo. [MIT License](LICENSE). [Contribution guide](CONTRIBUTING.md), [FAQ](docs/FAQ.md), and [issues](https://github.com/Thabhelo/pytorch-dlrs/issues).

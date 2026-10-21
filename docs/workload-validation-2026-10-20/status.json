@@ -1,0 +1,12 @@
+{
+  "protocol_complete": true,
+  "execution_passed": true,
+  "quality_accepted": false,
+  "completed_dataset_quality_accepted": false,
+  "datasets_completed": [
+    "MNIST",
+    "CIFAR10",
+    "HelmholtzPINN"
+  ],
+  "trial_count": 72
+}

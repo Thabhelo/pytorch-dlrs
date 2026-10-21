@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "dataset": "MNIST",
+  "phase": "tuning",
+  "seed": 0,
+  "policy": "NoScheduler",
+  "lr": 0.03,
+  "result": {
+    "scheduler": "NoScheduler",
+    "dataset": "MNIST",
+    "seed": 0,
+    "environment": {
+      "torch": "2.14.1",
+      "python": "3.11.12",
+      "device": "mps",
+      "platform": "macOS-26.6.2-arm64-arm-64bit"
+    },
+    "config": {
+      "epochs": 6,
+      "batch_size": 128,
+      "initial_lr": 0.03,
+      "validation_fraction": 0.1,
+      "num_workers": 0,
+      "split_seed": 42,
+      "max_lr": 0.5,
+      "train_examples": 54000,
+      "validation_examples": 6000,
+      "test_evaluated": false
+    },
+    "initial_model_sha256": "2d2b94264c69af8598e330e30caea452ce3bcc7a01a0ab9e61c5a17118b1eb2c",
+    "split_sha256": "9b187f05edfca1a6972b199ba555e20935fbbb44b16000e5ea5b948ba393d040",
+    "train_loss": [
+      0.2952633480915318,
+      0.10282223567697732,
+      0.07847434226892616,
+      0.06425937287675022,
+      0.06044294957430271,
+      0.05189930086444928
+    ],
+    "validation_loss": [
+      0.06837722184260686,
+      0.05348906644185383,
+      0.05291249189774195,
+      0.0476436571876208,
+      0.040014125565687814,
+      0.043869765937328345
+    ],
+    "validation_accuracy": [
+      97.8,
+      98.41666666666667,
+      98.53333333333333,
+      98.68333333333334,
+      98.96666666666667,
+      98.66666666666667
+    ],
+    "learning_rates": [
+      0.03,
+      0.03,
+      0.03,
+      0.03,
+      0.03,
+      0.03
+    ],
+    "next_learning_rates": [
+      0.03,
+      0.03,
+      0.03,
+      0.03,
+      0.03,
+      0.03
+    ],
+    "epoch_times": [
+      31.695362500002375,
+      20.612924708009814,
+      24.127742249998846,
+      26.57519966700056,
+      25.338216624993947,
+      24.23861791699892
+    ],
+    "total_time": 152.59104708400264,
+    "best_validation_accuracy": 98.96666666666667
+  }
+}

@@ -1,0 +1,981 @@
+{
+  "client_date": "2026-10-20",
+  "scope": "Small local training-mode integration checks; not performance or large-scale certification.",
+  "environment": {
+    "python": "3.11.12",
+    "torch": "2.14.1",
+    "lightning": "2.6.6",
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "architecture": "arm64",
+    "processor": "Apple M3",
+    "cpu_threads_per_test": 2,
+    "mps_built": true,
+    "mps_available": true,
+    "cuda_available": false,
+    "mps_cpu_fallback_environment": null,
+    "torch_compile_disable_environment": null
+  },
+  "source_sha256": {
+    "tests/test_training_modes.py": "73a1975e839eb07c6b87dcda9c732af03f6c8c720e5b0bf2d8c8987b86321c9e",
+    "dlrs/scheduler.py": "7dbb75c149b20d479410f7abba19103123ea1969bd43023cdbbaf04fc92b4fd7",
+    "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+    "examples/lightning_callback.py": "3bd23b97cff5e1fb35d6af440e614b693fd2e088e5dff48381641c6946082726"
+  },
+  "runs": [
+    {
+      "command": "python -m pytest tests/test_training_modes.py -k real_mps -q",
+      "source": "Observed pytest output from actual MPS run; no mocks or CPU fallback flag.",
+      "passed": 4,
+      "skipped": 0,
+      "deselected": 10,
+      "elapsed_seconds": 5.2,
+      "note": "Executed before additional CPU-only cases were added; MPS test bodies unchanged.",
+      "cases": [
+        {
+          "name": "test_real_mps_float32_checkpoint_resume[SGD]",
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_float32_checkpoint_resume[AdamW]",
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "command": "python -m pytest tests/test_training_modes.py -k 'not real_mps' -q",
+      "source": "JUnit XML from local CPU execution.",
+      "passed": 17,
+      "skipped": 0,
+      "deselected": 4,
+      "elapsed_seconds": 7.41,
+      "cases": [
+        {
+          "name": "test_accumulation_matches_full_update_batches_including_partial_window[SGD]",
+          "seconds": 1.719,
+          "status": "passed"
+        },
+        {
+          "name": "test_accumulation_matches_full_update_batches_including_partial_window[AdamW]",
+          "seconds": 0.024,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[SGD]",
+          "seconds": 0.015,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[AdamW]",
+          "seconds": 0.013,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[False-SGD]",
+          "seconds": 0.031,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[False-AdamW]",
+          "seconds": 0.026,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-SGD]",
+          "seconds": 0.022,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-AdamW]",
+          "seconds": 0.027,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[SGD]",
+          "seconds": 1.724,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[AdamW]",
+          "seconds": 0.013,
+          "status": "passed"
+        },
+        {
+          "name": "test_cpu_tensor_lr_stochastic_optimizer_checkpoint_resume[SGD]",
+          "seconds": 0.013,
+          "status": "passed"
+        },
+        {
+          "name": "test_cpu_tensor_lr_stochastic_optimizer_checkpoint_resume[AdamW]",
+          "seconds": 0.016,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "seconds": 0.515,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "seconds": 0.007,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "seconds": 0.007,
+          "status": "passed"
+        },
+        {
+          "name": "test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[SGD]",
+          "seconds": 0.005,
+          "status": "passed"
+        },
+        {
+          "name": "test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[AdamW]",
+          "seconds": 0.004,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "command": "python -m pytest tests/test_training_modes.py -k compiled_model -q",
+      "source": "JUnit XML after strengthening the compiler test to require actual backend invocation.",
+      "passed": 2,
+      "skipped": 0,
+      "deselected": 19,
+      "elapsed_seconds": 5.39,
+      "cases": [
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[SGD]",
+          "seconds": 3.508,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[AdamW]",
+          "seconds": 0.21,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "id": "stronger-checkpoint-comparator-rerun",
+      "command": "/tmp/dlrs-validation-20261020/bin/python -m pytest tests/test_training_modes.py -q --junitxml=.audit/training-mode-type-validation-junit.xml",
+      "source": "JUnit XML and observed pytest output after enforcing checkpoint value/container types and adding a comparator regression.",
+      "timestamp": "2026-10-20T15:41:49.529917-05:00",
+      "environment_reference": "environment",
+      "pytest": "9.1.1",
+      "source_sha256": {
+        "tests/test_training_modes.py": "1a9d1d7116caf1984366fba5df62a1412e708d806131cdef5cedaa6162f1a10f",
+        "dlrs/scheduler.py": "7dbb75c149b20d479410f7abba19103123ea1969bd43023cdbbaf04fc92b4fd7",
+        "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+        "examples/lightning_callback.py": "3bd23b97cff5e1fb35d6af440e614b693fd2e088e5dff48381641c6946082726"
+      },
+      "junit_xml": ".audit/training-mode-type-validation-junit.xml",
+      "junit_sha256": "f620f1181862ebcfaeb200984d013abb536cc76097d6c14719d1559ac3bdc7c6",
+      "passed": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "deselected": 0,
+      "elapsed_seconds": 13.37,
+      "junit_elapsed_seconds": 13.345,
+      "integration_cases": 21,
+      "comparator_regression_cases": 1,
+      "note": "A targeted rerun of this test module, not a new full-repository suite run. All existing 21 integration cases passed with stronger comparison, including actual MPS and Lightning. One regression rejects six corruptions: tensor-to-float, float-to-tensor, tensor dtype loss, list-to-tuple, tuple-to-list, and int-to-float. Production source hashes are unchanged.",
+      "cases": [
+        {
+          "name": "test_accumulation_matches_full_update_batches_including_partial_window[SGD]",
+          "seconds": 2.874,
+          "status": "passed"
+        },
+        {
+          "name": "test_accumulation_matches_full_update_batches_including_partial_window[AdamW]",
+          "seconds": 0.026,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[SGD]",
+          "seconds": 0.027,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[AdamW]",
+          "seconds": 0.012,
+          "status": "passed"
+        },
+        {
+          "name": "test_checkpoint_comparison_rejects_tensor_metadata_and_container_type_loss",
+          "seconds": 0.007,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[False-SGD]",
+          "seconds": 0.25,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[False-AdamW]",
+          "seconds": 0.025,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-SGD]",
+          "seconds": 0.024,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-AdamW]",
+          "seconds": 0.035,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_float32_checkpoint_resume[SGD]",
+          "seconds": 1.409,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_float32_checkpoint_resume[AdamW]",
+          "seconds": 0.622,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "seconds": 0.099,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "seconds": 0.179,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[SGD]",
+          "seconds": 2.766,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[AdamW]",
+          "seconds": 0.332,
+          "status": "passed"
+        },
+        {
+          "name": "test_cpu_tensor_lr_stochastic_optimizer_checkpoint_resume[SGD]",
+          "seconds": 0.041,
+          "status": "passed"
+        },
+        {
+          "name": "test_cpu_tensor_lr_stochastic_optimizer_checkpoint_resume[AdamW]",
+          "seconds": 0.039,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "seconds": 1.007,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "seconds": 0.01,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "seconds": 0.008,
+          "status": "passed"
+        },
+        {
+          "name": "test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[SGD]",
+          "seconds": 0.008,
+          "status": "passed"
+        },
+        {
+          "name": "test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[AdamW]",
+          "seconds": 0.006,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "command": "python -m pytest tests/test_training_modes.py -k real_mps_stochastic -q --junitxml=.audit/mps-dropout-validation-junit.xml",
+      "source": "JUnit XML from actual MPS stochastic dropout continuation with the strict checkpoint comparator.",
+      "passed": 2,
+      "skipped": 0,
+      "deselected": 22,
+      "elapsed_seconds": 4.83,
+      "note": "Two newly added stochastic MPS integration cases only; prior 22 cases unchanged and not rerun.",
+      "source_sha256": {
+        "tests/test_training_modes.py": "64a05fa907fa33d462d60fdc480f19c4b93eb9a44bfe6d700e0b00b52f718eb8",
+        "dlrs/scheduler.py": "7dbb75c149b20d479410f7abba19103123ea1969bd43023cdbbaf04fc92b4fd7",
+        "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+        "examples/lightning_callback.py": "3bd23b97cff5e1fb35d6af440e614b693fd2e088e5dff48381641c6946082726"
+      },
+      "cases": [
+        {
+          "name": "test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "seconds": 2.288,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "seconds": 0.258,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "command": "python -m pytest tests/test_training_modes.py -q --junitxml=.audit/training-modes-torch200-corrected.xml",
+      "junit_source": ".audit/training-modes-torch200-corrected.xml",
+      "source": "Local JUnit XML from full training-mode module.",
+      "environment": {
+        "python": "3.8.20",
+        "torch": "2.0.0",
+        "lightning": null,
+        "mps_available": true
+      },
+      "passed": 13,
+      "skipped": 11,
+      "elapsed_seconds": 2.192,
+      "note": "After direct-call accounting for non-scaler steps and precise exclusion of native Torch 2.0.0 MPS stochastic replay; also includes core tensor-metadata alias fix.",
+      "source_sha256": {
+        "tests/test_training_modes.py": "60ca7ab523b9b3328ca96b7d773e143026bf22bfbede30bfaa04a9e4c0e6d368",
+        "dlrs/scheduler.py": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+        "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+        "examples/lightning_callback.py": "3bd23b97cff5e1fb35d6af440e614b693fd2e088e5dff48381641c6946082726"
+      },
+      "cases": [
+        {
+          "name": "test_accumulation_matches_full_update_batches_including_partial_window[SGD]",
+          "seconds": 0.022,
+          "status": "passed"
+        },
+        {
+          "name": "test_accumulation_matches_full_update_batches_including_partial_window[AdamW]",
+          "seconds": 0.008,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[SGD]",
+          "seconds": 0.001,
+          "status": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        },
+        {
+          "name": "test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[AdamW]",
+          "seconds": 0.001,
+          "status": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        },
+        {
+          "name": "test_checkpoint_comparison_rejects_tensor_metadata_and_container_type_loss",
+          "seconds": 0.009,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[False-SGD]",
+          "seconds": 0.013,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[False-AdamW]",
+          "seconds": 0.014,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-SGD]",
+          "seconds": 0.001,
+          "status": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-AdamW]",
+          "seconds": 0.001,
+          "status": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        },
+        {
+          "name": "test_real_mps_float32_checkpoint_resume[SGD]",
+          "seconds": 0.418,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_float32_checkpoint_resume[AdamW]",
+          "seconds": 0.216,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "seconds": 0.0,
+          "status": "skipped",
+          "reason": "Native Torch 2.0.0 MPS RNG restore fails dropout replay; see training-mode validation report"
+        },
+        {
+          "name": "test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "seconds": 0.0,
+          "status": "skipped",
+          "reason": "Native Torch 2.0.0 MPS RNG restore fails dropout replay; see training-mode validation report"
+        },
+        {
+          "name": "test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "seconds": 0.097,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "seconds": 0.129,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[SGD]",
+          "seconds": 0.286,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[AdamW]",
+          "seconds": 0.081,
+          "status": "passed"
+        },
+        {
+          "name": "test_cpu_tensor_lr_stochastic_optimizer_checkpoint_resume[SGD]",
+          "seconds": 0.011,
+          "status": "passed"
+        },
+        {
+          "name": "test_cpu_tensor_lr_stochastic_optimizer_checkpoint_resume[AdamW]",
+          "seconds": 0.014,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "seconds": 0.002,
+          "status": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "seconds": 0.001,
+          "status": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "seconds": 0.001,
+          "status": "skipped",
+          "reason": "could not import 'pytorch_lightning': No module named 'pytorch_lightning'"
+        },
+        {
+          "name": "test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[SGD]",
+          "seconds": 0.001,
+          "status": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        },
+        {
+          "name": "test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[AdamW]",
+          "seconds": 0.001,
+          "status": "skipped",
+          "reason": "This torch version does not expose torch.amp.GradScaler"
+        }
+      ]
+    },
+    {
+      "command": "python -m pytest tests/test_training_modes.py -q --junitxml=.audit/training-modes-final-current.xml",
+      "junit_source": ".audit/training-modes-final-current.xml",
+      "source": "Local JUnit XML from full training-mode module.",
+      "environment": {
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "lightning": "2.6.6",
+        "mps_available": true
+      },
+      "passed": 24,
+      "skipped": 0,
+      "elapsed_seconds": 13.073,
+      "note": "Complete final 24-test training-mode module with the corrected counter and core tensor-metadata alias fix; all cases pass, including real MPS stochastic restart and Lightning.",
+      "source_sha256": {
+        "tests/test_training_modes.py": "60ca7ab523b9b3328ca96b7d773e143026bf22bfbede30bfaa04a9e4c0e6d368",
+        "dlrs/scheduler.py": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+        "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+        "examples/lightning_callback.py": "3bd23b97cff5e1fb35d6af440e614b693fd2e088e5dff48381641c6946082726"
+      },
+      "cases": [
+        {
+          "name": "test_accumulation_matches_full_update_batches_including_partial_window[SGD]",
+          "seconds": 2.852,
+          "status": "passed"
+        },
+        {
+          "name": "test_accumulation_matches_full_update_batches_including_partial_window[AdamW]",
+          "seconds": 0.044,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[SGD]",
+          "seconds": 0.025,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[AdamW]",
+          "seconds": 0.035,
+          "status": "passed"
+        },
+        {
+          "name": "test_checkpoint_comparison_rejects_tensor_metadata_and_container_type_loss",
+          "seconds": 0.01,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[False-SGD]",
+          "seconds": 0.049,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[False-AdamW]",
+          "seconds": 0.092,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-SGD]",
+          "seconds": 0.046,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-AdamW]",
+          "seconds": 0.043,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_float32_checkpoint_resume[SGD]",
+          "seconds": 0.631,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_float32_checkpoint_resume[AdamW]",
+          "seconds": 0.35,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "seconds": 0.097,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "seconds": 0.166,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "seconds": 0.261,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "seconds": 0.126,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[SGD]",
+          "seconds": 4.178,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[AdamW]",
+          "seconds": 0.409,
+          "status": "passed"
+        },
+        {
+          "name": "test_cpu_tensor_lr_stochastic_optimizer_checkpoint_resume[SGD]",
+          "seconds": 0.027,
+          "status": "passed"
+        },
+        {
+          "name": "test_cpu_tensor_lr_stochastic_optimizer_checkpoint_resume[AdamW]",
+          "seconds": 0.035,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "seconds": 1.234,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "seconds": 0.022,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "seconds": 0.027,
+          "status": "passed"
+        },
+        {
+          "name": "test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[SGD]",
+          "seconds": 0.015,
+          "status": "passed"
+        },
+        {
+          "name": "test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[AdamW]",
+          "seconds": 0.018,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "command": "python -m pytest tests/test_training_modes.py -k real_mps_stochastic -q --junitxml=.audit/mps-capability-torch241.xml",
+      "junit_source": ".audit/mps-capability-torch241.xml",
+      "source": "Actual native-capability-gated test execution, with per-environment native outcomes recorded before DLRS construction.",
+      "environment": {
+        "python": "3.9.6",
+        "torch": "2.4.1",
+        "mps_available": true
+      },
+      "passed": 0,
+      "skipped": 2,
+      "deselected": 22,
+      "elapsed_seconds": 6.649,
+      "native_mps_replay_capability": {
+        "native_mps_replay_SGD": {
+          "torch": "2.4.1",
+          "operations": {
+            "rand": {
+              "state_advanced": true,
+              "reported_state_restored": true,
+              "outputs_equal": [
+                false,
+                false,
+                false
+              ],
+              "maximum_absolute_difference": 0.959525465965271
+            },
+            "dropout": {
+              "state_advanced": true,
+              "reported_state_restored": true,
+              "outputs_equal": [
+                false,
+                false,
+                false
+              ],
+              "maximum_absolute_difference": 1.3333333730697632
+            }
+          }
+        },
+        "native_mps_replay_AdamW": {
+          "torch": "2.4.1",
+          "operations": {
+            "rand": {
+              "state_advanced": true,
+              "reported_state_restored": true,
+              "outputs_equal": [
+                false,
+                false,
+                false
+              ],
+              "maximum_absolute_difference": 0.959525465965271
+            },
+            "dropout": {
+              "state_advanced": true,
+              "reported_state_restored": true,
+              "outputs_equal": [
+                false,
+                false,
+                false
+              ],
+              "maximum_absolute_difference": 1.3333333730697632
+            }
+          }
+        }
+      },
+      "source_sha256": {
+        "tests/test_training_modes.py": "e5ede572315f50a00a00583dc62153f9f3692559731a32c5a13311eb607c7e17",
+        "dlrs/scheduler.py": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+        "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+        "examples/lightning_callback.py": "3bd23b97cff5e1fb35d6af440e614b693fd2e088e5dff48381641c6946082726"
+      },
+      "cases": [
+        {
+          "name": "test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "seconds": 0.352,
+          "status": "skipped",
+          "reason": "Native MPS RNG state replay failed for rand, dropout; DLRS stochastic continuation not exercised (capability recorded in JUnit)"
+        },
+        {
+          "name": "test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "seconds": 0.032,
+          "status": "skipped",
+          "reason": "Native MPS RNG state replay failed for rand, dropout; DLRS stochastic continuation not exercised (capability recorded in JUnit)"
+        }
+      ]
+    },
+    {
+      "command": "python -m pytest tests/test_training_modes.py -q --junitxml=.audit/training-modes-capability-current.xml",
+      "junit_source": ".audit/training-modes-capability-current.xml",
+      "source": "Actual native-capability-gated test execution, with per-environment native outcomes recorded before DLRS construction.",
+      "environment": {
+        "python": "3.11.12",
+        "torch": "2.14.1",
+        "mps_available": true
+      },
+      "passed": 24,
+      "skipped": 0,
+      "deselected": 0,
+      "elapsed_seconds": 11.862,
+      "native_mps_replay_capability": {
+        "native_mps_replay_SGD": {
+          "torch": "2.14.1",
+          "operations": {
+            "rand": {
+              "state_advanced": true,
+              "reported_state_restored": true,
+              "outputs_equal": [
+                true,
+                true,
+                true
+              ],
+              "maximum_absolute_difference": 0.0
+            },
+            "dropout": {
+              "state_advanced": true,
+              "reported_state_restored": true,
+              "outputs_equal": [
+                true,
+                true,
+                true
+              ],
+              "maximum_absolute_difference": 0.0
+            }
+          }
+        },
+        "native_mps_replay_AdamW": {
+          "torch": "2.14.1",
+          "operations": {
+            "rand": {
+              "state_advanced": true,
+              "reported_state_restored": true,
+              "outputs_equal": [
+                true,
+                true,
+                true
+              ],
+              "maximum_absolute_difference": 0.0
+            },
+            "dropout": {
+              "state_advanced": true,
+              "reported_state_restored": true,
+              "outputs_equal": [
+                true,
+                true,
+                true
+              ],
+              "maximum_absolute_difference": 0.0
+            }
+          }
+        }
+      },
+      "source_sha256": {
+        "tests/test_training_modes.py": "e5ede572315f50a00a00583dc62153f9f3692559731a32c5a13311eb607c7e17",
+        "dlrs/scheduler.py": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+        "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+        "examples/lightning_callback.py": "3bd23b97cff5e1fb35d6af440e614b693fd2e088e5dff48381641c6946082726"
+      },
+      "cases": [
+        {
+          "name": "test_accumulation_matches_full_update_batches_including_partial_window[SGD]",
+          "seconds": 1.699,
+          "status": "passed"
+        },
+        {
+          "name": "test_accumulation_matches_full_update_batches_including_partial_window[AdamW]",
+          "seconds": 0.019,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[SGD]",
+          "seconds": 0.016,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_cpu_bfloat16_scaler_skips_overflow_without_a_loss_observation[AdamW]",
+          "seconds": 0.009,
+          "status": "passed"
+        },
+        {
+          "name": "test_checkpoint_comparison_rejects_tensor_metadata_and_container_type_loss",
+          "seconds": 0.013,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[False-SGD]",
+          "seconds": 0.029,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[False-AdamW]",
+          "seconds": 0.026,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-SGD]",
+          "seconds": 0.046,
+          "status": "passed"
+        },
+        {
+          "name": "test_stochastic_cpu_resume_restores_rng_shuffle_optimizer_and_scaler[True-AdamW]",
+          "seconds": 0.049,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_float32_checkpoint_resume[SGD]",
+          "seconds": 1.026,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_float32_checkpoint_resume[AdamW]",
+          "seconds": 0.333,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_stochastic_resume_restores_rng_and_shuffle[SGD]",
+          "seconds": 0.301,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_stochastic_resume_restores_rng_and_shuffle[AdamW]",
+          "seconds": 0.381,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_tensor_lr_preserves_identity_and_bounds[SGD]",
+          "seconds": 0.259,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_mps_tensor_lr_preserves_identity_and_bounds[AdamW]",
+          "seconds": 0.196,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[SGD]",
+          "seconds": 2.319,
+          "status": "passed"
+        },
+        {
+          "name": "test_compiled_model_aot_eager_keeps_optimizer_and_scheduler_eager[AdamW]",
+          "seconds": 0.297,
+          "status": "passed"
+        },
+        {
+          "name": "test_cpu_tensor_lr_stochastic_optimizer_checkpoint_resume[SGD]",
+          "seconds": 0.021,
+          "status": "passed"
+        },
+        {
+          "name": "test_cpu_tensor_lr_stochastic_optimizer_checkpoint_resume[AdamW]",
+          "seconds": 0.022,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration0-gradient accumulation]",
+          "seconds": 0.779,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration1-full precision]",
+          "seconds": 0.008,
+          "status": "passed"
+        },
+        {
+          "name": "test_real_lightning_rejects_unsupported_modes_before_optimizer_updates[configuration2-only learning-rate scheduler]",
+          "seconds": 0.008,
+          "status": "passed"
+        },
+        {
+          "name": "test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[SGD]",
+          "seconds": 0.008,
+          "status": "passed"
+        },
+        {
+          "name": "test_all_cpu_scaler_updates_skipped_leave_scheduler_and_optimizer_unchanged[AdamW]",
+          "seconds": 0.008,
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "distinct_passing_cases": 23,
+  "fault_injection": {
+    "method": "Set one parameter gradient to Inf before real CPU GradScaler.step.",
+    "single_skip": "One attempted optimizer update omitted from observations; model unchanged for that update.",
+    "all_skips": "All four attempted updates omitted; optimizer and DLRS checkpoint state unchanged.",
+    "mocked_components": []
+  },
+  "compiler_probe": [
+    {
+      "target": "DLRSScheduler.step",
+      "fullgraph": true,
+      "backend": "counting eager backend",
+      "loss_inputs": "Python floats",
+      "result": "Returned successfully but captured zero graphs; not compiled scheduler evidence."
+    },
+    {
+      "target": "DLRSScheduler.step",
+      "fullgraph": true,
+      "backend": "counting eager backend",
+      "loss_inputs": "0-d torch tensors",
+      "result": "UserError: could not guard on a data-dependent expression.",
+      "captured_graphs": 0,
+      "scheduler_and_optimizer_state_unchanged": true
+    }
+  ],
+  "not_validated": [
+    "CUDA/NCCL",
+    "CUDA or MPS mixed precision",
+    "Inductor/Triton optimization or performance",
+    "compiled optimizer or scheduler",
+    "multi-node/sharded training",
+    "mid-epoch stochastic checkpoint restart",
+    "arbitrary framework versions",
+    "accuracy or convergence improvement"
+  ],
+  "distinct_passing_cases_scope": "23 integration cases plus one checkpoint-comparator regression: the final Torch 2.14.1 module run passed all 24 tests. Earlier scoped runs and their hashes are preserved.",
+  "distinct_passing_tests_including_helper_regression": 24,
+  "mps_stochastic_probe": {
+    "scope": "Actual MPS dropout=True epoch-boundary continuation using strict checkpoint comparison.",
+    "python": "3.11.12",
+    "torch": "2.14.1",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "test_file_sha256": "1a9d1d7116caf1984366fba5df62a1412e708d806131cdef5cedaa6162f1a10f",
+    "results": [
+      {
+        "optimizer": "SGD",
+        "status": "passed",
+        "elapsed_seconds": 2.6988610830012476
+      },
+      {
+        "optimizer": "AdamW",
+        "status": "passed",
+        "elapsed_seconds": 0.17142937499738764
+      }
+    ]
+  },
+  "latest_source_sha256": {
+    "tests/test_training_modes.py": "e5ede572315f50a00a00583dc62153f9f3692559731a32c5a13311eb607c7e17",
+    "dlrs/scheduler.py": "ecd98f7d379af9cdf68492ee56d5d6248d526df2605ffa80d3b19d18ef8ddae7",
+    "dlrs/utils.py": "b7d05398b22bda8a5dbef413942e357f6c8e36d70436ca6a334d820efdea357f",
+    "examples/lightning_callback.py": "3bd23b97cff5e1fb35d6af440e614b693fd2e088e5dff48381641c6946082726"
+  },
+  "native_framework_probes": {
+    "source": "benchmarks/native_training_mode_probe.py",
+    "torch_2_0_0": "native-training-mode-torch200.json",
+    "torch_2_14_1": "native-training-mode-torch2141.json",
+    "dlrs_imported_in_either_probe": false,
+    "verified_limitation": "Native MPS RNG replay fails on observed Torch2.0.0 and2.4.1 builds; Torch2.0.0 also disables optimizer posthooks after compilation. Torch2.14.1 passes both native probes.",
+    "resolution": "Direct-call accounting for non-scaler steps; stochastic MPS tests now require an actual native rand AND dropout replay precondition, record exact outcomes in JUnit, and skip only a detected native failure before any DLRS construction. No version list or production workaround.",
+    "torch_2_4_1": "native-training-mode-torch241.json"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "criterion": {
+    "status": "PROVISIONAL research comparison criterion, not a production safety margin",
+    "nll_noninferiority_margin_nats_per_byte": 0.05,
+    "rule": "Require all 15 confirmation trials to complete with finite results and the paired 95% percentile-bootstrap upper bound for mean DLRS-minus-baseline test NLL to be <=0.05 against each tuned baseline",
+    "interval": "Enumerate all 5^5 ordered bootstrap resamples of paired seed differences; pointwise exploratory percentile intervals, not exact frequentist coverage or simultaneous confidence guarantees",
+    "margin_context": "0.05 nats corresponds to exp(0.05), about 1.0513 times perplexity; chosen before outcomes as a provisional bound, not justified by a downstream user risk budget",
+    "failures": "Retain failed tuning and confirmation trials; failed tuning candidates cannot be selected; any failed/missing confirmation or budget interruption prevents acceptance",
+    "timing": "Record wall times and paired ratios only as exploratory shared-laptop observations"
+  },
+  "selected_lrs": {
+    "NoScheduler": 0.003,
+    "CosineAnnealingLR": 0.003,
+    "DLRS": 0.003
+  },
+  "accepted": true,
+  "comparisons": [
+    {
+      "baseline": "NoScheduler",
+      "paired_seeds": 5,
+      "mean_nll_difference": -0.0024005146680014635,
+      "percentile_bootstrap_95_interval": [
+        -0.0048363876216232175,
+        -0.00043549425865601065
+      ],
+      "paired_median_wall_time_ratio": 0.7555576138512811,
+      "accepted": true
+    },
+    {
+      "baseline": "CosineAnnealingLR",
+      "paired_seeds": 5,
+      "mean_nll_difference": -0.027991444753383644,
+      "percentile_bootstrap_95_interval": [
+        -0.040240982932977155,
+        -0.015741906573790133
+      ],
+      "paired_median_wall_time_ratio": 0.8007927256815243,
+      "accepted": true
+    }
+  ],
+  "policies": {
+    "NoScheduler": {
+      "completed": 5,
+      "failed_or_incomplete": 0,
+      "mean_test_nll": 2.3190812971224743
+    },
+    "CosineAnnealingLR": {
+      "completed": 5,
+      "failed_or_incomplete": 0,
+      "mean_test_nll": 2.3446722272078566
+    },
+    "DLRS": {
+      "completed": 5,
+      "failed_or_incomplete": 0,
+      "mean_test_nll": 2.316680782454473
+    }
+  },
+  "manifest_sha256": "09fc3266d51745a95f514a849218a644b72b1630a91183abdb2d3acd34da7e69",
+  "recorded_trials": 24,
+  "total_recorded_trial_seconds": 1027.6747424589848
+}

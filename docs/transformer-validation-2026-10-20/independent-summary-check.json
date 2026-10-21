@@ -1,0 +1,56 @@
+{
+  "verified": true,
+  "trial_count": 24,
+  "method": "Multinomial-weighted bootstrap count vectors; paired values and tuning selected independently from raw trials",
+  "source_sha256": "068f573b92953f45669efc0694784e237056e76def19badf303c158c06602c6b",
+  "manifest_file_sha256": "e379a967cebdb22228890a120d9096e619f0a3e0a3526b242f486581192fb8fe",
+  "summary_file_sha256": "47e5add8223c7fccf7f588ffb5d2dda52b84bd58769fd45578aaca7ec14164ef",
+  "trial_sha256": {
+    "confirmation-s11-CosineAnnealingLR-lr0.003.json": "3225c36724996ce02833dc61a824b80c6358aa52e24fd1c5cfd975d5dad30148",
+    "confirmation-s11-DLRS-lr0.003.json": "a278c1884515c0b21d6b8fb8a143036aa861174a6999e977ea90f9eeb35f6dd5",
+    "confirmation-s11-NoScheduler-lr0.003.json": "9080f53fb33e846e9225f7c4ef0b7668495d45e62fdaa546fb8f89ff56adcba7",
+    "confirmation-s12-CosineAnnealingLR-lr0.003.json": "0152da7a6a87efc2f8e9bc9913a5e5a3a0167b8c0af0e5880ef9143659eaff1e",
+    "confirmation-s12-DLRS-lr0.003.json": "b971d334164733c38d5d66d32dc811c1ddadf712ffa030c9879a3e3398cbb565",
+    "confirmation-s12-NoScheduler-lr0.003.json": "8ed5e0d6ec857ee3a582a3dfb26094f8483481e1456d8b6c044001e636ae97e6",
+    "confirmation-s13-CosineAnnealingLR-lr0.003.json": "74396de0c6bc42d3689276285b9ff4c19e2895bebe4f7137d2767beccf4751c6",
+    "confirmation-s13-DLRS-lr0.003.json": "71f159b0f297c73cead9138a859a017e14ab7602d5bad944330253c3af7a52b9",
+    "confirmation-s13-NoScheduler-lr0.003.json": "967b47a7718341ad3c73497f8e56d0c014e62c033280fa96d3460eac8dc7650e",
+    "confirmation-s14-CosineAnnealingLR-lr0.003.json": "847ad22ee250d7c3d11cdf6c609722d194d2846c18759048dfd7df198a5ba492",
+    "confirmation-s14-DLRS-lr0.003.json": "6c784808b42ad9c56b9e3afcc7dca455203c47c2b072b12fb4dc522c6b18a780",
+    "confirmation-s14-NoScheduler-lr0.003.json": "c36cf8e5d9fe184b4fcb386b666855ed9cd553ede2f601e832ec3cb630e29099",
+    "confirmation-s15-CosineAnnealingLR-lr0.003.json": "d7f5035eacab0d07854eadf7bab41ef3d3c2293f55651452c78e915754e1f67f",
+    "confirmation-s15-DLRS-lr0.003.json": "fad4900e4747092d9d100d93911055885a5378f9ad3e547b36f995c4414e2410",
+    "confirmation-s15-NoScheduler-lr0.003.json": "c5b5b9cf31774628f853ecfe14a451c67edb7efa9abedd8ff23bfad5ff0fa4f7",
+    "tuning-s0-CosineAnnealingLR-lr0.0003.json": "9da3776f17ac00545a264fd11de5bffdca03f46e3220bf3b89554e772cd3adce",
+    "tuning-s0-CosineAnnealingLR-lr0.001.json": "76d01843bfc5dd6b8b332f6bbe91e2f034313c9109b4c82ebd112fd57a9e6471",
+    "tuning-s0-CosineAnnealingLR-lr0.003.json": "ed05307d39847fc5a4e36f920af2a50eaa0b893f7a38abe8b504ee2c11cd3732",
+    "tuning-s0-DLRS-lr0.0003.json": "4a4f8c3fa3c2908606c6b2ea8edbb1d144a726930b3561511797fc748fdcf13c",
+    "tuning-s0-DLRS-lr0.001.json": "7b060f7c21bc9bd6798a4a8130227c0dbb675cdbde6d42bf0c9d8ed0d6dbab46",
+    "tuning-s0-DLRS-lr0.003.json": "dd40fe55a707810d722079db60ea1aae042ff4dad564dbaefed3c64433460288",
+    "tuning-s0-NoScheduler-lr0.0003.json": "c547bd90f3241c08e53c7c32f4514d127a5be4a1afcc251bc2e03860e5bca0a5",
+    "tuning-s0-NoScheduler-lr0.001.json": "df86b76bc4fc267d4c5933944e7a6e2b1aaae7360c7c346352280add29d60a25",
+    "tuning-s0-NoScheduler-lr0.003.json": "03e76851cc3026b0aef6ca5059eee3f8cbbed7ceb8dec93ac8faef683f672c90"
+  },
+  "comparisons": [
+    {
+      "dataset": "TinyShakespeare",
+      "baseline": "NoScheduler",
+      "effect": -0.0024005146680014635,
+      "interval": [
+        -0.0048363876216232175,
+        -0.00043549425865601065
+      ],
+      "accepted": true
+    },
+    {
+      "dataset": "TinyShakespeare",
+      "baseline": "CosineAnnealingLR",
+      "effect": -0.027991444753383644,
+      "interval": [
+        -0.040240982932977155,
+        -0.015741906573790133
+      ],
+      "accepted": true
+    }
+  ]
+}

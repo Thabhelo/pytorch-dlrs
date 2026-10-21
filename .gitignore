@@ -75,3 +75,10 @@ Thumbs.db
 # Project specific
 PROJECT_PROGRESS.md
 CLAUDE.md
+
+# Static analysis caches
+.mypy_cache/
+.ruff_cache/
+
+# Local validation scratch files and installation logs
+/.audit/

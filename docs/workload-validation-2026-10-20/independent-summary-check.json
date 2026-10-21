@@ -1,0 +1,144 @@
+{
+  "verified": true,
+  "trial_count": 72,
+  "method": "Multinomial-weighted bootstrap count vectors; paired values and tuning selected independently from raw trials",
+  "source_sha256": "068f573b92953f45669efc0694784e237056e76def19badf303c158c06602c6b",
+  "manifest_file_sha256": "41586f0f503602ab3feefbe4859b1319f88921ef92c04de332dc557b68a22b84",
+  "summary_file_sha256": "c2a255a951e5b349f6c8df37a635bbf5e493f1de90663e7c0956dc0b0955a5e2",
+  "trial_sha256": {
+    "CIFAR10-confirmation-s11-CosineAnnealingLR-lr0.03.json": "259f7770298de67856446d41d8556723f38ea0fd9cfce14627c1d5247440024b",
+    "CIFAR10-confirmation-s11-DLRS-lr0.01.json": "6bf1471f00a75f6441e0a2c137212bbf80598af1db6d1ca40ecb7c0c4b3f2b4e",
+    "CIFAR10-confirmation-s11-NoScheduler-lr0.03.json": "72e18ce63ea41651f840bad7e8bbc4ba968258750cc5fe5b10301e73bac7fba2",
+    "CIFAR10-confirmation-s12-CosineAnnealingLR-lr0.03.json": "6257a34b235b96dbc1431554f0535339d60571c48caf1f0d1bb3ea890a0d4d58",
+    "CIFAR10-confirmation-s12-DLRS-lr0.01.json": "5e7b972331b35049e53b2d372ab25c8396be6a04036c57ef6e7a65d2c251dbaf",
+    "CIFAR10-confirmation-s12-NoScheduler-lr0.03.json": "fe959931b06db98ff20f20c8e9ec2010898d86e11286f1386cf06f509df48217",
+    "CIFAR10-confirmation-s13-CosineAnnealingLR-lr0.03.json": "8f63de2bed6e109177699feea70d03af96aee215bac3f1fc8e7493ad5d8b14ad",
+    "CIFAR10-confirmation-s13-DLRS-lr0.01.json": "be48d1219c0ece7d3303041656405bba044125dac4c7c3eae029aa0b8e64a80f",
+    "CIFAR10-confirmation-s13-NoScheduler-lr0.03.json": "96a33ce9b449628d57ec099dad7e1ad452ea1e0ae22124e610962d2862616860",
+    "CIFAR10-confirmation-s14-CosineAnnealingLR-lr0.03.json": "ba0e5ce6a269da65cb7d92de9dedeed606ea6819bf016c26ab5f0ce67fe9e45d",
+    "CIFAR10-confirmation-s14-DLRS-lr0.01.json": "22bd18aeb56b610112fcef05ae61bbac5912fcde4bff7f20b7a25ae880959740",
+    "CIFAR10-confirmation-s14-NoScheduler-lr0.03.json": "68216383a4f26478ada8a4ff3bbd9f6ec001b46ce825d77a61b53c86a0d5583d",
+    "CIFAR10-confirmation-s15-CosineAnnealingLR-lr0.03.json": "a8fa84010d863eac090e2b56074af0fdb7e11d0938f415891538c6974ef2a39c",
+    "CIFAR10-confirmation-s15-DLRS-lr0.01.json": "e6b486046622775505174d387333eb11913947e200bdb806b1d31df335abdec5",
+    "CIFAR10-confirmation-s15-NoScheduler-lr0.03.json": "07745fd94f97a4c1de071bdca0eb3812ddb3dc54f7f51f0cfe2745df200d10a9",
+    "CIFAR10-tuning-s0-CosineAnnealingLR-lr0.01.json": "f6548927fb169c08b573e171cbd9524ab9fb712b05487552b3317d7b367f70da",
+    "CIFAR10-tuning-s0-CosineAnnealingLR-lr0.03.json": "da14db8bd9621ff7131bdbb1d825e23264052928f1e23b3e522ae83618d4b7bb",
+    "CIFAR10-tuning-s0-CosineAnnealingLR-lr0.1.json": "3ced00301c756dbb198f819b3fe632a32d9173557fc27fb05c8e43d22b7cbc7c",
+    "CIFAR10-tuning-s0-DLRS-lr0.01.json": "42dfbe90b16d0b29c0eb823ff955b9a8d947f53f5d5ed76e1fc976cffc655e32",
+    "CIFAR10-tuning-s0-DLRS-lr0.03.json": "a3bbbc73aadead1908ca417ba28fecaa7fe46928a08168cd18f1e0db1a5eba33",
+    "CIFAR10-tuning-s0-DLRS-lr0.1.json": "bcd13bd8353e0fc509ce8908956ccfcfdc850da21fb9e77236f5764601eaabd4",
+    "CIFAR10-tuning-s0-NoScheduler-lr0.01.json": "bd79093b6bd496f0cf9141a6d808c0ec4a82f6c7c9cb42540a0b8c5a52aab513",
+    "CIFAR10-tuning-s0-NoScheduler-lr0.03.json": "4a623e88e6c2309fb206652c43698f1a648d9614eb103e151c04ef82bf63fbe4",
+    "CIFAR10-tuning-s0-NoScheduler-lr0.1.json": "39bbf0b475c9634774612b24ec324e9cad3033b46ad5f6d1a12febf81199dccb",
+    "HelmholtzPINN-confirmation-s11-CosineAnnealingLR-lr0.01.json": "07208377dfaf44038f99c162ebd095420e686b2e2317ccdaea8ac59f8da6d050",
+    "HelmholtzPINN-confirmation-s11-DLRS-lr0.01.json": "51f0b486bad350de964f52e3eea4fafcc9e85a4a9f425729c0915b132e28e98d",
+    "HelmholtzPINN-confirmation-s11-NoScheduler-lr0.001.json": "17185689e1be4bdad5af28cfaebec667abf8f39b3084b3cbbe7e7db3f2eae003",
+    "HelmholtzPINN-confirmation-s12-CosineAnnealingLR-lr0.01.json": "d9428ce692083514e449838556ab98506c79440f2c4bbd8b4ec07c6df6c70ecc",
+    "HelmholtzPINN-confirmation-s12-DLRS-lr0.01.json": "234c4345b128535304f8baf79496a6184659f98f69389b2f66a199d78f01f925",
+    "HelmholtzPINN-confirmation-s12-NoScheduler-lr0.001.json": "470ca562574e8ca0ca8768d578f33d349ba7d24b33ec6ca944da2e0977adee3e",
+    "HelmholtzPINN-confirmation-s13-CosineAnnealingLR-lr0.01.json": "9a62dc6fd5cd0bb550cc2e7f259e0df9451367f94be66e174c00c943042c87c7",
+    "HelmholtzPINN-confirmation-s13-DLRS-lr0.01.json": "8a0704d35755531a8e6ebb204acdeecf303c5848afc202c0470b392bcb5b4e56",
+    "HelmholtzPINN-confirmation-s13-NoScheduler-lr0.001.json": "20448c32889ff2419f18846f551c1eac5a1cbe683c1046e026552972b651cd36",
+    "HelmholtzPINN-confirmation-s14-CosineAnnealingLR-lr0.01.json": "3061d7b330ebb5ab7eddf59c23d77a33411452063ac4fb64319254d61de1892e",
+    "HelmholtzPINN-confirmation-s14-DLRS-lr0.01.json": "ea9051f8af9c6aea78764c5eb34fad96c3e28b4e7fce2d25717c1e2fd8061fe9",
+    "HelmholtzPINN-confirmation-s14-NoScheduler-lr0.001.json": "19ad0c04a5c5ff5d18242f2024ae91b5a8c862d30632b95009ed9aa2c04637ca",
+    "HelmholtzPINN-confirmation-s15-CosineAnnealingLR-lr0.01.json": "1fbceac1ce3e7e5b900fe5383ee3718d55cebd255c0a8816f505e1ccd28d681e",
+    "HelmholtzPINN-confirmation-s15-DLRS-lr0.01.json": "a78543ce6fd973fcc14f5baa37d9d59bb32b7d24d9f60e9821e12bd74fa0511f",
+    "HelmholtzPINN-confirmation-s15-NoScheduler-lr0.001.json": "2b059e7d1b4fe9993924c131356dbfc9273eeeacd88db5fefc223b655a14b25e",
+    "HelmholtzPINN-tuning-s0-CosineAnnealingLR-lr0.0001.json": "610acfcd04fe8f63b929627b3165b59e89d88af32e1007ae91a19ef2d955fbd7",
+    "HelmholtzPINN-tuning-s0-CosineAnnealingLR-lr0.001.json": "a208cdc336bbdf3e4bfff904e77bdfceed89b01d260340fb7486e920e485368f",
+    "HelmholtzPINN-tuning-s0-CosineAnnealingLR-lr0.01.json": "0d3f2a5e8166f978d723b5ff4faee1200c153d597e87bf1155eb51bd1830cd00",
+    "HelmholtzPINN-tuning-s0-DLRS-lr0.0001.json": "744dfb13c7baef0133c52962f59a0a528dfee4aec8351dc89e8652ec16f61ef6",
+    "HelmholtzPINN-tuning-s0-DLRS-lr0.001.json": "5a51316b543894167ac5bfd499ce4ee173fd251c5bcd6234c4b238201ec93ea2",
+    "HelmholtzPINN-tuning-s0-DLRS-lr0.01.json": "a9aa8b2774ac647903f57375ac8c47e1ac1e65e4dbcb2c669a193838af6fe840",
+    "HelmholtzPINN-tuning-s0-NoScheduler-lr0.0001.json": "49e3582e4c76bf88ba00decddd3d1506b00190fbe3fc79304e18ca5b6131df50",
+    "HelmholtzPINN-tuning-s0-NoScheduler-lr0.001.json": "13319ac34219a46de0c6c81b5787d5f1ed3565dec9cceb2a66510c26a595039f",
+    "HelmholtzPINN-tuning-s0-NoScheduler-lr0.01.json": "b4d7d6cba5f2dcd8b0456448ccf8ff8db99a28e2926010940977cd0818279124",
+    "MNIST-confirmation-s11-CosineAnnealingLR-lr0.1.json": "5ea1a8ee6d6acade4315233e60b6bbaa754ff6d240b9722d1f5b758c4d72370a",
+    "MNIST-confirmation-s11-DLRS-lr0.03.json": "dd03b6657d11005f291be730728058002a9bfce0a9b2689186a46eef6719564f",
+    "MNIST-confirmation-s11-NoScheduler-lr0.01.json": "16d1247d653f9624b6f750e4b6ec4efb4ecf0e5b575bc6ba07d4dd80d673a105",
+    "MNIST-confirmation-s12-CosineAnnealingLR-lr0.1.json": "aa77089e97a83ca8a9768194fa06e81fc8af423e68bfda1e3220154fb5112c6f",
+    "MNIST-confirmation-s12-DLRS-lr0.03.json": "e3f52aaa9ff676e8b2f3dab2f01367c0e12a7be00cf5160a66633eaea5d8b2bb",
+    "MNIST-confirmation-s12-NoScheduler-lr0.01.json": "13b619ad5a8d0710b3871ece1564d288bb05360b8ae5adb26fc9c93c3c01d944",
+    "MNIST-confirmation-s13-CosineAnnealingLR-lr0.1.json": "58855c54a336002ce8a3288cc4e90dec3305cb1f2946775d6877be03241cd8a9",
+    "MNIST-confirmation-s13-DLRS-lr0.03.json": "f7447ba2a205581fae462fc35941472f8e3b39065d318d30bad60dfe6f35c831",
+    "MNIST-confirmation-s13-NoScheduler-lr0.01.json": "3e2444f8aa1fa0f833fc0475fe31e066b39647bcf6e230863e727157e635fd45",
+    "MNIST-confirmation-s14-CosineAnnealingLR-lr0.1.json": "b225e7ecddaf795cdcb166e80130b2596974ab9447a3ef63808db17074728ac5",
+    "MNIST-confirmation-s14-DLRS-lr0.03.json": "fa559471816b465dc85fe526d165fea8d20c025c99cc09dd773a953c918dad90",
+    "MNIST-confirmation-s14-NoScheduler-lr0.01.json": "630e1caf420650bd6291235bb19673b22948e726933d85de8ae07ad1e41616de",
+    "MNIST-confirmation-s15-CosineAnnealingLR-lr0.1.json": "36638c1615d420be7ddda9b7e15c1f48fdef016706420015d0a2cd1d19683ab8",
+    "MNIST-confirmation-s15-DLRS-lr0.03.json": "de6f735386384aeb1426e4d8564abb49002ab23fd9a5801f5c64b7402e830877",
+    "MNIST-confirmation-s15-NoScheduler-lr0.01.json": "7fac51ec1884dc24e8c6b5a88cbe118656f90cc0c84eff10eedf82a165996ca4",
+    "MNIST-tuning-s0-CosineAnnealingLR-lr0.01.json": "ada356bdaa5c7f775a834be26ee9228fdebaf3d57f028b54c71cd93c3648ff8c",
+    "MNIST-tuning-s0-CosineAnnealingLR-lr0.03.json": "3d80ca5ef3a5dfa0b155660a7fa870203b963bf162e5a99c0c4d15e75f6d6f86",
+    "MNIST-tuning-s0-CosineAnnealingLR-lr0.1.json": "67444632f8e1fee6e4c2733a0e1c6d823e52988ecd8b33c1ae9128fc3472ba3d",
+    "MNIST-tuning-s0-DLRS-lr0.01.json": "543b4b4bd7bf352fded2f827ae86b4421582d072ffe32fe6f25314c1b31908ef",
+    "MNIST-tuning-s0-DLRS-lr0.03.json": "d738e1624f7fec7e9124a4e6564802b869485897b32b78f803b3de001b071edd",
+    "MNIST-tuning-s0-DLRS-lr0.1.json": "4a4c5417ebd2a10e336f76f90787356ec93fb42ef9c060a22f8c00e70ef57738",
+    "MNIST-tuning-s0-NoScheduler-lr0.01.json": "11d9c194ab6863662fbb2584d2ea7ebc15955ee58a4898838837f8e73e4deff7",
+    "MNIST-tuning-s0-NoScheduler-lr0.03.json": "438990710cf88c397cbe44c45e0e654430e7a1df71e919e0e427a954d5109134",
+    "MNIST-tuning-s0-NoScheduler-lr0.1.json": "d263d9ca57753eaa198c6b10aee32e5ec332945f32b11cc8cfc1250b148679b8"
+  },
+  "comparisons": [
+    {
+      "dataset": "MNIST",
+      "baseline": "NoScheduler",
+      "effect": 0.07000000000000739,
+      "interval": [
+        0.0060000000000087535,
+        0.13400000000000603
+      ],
+      "accepted": true
+    },
+    {
+      "dataset": "MNIST",
+      "baseline": "CosineAnnealingLR",
+      "effect": -0.17399999999999807,
+      "interval": [
+        -0.24799999999999614,
+        -0.06799999999999784
+      ],
+      "accepted": true
+    },
+    {
+      "dataset": "CIFAR10",
+      "baseline": "NoScheduler",
+      "effect": -0.048000000000004664,
+      "interval": [
+        -1.366000000000011,
+        1.0599999999999965
+      ],
+      "accepted": false
+    },
+    {
+      "dataset": "CIFAR10",
+      "baseline": "CosineAnnealingLR",
+      "effect": -3.7620000000000005,
+      "interval": [
+        -4.195999999999998,
+        -3.238000000000002
+      ],
+      "accepted": false
+    },
+    {
+      "dataset": "HelmholtzPINN",
+      "baseline": "NoScheduler",
+      "effect": 0.09953764613222724,
+      "interval": [
+        0.03260870507585797,
+        0.35748972441607674
+      ],
+      "accepted": true
+    },
+    {
+      "dataset": "HelmholtzPINN",
+      "baseline": "CosineAnnealingLR",
+      "effect": 3.113765629140508,
+      "interval": [
+        1.3498807463174882,
+        6.962376993179662
+      ],
+      "accepted": false
+    }
+  ]
+}

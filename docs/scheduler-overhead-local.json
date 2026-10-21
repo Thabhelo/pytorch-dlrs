@@ -1,0 +1,93 @@
+{
+  "python": "3.11.12",
+  "torch": "2.14.1",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "repeats": 5,
+  "scope": "CPU Python scheduler only; float LRs; no training, devices or networking",
+  "results": [
+    {
+      "batches": 10,
+      "groups": 1,
+      "profile": "ordinary",
+      "median_seconds": 2.1500003640539944e-05,
+      "peak_python_bytes": 1320
+    },
+    {
+      "batches": 10,
+      "groups": 1,
+      "profile": "threshold",
+      "median_seconds": 4.387499939184636e-05,
+      "peak_python_bytes": 1320
+    },
+    {
+      "batches": 10,
+      "groups": 100,
+      "profile": "ordinary",
+      "median_seconds": 0.000244333001319319,
+      "peak_python_bytes": 11696
+    },
+    {
+      "batches": 10,
+      "groups": 100,
+      "profile": "threshold",
+      "median_seconds": 0.0002718330069910735,
+      "peak_python_bytes": 10208
+    },
+    {
+      "batches": 1000,
+      "groups": 1,
+      "profile": "ordinary",
+      "median_seconds": 0.000560875007067807,
+      "peak_python_bytes": 40088
+    },
+    {
+      "batches": 1000,
+      "groups": 1,
+      "profile": "threshold",
+      "median_seconds": 0.0019797079876298085,
+      "peak_python_bytes": 40344
+    },
+    {
+      "batches": 1000,
+      "groups": 100,
+      "profile": "ordinary",
+      "median_seconds": 0.0007913750014267862,
+      "peak_python_bytes": 48000
+    },
+    {
+      "batches": 1000,
+      "groups": 100,
+      "profile": "threshold",
+      "median_seconds": 0.0022007920051692054,
+      "peak_python_bytes": 45752
+    },
+    {
+      "batches": 100000,
+      "groups": 1,
+      "profile": "ordinary",
+      "median_seconds": 0.05502204100775998,
+      "peak_python_bytes": 4000248
+    },
+    {
+      "batches": 100000,
+      "groups": 1,
+      "profile": "threshold",
+      "median_seconds": 0.19385920799686573,
+      "peak_python_bytes": 4000504
+    },
+    {
+      "batches": 100000,
+      "groups": 100,
+      "profile": "ordinary",
+      "median_seconds": 0.0545090419909684,
+      "peak_python_bytes": 4008256
+    },
+    {
+      "batches": 100000,
+      "groups": 100,
+      "profile": "threshold",
+      "median_seconds": 0.19435516600788105,
+      "peak_python_bytes": 4006008
+    }
+  ]
+}

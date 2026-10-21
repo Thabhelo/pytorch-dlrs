@@ -1,203 +1,59 @@
-# DLRS Algorithm Design Notes
+# DLRS design and numerical contract
 
-This document explains the mathematical foundation and implementation details of the Dynamic Learning Rate Scheduler (DLRS).
+DLRS is a loss-driven heuristic implemented independently from the [original paper](https://arxiv.org/abs/2507.21749). The supported behavior below describes this package; passing unit tests establishes those tested behaviors, not convergence or comparative model quality.
 
-## Algorithm Overview
+## Mathematical rule
 
-DLRS automatically adjusts the learning rate based on the slope of batch losses within each training epoch. Unlike schedulers that use fixed decay schedules or monitor validation metrics, DLRS reacts to **within-epoch loss dynamics**.
+Given batch losses `L[0], ..., L[B-1]`, with `B >= 2` and a positive mean:
 
-## Mathematical Foundation
-
-### Normalized Loss Slope
-
-For epoch $j$, given batch losses $L_1^{(j)}, L_2^{(j)}, \ldots, L_B^{(j)}$:
-
-1. **First loss**: $L_{\text{first}}^{(j)} = L_1^{(j)}$
-2. **Last loss**: $L_{\text{last}}^{(j)} = L_B^{(j)}$
-3. **Mean loss**: $\overline{L}^{(j)} = \frac{1}{B} \sum_{b=1}^{B} L_b^{(j)}$
-
-The **normalized loss slope** is:
-
-$$\Delta L_j = \frac{L_{\text{last}}^{(j)} - L_{\text{first}}^{(j)}}{\overline{L}^{(j)}}$$
-
-This normalization makes $\Delta L_j$ scale-invariant: whether your loss is 0.1 or 100.0, the slope is comparable.
-
-### Three Cases
-
-DLRS categorizes loss dynamics into three cases:
-
-| Case | Condition | Interpretation | Action |
-|------|-----------|----------------|--------|
-| **Convergence** | $\Delta L_j < 0$ | Loss is decreasing within the epoch | Increase LR (accelerate) |
-| **Stagnation** | $0 \le \Delta L_j \le 1$ | Loss is flat or slightly increasing | Make modest adjustments |
-| **Divergence** | $\Delta L_j > 1$ | Loss is increasing rapidly | Decrease LR (stabilize) |
-
-### Adjustment Granularity
-
-The adjustment scale adapts to the current learning rate magnitude:
-
-$$n_j = \lfloor \log_{10}(\alpha_j) \rfloor$$
-
-$$\text{granularity} = 10^{n_j}$$
-
-**Example**: If $\alpha_j = 0.01$, then $n_j = -2$ and granularity = $10^{-2} = 0.01$.
-
-This ensures that:
-- Large LRs (e.g., 1.0) get larger adjustments (granularity = 1.0)
-- Small LRs (e.g., 0.001) get smaller adjustments (granularity = 0.001)
-
-### Learning Rate Update
-
-The **adjustment magnitude** is:
-
-$$\alpha_{\delta,j} = 10^{n_j} \times \delta_{\text{case}} \times \Delta L_j$$
-
-where $\delta_{\text{case}}$ is:
-- $\delta_i$ (incremental factor) if converging
-- $\delta_o$ (stagnation factor) if stagnating
-- $\delta_d$ (decremental factor) if diverging
-
-The **new learning rate** is:
-
-$$\alpha_{j+1} = \alpha_j - \alpha_{\delta,j}$$
-
-**Key insight**: When $\Delta L_j < 0$ (convergence), the subtraction becomes addition, so the LR increases.
-
-Finally, clamp to bounds:
-
-$$\alpha_{j+1} = \text{clamp}(\alpha_{j+1}, \alpha_{\text{min}}, \alpha_{\text{max}})$$
-
-## Implementation Details
-
-### Numerical Stability
-
-1. **Zero mean loss**: If $|\overline{L}^{(j)}| < 10^{-10}$, skip the update to avoid division by zero.
-
-2. **Zero slope**: If $\Delta L_j = 0$, the adjustment is zero and LR remains unchanged.
-
-3. **Very small LR**: If $\alpha_j \le 0$, default to $n_j = -8$ to prevent log errors.
-
-### Multi-Param-Group Behavior
-
-DLRS computes **one slope per epoch** and applies it to all parameter groups. Each group's LR is updated independently:
-
-```python
-for group in optimizer.param_groups:
-    current_lr = group['lr']
-    n = floor(log10(current_lr))
-    adjustment = (10 ** n) * delta * slope
-    new_lr = clamp(current_lr - adjustment, min_lr, max_lr)
-    group['lr'] = new_lr
+```text
+slope = (L[B-1] - L[0]) / mean(L)
+scale = 10 ** floor(log10(lr))
+new_lr = lr - scale * delta * slope
 ```
 
-This means:
-- All groups react to the same loss dynamics
-- Each group's adjustment scales with its own current LR
+The factor is `delta_i` for negative slopes, `delta_o` for `0 <= slope <= 1`, and `delta_d` for slopes greater than 1. The equality at 1 follows the inclusive piecewise definition in section 3.2; Algorithm 1 leaves that boundary unspecified. Each positive-rate group is clamped to `min_lr` and, if supplied, `max_lr`. Zero-rate groups remain frozen at zero. Bounds are applied when a loss-driven update is computed, not at construction or on skipped/no-loss steps. An initial or externally assigned rate outside the bounds remains outside until such an update.
 
-If you need different slopes per group, you must track per-group losses separately and subclass `DLRSScheduler`.
+All groups use the same slope, with an independently computed scale. Their original LR ratios are not generally preserved: crossing a power-of-ten boundary or reaching a bound changes the relative updates. The diagnostic `adjustment` is the last group's proposed adjustment, not a vector of realized, post-clamp changes. Inspect `get_last_lr()` or optimizer groups for actual rates.
 
-### Edge Cases
+## Input and failure behavior
 
-**Insufficient data**: If fewer than 2 batch losses are provided, the scheduler cannot compute a slope and skips the update.
+Losses must be finite nonnegative real scalars. Scalar tensor observations are detached and copied to values; they do not retain an autograd graph. Booleans, complex values, nonscalar tensors, NaN, infinity, and negative losses are rejected. Negative-valued objectives need a justified transformation or a different scheduler; an arbitrary additive shift changes the rule.
 
-**Identical losses**: If all batch losses are identical (e.g., all 1.0), then $\Delta L_j = 0$ and the LR does not change.
+Delta factors and `min_lr` must be finite and strictly positive. `max_lr` must be finite and strictly greater than `min_lr` when provided. Group rates must be finite and nonnegative. Writable scalar floating tensor rates without gradients are updated in place, with representability checks; this does not imply support for graph capture or differentiable optimizers.
 
-**Explosive growth**: If LR grows unbounded, set `max_lr` to cap it.
+Validation and rate computation precede mutation, so an invalid input or a failing later group must not leave earlier groups partially updated. The optimizer's parameter-group count and order are fixed at scheduler construction. Create a new scheduler when the optimizer's topology changes.
 
-**Negative LR**: The clamping to `min_lr` prevents negative LRs. If `min_lr` itself is set improperly (<= 0), initialization will raise a `ValueError`.
+- `step(None)`: no loss-driven update; advances the epoch counter.
+- Fewer than two observations: warning, unchanged rates, counter advances.
+- All-zero losses: warning, unchanged rates, counter advances.
+- Identical positive losses: zero slope; ordinary bound handling still applies to positive rates.
+- Invalid observation, hyperparameter, checkpoint, or rate: exception before applying the update.
 
-## Design Rationale
+The loss calculation uses rescaling to avoid overflowing the sum or endpoint difference. There is no arbitrary near-zero-loss cutoff: a positive rescaling should preserve the mathematical slope, within floating-point limits. Underflow, finite precision, and quantization still apply. A missing upper bound explicitly permits growth; a finite bound is not a claim of stable training.
 
-### Why within-epoch slopes?
+## What the slope does and does not measure
 
-Standard schedulers (StepLR, ExponentialLR) follow fixed decay schedules. ReduceLROnPlateau reacts to validation metrics between epochs. Neither captures **within-epoch training dynamics**.
+The statistic uses two endpoints and an unweighted mean of batch losses. It is not a fitted regression, a validation trend, a gradient estimate, or a statistical convergence test. Reordering batches can reverse the sign even when the set of losses is unchanged. Unequal batch sizes produce a mean of batch means rather than a mean over examples. Changes to loss reduction, masking, curriculum, task weighting, accumulation, or distributed aggregation can therefore change behavior.
 
-DLRS fills this gap by analyzing the trajectory of batch losses as training progresses through an epoch:
-- If the model is learning quickly (losses drop), accelerate by increasing LR
-- If training is unstable (losses spike), stabilize by decreasing LR
-- If progress is slow but steady, make modest adjustments
+The rule is invariant to multiplication of all losses by a positive constant in exact arithmetic. It is not invariant to an additive offset. Calling the regimes “convergence”, “stagnation”, and “divergence” is paper terminology, not a verified diagnosis of optimization.
 
-This is especially valuable for:
-- **PINNs**: Loss landscapes are highly non-convex with many local minima
-- **Small datasets**: Validation metrics are noisy; within-epoch trends are more informative
-- **Non-standard tasks**: When you don't know a good decay schedule in advance
+For `B` observations, `G` parameter groups, and `T` parameter tensor objects (not tensor elements), ordinary validation and calculation cost O(B + G + T). If `H` groups use tensor learning rates, sorting their storage ranges and scanning for overlap adds O(H log H) worst-case work. Losses, group identity snapshots, and prepared updates use O(B + G + T) storage. The full epoch loss list alone consumes O(B) storage. Converting accelerator losses to Python values can synchronize the device, and a distributed recipe adds communication. Measure the complete training loop before stating overhead.
 
-### Why log-scaled granularity?
+## Scheduler lifecycle and checkpoints
 
-Consider two scenarios:
-1. $\alpha = 1.0$, slope = -0.5 → want to increase LR by ~0.1
-2. $\alpha = 0.001$, slope = -0.5 → want to increase LR by ~0.0001
+The scheduler follows PyTorch's initialization convention: construction performs an initial counter step without a DLRS loss update. User calls belong after optimizer updates. `step(None)` retains its historical no-op behavior; it is not evidence that composition wrappers can provide losses.
 
-Using a fixed adjustment would either:
-- Be too small for case 1
-- Be too large for case 2
+A checkpoint contains hyperparameters, epoch/counter state, diagnostics, and one learning rate per optimizer group. Loading validates the state and group count before applying it. Restore model, optimizer, scheduler, data-order, and RNG state consistently for an exact training continuation. Restoring scheduler state alone cannot restore optimizer momentum or model weights. Tensor LR storage identity is retained when supported.
 
-Log-scaling ensures adjustments are proportional to the current LR magnitude.
+## Epoch-metric wrapper
 
-### Why three delta parameters?
+`DLRSOnPlateau` is a separate heuristic over a rolling window of `patience + 2` nonnegative epoch metrics. Once the window fills it applies the DLRS rule on every call. `mode='min'` uses the normal slope; `mode='max'` reverses its direction so improving larger-is-better metrics favor increases. History is bounded to the window length.
 
-Separate control over convergence, stagnation, and divergence allows fine-tuning:
-- Set `delta_d` high (e.g., 0.7) for aggressive stabilization in unstable training
-- Set `delta_i` low (e.g., 0.05) for cautious LR increases
-- Set `delta_o` medium (e.g., 1.0) for standard behavior in flat regions
+The name and `patience` argument predate this clarified contract. This wrapper has no best-metric tracking, threshold, bad-epoch patience, or cooldown. It is not equivalent to PyTorch's `ReduceLROnPlateau`; neither API similarity nor inheriting a scheduler base class establishes framework interchangeability.
 
-This three-way split matches the paper's empirical findings that different phases of training require different responsiveness.
+## Compatibility boundaries
 
-## Comparison to Related Schedulers
+The [CI configuration](../.github/workflows/ci.yml) exercises selected CPU Python/PyTorch combinations. It does not cover every optimizer, accelerator, compiler, sharding system, framework, or multi-node configuration. DDP requires synchronized inputs and scheduler state on every rank; this package does not synchronize them automatically. `ChainedScheduler` and `SequentialLR` do not supply the required loss observations.
 
-| Scheduler | Monitors | Frequency | Can Increase LR? | Requires Validation? |
-|-----------|----------|-----------|------------------|----------------------|
-| **StepLR** | Fixed epochs | Fixed intervals | No | No |
-| **ExponentialLR** | Fixed epochs | Every epoch | No | No |
-| **CosineAnnealingLR** | Fixed epochs | Every epoch | Yes (cyclical) | No |
-| **ReduceLROnPlateau** | Scalar metric | After epochs | No | Yes |
-| **DLRS** | Batch losses | Every epoch | Yes | No |
-
-## Hyperparameter Sensitivity
-
-Based on the original paper and empirical testing:
-
-**delta_d** (decremental factor):
-- Range: [0.1, 1.0]
-- Default: 0.5
-- Higher values → more aggressive LR reduction during divergence
-- Lower values → gentler response to instability
-
-**delta_o** (stagnation factor):
-- Range: [0.5, 2.0]
-- Default: 1.0
-- Controls adjustment size when loss is flat
-- Typically left at 1.0 unless you have specific needs
-
-**delta_i** (incremental factor):
-- Range: [0.01, 0.5]
-- Default: 0.1
-- Higher values → faster LR growth during convergence
-- Lower values → more conservative LR increases
-
-**min_lr**:
-- Default: 1e-8
-- Acts as a safety floor to prevent LR collapse
-- Set higher (e.g., 1e-6) if you want to stop decreasing earlier
-
-**max_lr**:
-- Default: None (unbounded)
-- Set to a safe upper bound (e.g., 1.0 for SGD, 0.01 for Adam)
-- Prevents runaway LR growth
-
-## Extensions and Future Work
-
-Possible enhancements (not yet implemented):
-
-1. **Per-group slopes**: Track separate loss slopes for different param groups (e.g., encoder vs decoder)
-2. **Momentum-based smoothing**: Use exponential moving average of slopes to reduce noise
-3. **Gradient norm integration**: Combine loss slope with gradient magnitude for richer signal
-4. **Adaptive thresholds**: Learn the boundaries between convergence/stagnation/divergence dynamically
-
-## References
-
-Original paper:
-- Veerababu Dharanalakota, Ashwin Arvind Raikar, and Prasanta Kumar Ghosh (2025). "Improving neural network training using dynamic learning rate schedule for PINNs and image classification." *Machine Learning with Applications*, 21, 100697. DOI: https://doi.org/10.1016/j.mlwa.2025.100697
-
-ArXiv preprint:
-- https://arxiv.org/abs/2507.21749
+Before changing a real training system, compare against its existing scheduler under matched model initialization, data order, tuning budget, and stopping policy. Report task quality, failures, runtime, and variation over seeds. Results on a small classification or PINN example do not demonstrate universal or large-scale reliability.
