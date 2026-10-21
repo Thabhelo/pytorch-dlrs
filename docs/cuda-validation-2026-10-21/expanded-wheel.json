@@ -1,0 +1,24 @@
+{
+  "filename": "pytorch_dlrs-0.3.0.dev0-py3-none-any.whl",
+  "name": "pytorch-dlrs",
+  "requires_dist": [
+    "torch>=2.0.0",
+    "numpy<2,>=1.21.0; python_version < \"3.13\" and extra == \"test\"",
+    "numpy>=2.1.0; python_version >= \"3.13\" and extra == \"test\"",
+    "pytest<9,>=7.0.0; extra == \"test\"",
+    "pytest-cov<7,>=4.0.0; extra == \"test\"",
+    "numpy<2,>=1.21.0; python_version < \"3.13\" and extra == \"dev\"",
+    "numpy>=2.1.0; python_version >= \"3.13\" and extra == \"dev\"",
+    "pytest<9,>=7.0.0; extra == \"dev\"",
+    "pytest-cov<7,>=4.0.0; extra == \"dev\"",
+    "ruff>=0.1.0; extra == \"dev\"",
+    "mypy>=1.0.0; extra == \"dev\"",
+    "build>=1.0.0; extra == \"dev\"",
+    "twine>=4.0.0; extra == \"dev\"",
+    "numpy>=1.21.0; extra == \"examples\"",
+    "torchvision>=0.15.0; extra == \"examples\"",
+    "matplotlib>=3.5.0; extra == \"examples\""
+  ],
+  "sha256": "6fc56b91067b0a2f7603ebe77c567feae969cd07155766d03a42d53df3547408",
+  "version": "0.3.0.dev0"
+}

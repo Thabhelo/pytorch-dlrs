@@ -4,6 +4,8 @@ DLRS is an independent implementation of the loss-driven learning rate rule in [
 
 **Status: experimental / Alpha.** This package is not part of PyTorch. Correct implementation of the update rule does not guarantee convergence, better accuracy, or unchanged training quality. Large-scale production readiness, broad accelerator coverage, and upstream acceptance have not been established. See the [reliability audit](docs/RELIABILITY_AUDIT.md) for measured evidence and remaining gaps.
 
+The [single-GPU CUDA validation](docs/CUDA_VALIDATION.md) passed all 18 required installed-wheel checks on a free Colab T4; two native-BF16 cases were unsupported and skipped. A [pinned notebook](notebooks/free_colab_cuda_validation.ipynb) reproduces the bounded check. The [readiness ledger](docs/UPSTREAM_READINESS.md) separates completed checks from remaining deployment and upstream requirements.
+
 The local revision completed 96 planned trials across MNIST, CIFAR-10, a manufactured PINN, and a small Transformer. MNIST and Transformer met their provisional comparison margins; CIFAR-10 and the PINN failed against cosine. CIFAR-10 also failed to establish the required tolerance against fixed LR. These results block a general replacement recommendation; see the [workload results](docs/WORKLOAD_VALIDATION.md) and [Transformer results](docs/TRANSFORMER_VALIDATION.md).
 
 ## Installation
