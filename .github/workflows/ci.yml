@@ -182,7 +182,7 @@ jobs:
           import tomllib
           from pathlib import Path
           version = tomllib.loads(Path('pyproject.toml').read_text())['project']['version']
-          assert os.environ['RELEASE_TAG'] in (version, f'v{version}'), 'Release tag/version mismatch'
+          assert os.environ['RELEASE_TAG'] == f'v{version}', 'Release tag must be v<package version>'
           PY
       - name: Test both installed distributions outside the checkout
         shell: bash
